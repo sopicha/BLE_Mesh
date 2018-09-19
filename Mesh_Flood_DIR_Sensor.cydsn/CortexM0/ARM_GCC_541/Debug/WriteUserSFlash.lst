@@ -1,0 +1,1251 @@
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"WriteUserSFlash.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.WriteUserSFlashRow,"ax",%progbits
+  20              		.align	2
+  21              		.global	WriteUserSFlashRow
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	WriteUserSFlashRow, %function
+  25              	WriteUserSFlashRow:
+  26              	.LFB36:
+  27              		.file 1 "WriteUserSFlash.c"
+   1:WriteUserSFlash.c **** /*******************************************************************************
+   2:WriteUserSFlash.c **** * File Name: WriteUserSFlash.c
+   3:WriteUserSFlash.c **** *
+   4:WriteUserSFlash.c **** * Version: 1.0
+   5:WriteUserSFlash.c **** *
+   6:WriteUserSFlash.c **** * Description:
+   7:WriteUserSFlash.c **** *  This file contains the source code for User SFlash Write API.
+   8:WriteUserSFlash.c **** *
+   9:WriteUserSFlash.c **** ********************************************************************************
+  10:WriteUserSFlash.c **** * Copyright 2015, Cypress Semiconductor Corporation.  All rights reserved.
+  11:WriteUserSFlash.c **** * You may use this file only in accordance with the license, terms, conditions,
+  12:WriteUserSFlash.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  13:WriteUserSFlash.c **** * the software package with which this file was provided.
+  14:WriteUserSFlash.c **** *******************************************************************************/
+  15:WriteUserSFlash.c **** #include <main.h>
+  16:WriteUserSFlash.c **** #include <WriteUserSFlash.h>
+  17:WriteUserSFlash.c **** 
+  18:WriteUserSFlash.c **** /*******************************************************************************
+  19:WriteUserSFlash.c **** * Function Name: WriteUserSFlashRow
+  20:WriteUserSFlash.c **** ********************************************************************************
+  21:WriteUserSFlash.c **** * Summary:
+  22:WriteUserSFlash.c **** *        This routine calls the PSoC 4 BLE device supervisory ROM APIs to update
+  23:WriteUserSFlash.c **** * the user configuration area of Supervisory Flash (SFlash).  
+  24:WriteUserSFlash.c **** *
+  25:WriteUserSFlash.c **** * Parameters:
+  26:WriteUserSFlash.c **** *  userRowNUmber - User config SFlash row number to which data is to be written
+  27:WriteUserSFlash.c **** *  dataPointer - Pointer to the data to be written. This API writes one row of
+  28:WriteUserSFlash.c **** *                user config SFlash row at a time.
+  29:WriteUserSFlash.c **** *
+  30:WriteUserSFlash.c **** * Return:
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 2
+
+
+  31:WriteUserSFlash.c **** *  uint32 - state of the user config SFlash write operation.
+  32:WriteUserSFlash.c **** *
+  33:WriteUserSFlash.c **** *******************************************************************************/
+  34:WriteUserSFlash.c **** #if defined (__GNUC__)
+  35:WriteUserSFlash.c **** #pragma GCC optimize ("O0")
+  36:WriteUserSFlash.c **** #endif /* End of #if defined (__GNUC__) */
+  37:WriteUserSFlash.c **** uint32 WriteUserSFlashRow(uint8 userRowNUmber, uint32 *dataPointer)
+  38:WriteUserSFlash.c **** {
+  28              		.loc 1 38 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 176
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 ACB0     		sub	sp, sp, #176
+  37              		.cfi_def_cfa_offset 184
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0200     		movs	r2, r0
+  41 0008 3960     		str	r1, [r7]
+  42 000a FB1D     		adds	r3, r7, #7
+  43 000c 1A70     		strb	r2, [r3]
+  39:WriteUserSFlash.c **** 	#ifdef STORE_SFLASH_NODE_ADDRESS
+  40:WriteUserSFlash.c ****     uint8 localCount;
+  41:WriteUserSFlash.c **** 	volatile uint32 retValue=0;
+  44              		.loc 1 41 0
+  45 000e 0023     		movs	r3, #0
+  46 0010 A822     		movs	r2, #168
+  47 0012 BA18     		adds	r2, r7, r2
+  48 0014 1360     		str	r3, [r2]
+  42:WriteUserSFlash.c **** 	volatile uint32 cmdDataBuffer[(CY_FLASH_SIZEOF_ROW/4) + 2];
+  43:WriteUserSFlash.c **** 	volatile uint32 reg1,reg2,reg3,reg4,reg5,reg6;
+  44:WriteUserSFlash.c **** 	
+  45:WriteUserSFlash.c **** 	/* Store the clock settings temporarily */
+  46:WriteUserSFlash.c ****     reg1 =	CY_GET_XTND_REG32((void CYFAR *)(CYREG_CLK_SELECT));
+  49              		.loc 1 46 0
+  50 0016 3A4B     		ldr	r3, .L5
+  51 0018 1B68     		ldr	r3, [r3]
+  52 001a FB61     		str	r3, [r7, #28]
+  47:WriteUserSFlash.c ****     reg2 =  CY_GET_XTND_REG32((void CYFAR *)(CYREG_CLK_IMO_CONFIG));
+  53              		.loc 1 47 0
+  54 001c 394B     		ldr	r3, .L5+4
+  55 001e 1B68     		ldr	r3, [r3]
+  56 0020 BB61     		str	r3, [r7, #24]
+  48:WriteUserSFlash.c ****     reg3 =  CY_GET_XTND_REG32((void CYFAR *)(CYREG_PWR_BG_TRIM4));
+  57              		.loc 1 48 0
+  58 0022 394B     		ldr	r3, .L5+8
+  59 0024 1B68     		ldr	r3, [r3]
+  60 0026 7B61     		str	r3, [r7, #20]
+  49:WriteUserSFlash.c ****     reg4 =  CY_GET_XTND_REG32((void CYFAR *)(CYREG_PWR_BG_TRIM5));
+  61              		.loc 1 49 0
+  62 0028 384B     		ldr	r3, .L5+12
+  63 002a 1B68     		ldr	r3, [r3]
+  64 002c 3B61     		str	r3, [r7, #16]
+  50:WriteUserSFlash.c ****     reg5 =  CY_GET_XTND_REG32((void CYFAR *)(CYREG_CLK_IMO_TRIM1));
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 3
+
+
+  65              		.loc 1 50 0
+  66 002e 384B     		ldr	r3, .L5+16
+  67 0030 1B68     		ldr	r3, [r3]
+  68 0032 FB60     		str	r3, [r7, #12]
+  51:WriteUserSFlash.c ****     reg6 =  CY_GET_XTND_REG32((void CYFAR *)(CYREG_CLK_IMO_TRIM2));
+  69              		.loc 1 51 0
+  70 0034 374B     		ldr	r3, .L5+20
+  71 0036 1B68     		ldr	r3, [r3]
+  72 0038 BB60     		str	r3, [r7, #8]
+  52:WriteUserSFlash.c **** 	
+  53:WriteUserSFlash.c **** 	/* Initialize the clock necessary for flash programming */
+  54:WriteUserSFlash.c **** 	CY_SET_REG32(CYREG_CPUSS_SYSARG, 0x0000e8b6);
+  73              		.loc 1 54 0
+  74 003a 374B     		ldr	r3, .L5+24
+  75 003c 374A     		ldr	r2, .L5+28
+  76 003e 1A60     		str	r2, [r3]
+  55:WriteUserSFlash.c **** 	CY_SET_REG32(CYREG_CPUSS_SYSREQ, 0x80000015);
+  77              		.loc 1 55 0
+  78 0040 374B     		ldr	r3, .L5+32
+  79 0042 384A     		ldr	r2, .L5+36
+  80 0044 1A60     		str	r2, [r3]
+  56:WriteUserSFlash.c **** 	
+  57:WriteUserSFlash.c **** 	/******* Initialize SRAM parameters for the LOAD FLASH command ******/
+  58:WriteUserSFlash.c **** 	/* byte 3 (i.e. 00) is the Macro_select */
+  59:WriteUserSFlash.c **** 	/* byte 2 (i.e. 00) is the Start addr of page latch */
+  60:WriteUserSFlash.c **** 	/* byte 1 (i.e. d7) is the key 2  */
+  61:WriteUserSFlash.c **** 	/* byte 0 (i.e. b6) is the key 1  */
+  62:WriteUserSFlash.c ****   	cmdDataBuffer[0]=0x0000d7b6;
+  81              		.loc 1 62 0
+  82 0046 2023     		movs	r3, #32
+  83 0048 FB18     		adds	r3, r7, r3
+  84 004a 374A     		ldr	r2, .L5+40
+  85 004c 1A60     		str	r2, [r3]
+  63:WriteUserSFlash.c **** 	
+  64:WriteUserSFlash.c **** 	/****** Initialize SRAM parameters for the LOAD FLASH command ******/
+  65:WriteUserSFlash.c **** 	/* byte 3,2 and 1 are null */
+  66:WriteUserSFlash.c **** 	/* byte 0 (i.e. 7F) is the number of bytes to be written */
+  67:WriteUserSFlash.c **** 	cmdDataBuffer[1]=0x0000007F;	 
+  86              		.loc 1 67 0
+  87 004e 2023     		movs	r3, #32
+  88 0050 FB18     		adds	r3, r7, r3
+  89 0052 7F22     		movs	r2, #127
+  90 0054 5A60     		str	r2, [r3, #4]
+  68:WriteUserSFlash.c ****     
+  69:WriteUserSFlash.c **** 	/* Initialize the SRAM buffer with data bytes */
+  70:WriteUserSFlash.c ****     for(localCount = 0; localCount < (CY_FLASH_SIZEOF_ROW/4); localCount++)    
+  91              		.loc 1 70 0
+  92 0056 AF23     		movs	r3, #175
+  93 0058 FB18     		adds	r3, r7, r3
+  94 005a 0022     		movs	r2, #0
+  95 005c 1A70     		strb	r2, [r3]
+  96 005e 15E0     		b	.L2
+  97              	.L3:
+  71:WriteUserSFlash.c **** 	{
+  72:WriteUserSFlash.c **** 		cmdDataBuffer[localCount + 2] = dataPointer[localCount]; 
+  98              		.loc 1 72 0 discriminator 3
+  99 0060 AF23     		movs	r3, #175
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 4
+
+
+ 100 0062 FB18     		adds	r3, r7, r3
+ 101 0064 1B78     		ldrb	r3, [r3]
+ 102 0066 9A1C     		adds	r2, r3, #2
+ 103 0068 AF23     		movs	r3, #175
+ 104 006a FB18     		adds	r3, r7, r3
+ 105 006c 1B78     		ldrb	r3, [r3]
+ 106 006e 9B00     		lsls	r3, r3, #2
+ 107 0070 3968     		ldr	r1, [r7]
+ 108 0072 CB18     		adds	r3, r1, r3
+ 109 0074 1968     		ldr	r1, [r3]
+ 110 0076 2023     		movs	r3, #32
+ 111 0078 FB18     		adds	r3, r7, r3
+ 112 007a 9200     		lsls	r2, r2, #2
+ 113 007c D150     		str	r1, [r2, r3]
+  70:WriteUserSFlash.c **** 	{
+ 114              		.loc 1 70 0 discriminator 3
+ 115 007e AF23     		movs	r3, #175
+ 116 0080 FB18     		adds	r3, r7, r3
+ 117 0082 1A78     		ldrb	r2, [r3]
+ 118 0084 AF23     		movs	r3, #175
+ 119 0086 FB18     		adds	r3, r7, r3
+ 120 0088 0132     		adds	r2, r2, #1
+ 121 008a 1A70     		strb	r2, [r3]
+ 122              	.L2:
+  70:WriteUserSFlash.c **** 	{
+ 123              		.loc 1 70 0 is_stmt 0 discriminator 1
+ 124 008c AF23     		movs	r3, #175
+ 125 008e FB18     		adds	r3, r7, r3
+ 126 0090 1B78     		ldrb	r3, [r3]
+ 127 0092 1F2B     		cmp	r3, #31
+ 128 0094 E4D9     		bls	.L3
+  73:WriteUserSFlash.c **** 	}
+  74:WriteUserSFlash.c **** 	
+  75:WriteUserSFlash.c **** 	/* Write the following to registers to execute a LOAD FLASH bytes */
+  76:WriteUserSFlash.c **** 	CY_SET_REG32(CYREG_CPUSS_SYSARG, &cmdDataBuffer[0]);
+ 129              		.loc 1 76 0 is_stmt 1
+ 130 0096 204B     		ldr	r3, .L5+24
+ 131 0098 2022     		movs	r2, #32
+ 132 009a BA18     		adds	r2, r7, r2
+ 133 009c 1A60     		str	r2, [r3]
+  77:WriteUserSFlash.c **** 	CY_SET_REG32(CYREG_CPUSS_SYSREQ, LOAD_FLASH);
+ 134              		.loc 1 77 0
+ 135 009e 204B     		ldr	r3, .L5+32
+ 136 00a0 224A     		ldr	r2, .L5+44
+ 137 00a2 1A60     		str	r2, [r3]
+  78:WriteUserSFlash.c **** 	
+  79:WriteUserSFlash.c ****     /****** Initialize SRAM parameters for the WRITE ROW command ******/
+  80:WriteUserSFlash.c **** 	/* byte 3 & 2 are null */
+  81:WriteUserSFlash.c **** 	/* byte 1 (i.e. 0xeb) is the key 2  */
+  82:WriteUserSFlash.c **** 	/* byte 0 (i.e. 0xb6) is the key 1  */
+  83:WriteUserSFlash.c **** 	cmdDataBuffer[0] = 0x0000ebb6;
+ 138              		.loc 1 83 0
+ 139 00a4 2023     		movs	r3, #32
+ 140 00a6 FB18     		adds	r3, r7, r3
+ 141 00a8 214A     		ldr	r2, .L5+48
+ 142 00aa 1A60     		str	r2, [r3]
+  84:WriteUserSFlash.c ****     
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 5
+
+
+  85:WriteUserSFlash.c **** 	/* byte 7,6 and 5 are null */
+  86:WriteUserSFlash.c **** 	/* byte 4 is desired SFlash user row 
+  87:WriteUserSFlash.c **** 	 * Allowed values 0 - row 4
+  88:WriteUserSFlash.c **** 	                  1 - row 5 
+  89:WriteUserSFlash.c **** 					  2 - row 6
+  90:WriteUserSFlash.c **** 					  3 - row 7 */
+  91:WriteUserSFlash.c **** 	cmdDataBuffer[1] = (uint32) userRowNUmber;
+ 143              		.loc 1 91 0
+ 144 00ac FB1D     		adds	r3, r7, #7
+ 145 00ae 1A78     		ldrb	r2, [r3]
+ 146 00b0 2023     		movs	r3, #32
+ 147 00b2 FB18     		adds	r3, r7, r3
+ 148 00b4 5A60     		str	r2, [r3, #4]
+  92:WriteUserSFlash.c **** 	
+  93:WriteUserSFlash.c **** 	/* Write the following to registers to execute a WRITE USER SFlash ROW command */
+  94:WriteUserSFlash.c **** 	CY_SET_REG32(CYREG_CPUSS_SYSARG, &cmdDataBuffer[0]);
+ 149              		.loc 1 94 0
+ 150 00b6 184B     		ldr	r3, .L5+24
+ 151 00b8 2022     		movs	r2, #32
+ 152 00ba BA18     		adds	r2, r7, r2
+ 153 00bc 1A60     		str	r2, [r3]
+  95:WriteUserSFlash.c **** 	CY_SET_REG32(CYREG_CPUSS_SYSREQ, WRITE_USER_SFLASH_ROW);
+ 154              		.loc 1 95 0
+ 155 00be 184B     		ldr	r3, .L5+32
+ 156 00c0 1C4A     		ldr	r2, .L5+52
+ 157 00c2 1A60     		str	r2, [r3]
+  96:WriteUserSFlash.c ****     
+  97:WriteUserSFlash.c **** 	/* Read back SYSARG for the result. 0xA0000000 = SUCCESS; */
+  98:WriteUserSFlash.c **** 	retValue = CY_GET_REG32(CYREG_CPUSS_SYSARG);
+ 158              		.loc 1 98 0
+ 159 00c4 144B     		ldr	r3, .L5+24
+ 160 00c6 1B68     		ldr	r3, [r3]
+ 161 00c8 A822     		movs	r2, #168
+ 162 00ca BA18     		adds	r2, r7, r2
+ 163 00cc 1360     		str	r3, [r2]
+  99:WriteUserSFlash.c **** 	
+ 100:WriteUserSFlash.c **** 	/* Restore the clock settings after the flash programming is done */
+ 101:WriteUserSFlash.c ****     CY_SET_XTND_REG32((void CYFAR *)(CYREG_CLK_SELECT),reg1);
+ 164              		.loc 1 101 0
+ 165 00ce 0C4B     		ldr	r3, .L5
+ 166 00d0 FA69     		ldr	r2, [r7, #28]
+ 167 00d2 1A60     		str	r2, [r3]
+ 102:WriteUserSFlash.c ****     CY_SET_XTND_REG32((void CYFAR *)(CYREG_CLK_IMO_CONFIG),reg2);
+ 168              		.loc 1 102 0
+ 169 00d4 0B4B     		ldr	r3, .L5+4
+ 170 00d6 BA69     		ldr	r2, [r7, #24]
+ 171 00d8 1A60     		str	r2, [r3]
+ 103:WriteUserSFlash.c ****     CY_SET_XTND_REG32((void CYFAR *)(CYREG_PWR_BG_TRIM4),reg3);
+ 172              		.loc 1 103 0
+ 173 00da 0B4B     		ldr	r3, .L5+8
+ 174 00dc 7A69     		ldr	r2, [r7, #20]
+ 175 00de 1A60     		str	r2, [r3]
+ 104:WriteUserSFlash.c ****     CY_SET_XTND_REG32((void CYFAR *)(CYREG_PWR_BG_TRIM5),reg4);
+ 176              		.loc 1 104 0
+ 177 00e0 0A4B     		ldr	r3, .L5+12
+ 178 00e2 3A69     		ldr	r2, [r7, #16]
+ 179 00e4 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 6
+
+
+ 105:WriteUserSFlash.c ****     CY_SET_XTND_REG32((void CYFAR *)(CYREG_CLK_IMO_TRIM1),reg5);
+ 180              		.loc 1 105 0
+ 181 00e6 0A4B     		ldr	r3, .L5+16
+ 182 00e8 FA68     		ldr	r2, [r7, #12]
+ 183 00ea 1A60     		str	r2, [r3]
+ 106:WriteUserSFlash.c ****     CY_SET_XTND_REG32((void CYFAR *)(CYREG_CLK_IMO_TRIM2),reg6);  
+ 184              		.loc 1 106 0
+ 185 00ec 094B     		ldr	r3, .L5+20
+ 186 00ee BA68     		ldr	r2, [r7, #8]
+ 187 00f0 1A60     		str	r2, [r3]
+ 107:WriteUserSFlash.c **** 	
+ 108:WriteUserSFlash.c **** 	return retValue;
+ 188              		.loc 1 108 0
+ 189 00f2 A823     		movs	r3, #168
+ 190 00f4 FB18     		adds	r3, r7, r3
+ 191 00f6 1B68     		ldr	r3, [r3]
+ 109:WriteUserSFlash.c **** 	#else
+ 110:WriteUserSFlash.c **** 		return (0);
+ 111:WriteUserSFlash.c **** 	#endif
+ 112:WriteUserSFlash.c **** }
+ 192              		.loc 1 112 0
+ 193 00f8 1800     		movs	r0, r3
+ 194 00fa BD46     		mov	sp, r7
+ 195 00fc 2CB0     		add	sp, sp, #176
+ 196              		@ sp needed
+ 197 00fe 80BD     		pop	{r7, pc}
+ 198              	.L6:
+ 199              		.align	2
+ 200              	.L5:
+ 201 0100 00010B40 		.word	1074462976
+ 202 0104 08010B40 		.word	1074462984
+ 203 0108 1CFF0B40 		.word	1074528028
+ 204 010c 20FF0B40 		.word	1074528032
+ 205 0110 28FF0B40 		.word	1074528040
+ 206 0114 2CFF0B40 		.word	1074528044
+ 207 0118 08001040 		.word	1074790408
+ 208 011c B6E80000 		.word	59574
+ 209 0120 04001040 		.word	1074790404
+ 210 0124 15000080 		.word	-2147483627
+ 211 0128 B6D70000 		.word	55222
+ 212 012c 04000080 		.word	-2147483644
+ 213 0130 B6EB0000 		.word	60342
+ 214 0134 18000080 		.word	-2147483624
+ 215              		.cfi_endproc
+ 216              	.LFE36:
+ 217              		.size	WriteUserSFlashRow, .-WriteUserSFlashRow
+ 218              		.section	.rodata
+ 219              		.align	2
+ 220              	.LC0:
+ 221 0000 2053464C 		.ascii	" SFLASH Node Address Update successful\000"
+ 221      41534820 
+ 221      4E6F6465 
+ 221      20416464 
+ 221      72657373 
+ 222 0027 00       		.align	2
+ 223              	.LC2:
+ 224 0028 2053464C 		.ascii	" SFLASH Node Address Update failed - \000"
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 7
+
+
+ 224      41534820 
+ 224      4E6F6465 
+ 224      20416464 
+ 224      72657373 
+ 225              		.section	.text.UpdateSFlashNodeAddress,"ax",%progbits
+ 226              		.align	2
+ 227              		.global	UpdateSFlashNodeAddress
+ 228              		.code	16
+ 229              		.thumb_func
+ 230              		.type	UpdateSFlashNodeAddress, %function
+ 231              	UpdateSFlashNodeAddress:
+ 232              	.LFB37:
+ 113:WriteUserSFlash.c **** 
+ 114:WriteUserSFlash.c **** /*******************************************************************************
+ 115:WriteUserSFlash.c **** * Function Name: UpdateSFlashNodeAddress
+ 116:WriteUserSFlash.c **** ********************************************************************************
+ 117:WriteUserSFlash.c **** * Summary:
+ 118:WriteUserSFlash.c **** *        This routine calls the PSoC 4 BLE device supervisory ROM APIs to add the 
+ 119:WriteUserSFlash.c **** * node address 
+ 120:WriteUserSFlash.c **** *
+ 121:WriteUserSFlash.c **** * Parameters:
+ 122:WriteUserSFlash.c **** *  node_addr: the address to be added to the SFLAH
+ 123:WriteUserSFlash.c **** *
+ 124:WriteUserSFlash.c **** * Return:
+ 125:WriteUserSFlash.c **** *  void
+ 126:WriteUserSFlash.c **** *
+ 127:WriteUserSFlash.c **** *******************************************************************************/
+ 128:WriteUserSFlash.c **** void UpdateSFlashNodeAddress(uint16 node_addr)
+ 129:WriteUserSFlash.c **** {
+ 233              		.loc 1 129 0
+ 234              		.cfi_startproc
+ 235              		@ args = 0, pretend = 0, frame = 152
+ 236              		@ frame_needed = 1, uses_anonymous_args = 0
+ 237 0000 80B5     		push	{r7, lr}
+ 238              		.cfi_def_cfa_offset 8
+ 239              		.cfi_offset 7, -8
+ 240              		.cfi_offset 14, -4
+ 241 0002 A6B0     		sub	sp, sp, #152
+ 242              		.cfi_def_cfa_offset 160
+ 243 0004 00AF     		add	r7, sp, #0
+ 244              		.cfi_def_cfa_register 7
+ 245 0006 0200     		movs	r2, r0
+ 246 0008 BB1D     		adds	r3, r7, #6
+ 247 000a 1A80     		strh	r2, [r3]
+ 130:WriteUserSFlash.c **** 	#ifdef STORE_SFLASH_NODE_ADDRESS
+ 131:WriteUserSFlash.c **** 	uint32 *sflashPtr;
+ 132:WriteUserSFlash.c **** 	uint32 readData[USER_SFLASH_ROW_SIZE/4];
+ 133:WriteUserSFlash.c **** 	uint16 dataIndex;
+ 134:WriteUserSFlash.c **** 	uint32 status;
+ 135:WriteUserSFlash.c **** 
+ 136:WriteUserSFlash.c **** 	/* Set the SFLASH read pointer to start of Row 1 of user SFLASH*/
+ 137:WriteUserSFlash.c **** 	sflashPtr = (uint32 *)USER_SFLASH_BASE_ADDRESS + USER_SFLASH_ROW_SIZE/4;
+ 248              		.loc 1 137 0
+ 249 000c 264B     		ldr	r3, .L13
+ 250 000e 9422     		movs	r2, #148
+ 251 0010 BA18     		adds	r2, r7, r2
+ 252 0012 1360     		str	r3, [r2]
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 8
+
+
+ 138:WriteUserSFlash.c **** 	
+ 139:WriteUserSFlash.c **** 	for(dataIndex = 0; dataIndex < USER_SFLASH_ROW_SIZE/4; dataIndex++)
+ 253              		.loc 1 139 0
+ 254 0014 9223     		movs	r3, #146
+ 255 0016 FB18     		adds	r3, r7, r3
+ 256 0018 0022     		movs	r2, #0
+ 257 001a 1A80     		strh	r2, [r3]
+ 258 001c 15E0     		b	.L8
+ 259              	.L9:
+ 140:WriteUserSFlash.c ****     {
+ 141:WriteUserSFlash.c **** 		/* Read the complete row 1 data of SFLASH. Only the required field 
+ 142:WriteUserSFlash.c **** 		*  will be changed and rest will be restored */
+ 143:WriteUserSFlash.c **** 		readData[dataIndex] = *sflashPtr++;
+ 260              		.loc 1 143 0 discriminator 3
+ 261 001e 9223     		movs	r3, #146
+ 262 0020 FB18     		adds	r3, r7, r3
+ 263 0022 1A88     		ldrh	r2, [r3]
+ 264 0024 9423     		movs	r3, #148
+ 265 0026 FB18     		adds	r3, r7, r3
+ 266 0028 1B68     		ldr	r3, [r3]
+ 267 002a 191D     		adds	r1, r3, #4
+ 268 002c 9420     		movs	r0, #148
+ 269 002e 3818     		adds	r0, r7, r0
+ 270 0030 0160     		str	r1, [r0]
+ 271 0032 1968     		ldr	r1, [r3]
+ 272 0034 0C23     		movs	r3, #12
+ 273 0036 FB18     		adds	r3, r7, r3
+ 274 0038 9200     		lsls	r2, r2, #2
+ 275 003a D150     		str	r1, [r2, r3]
+ 139:WriteUserSFlash.c ****     {
+ 276              		.loc 1 139 0 discriminator 3
+ 277 003c 9223     		movs	r3, #146
+ 278 003e FB18     		adds	r3, r7, r3
+ 279 0040 1A88     		ldrh	r2, [r3]
+ 280 0042 9223     		movs	r3, #146
+ 281 0044 FB18     		adds	r3, r7, r3
+ 282 0046 0132     		adds	r2, r2, #1
+ 283 0048 1A80     		strh	r2, [r3]
+ 284              	.L8:
+ 139:WriteUserSFlash.c ****     {
+ 285              		.loc 1 139 0 is_stmt 0 discriminator 1
+ 286 004a 9223     		movs	r3, #146
+ 287 004c FB18     		adds	r3, r7, r3
+ 288 004e 1B88     		ldrh	r3, [r3]
+ 289 0050 1F2B     		cmp	r3, #31
+ 290 0052 E4D9     		bls	.L9
+ 144:WriteUserSFlash.c **** 	}
+ 145:WriteUserSFlash.c **** 	
+ 146:WriteUserSFlash.c **** 	/* Modify the first index of read data to store the set Node address */
+ 147:WriteUserSFlash.c **** 	readData[SFLASH_NODE_ADDRESS_INDEX] = (uint32)node_addr;
+ 291              		.loc 1 147 0 is_stmt 1
+ 292 0054 BB1D     		adds	r3, r7, #6
+ 293 0056 1A88     		ldrh	r2, [r3]
+ 294 0058 0C23     		movs	r3, #12
+ 295 005a FB18     		adds	r3, r7, r3
+ 296 005c 1A60     		str	r2, [r3]
+ 148:WriteUserSFlash.c **** 	
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 9
+
+
+ 149:WriteUserSFlash.c **** 	/* Write the row 1 of user SFLASH with the new data. Note that this function
+ 150:WriteUserSFlash.c **** 	* will internally change the IMO frequency to 48 MHz while actual SFLASH
+ 151:WriteUserSFlash.c **** 	* write operation. Any component that is being driven using IMO should not
+ 152:WriteUserSFlash.c **** 	* be used during this period. */
+ 153:WriteUserSFlash.c **** 	status  = WriteUserSFlashRow(NODE_ADDRESS_SFLASH_ROW, &readData[0]);
+ 297              		.loc 1 153 0
+ 298 005e 0C23     		movs	r3, #12
+ 299 0060 FB18     		adds	r3, r7, r3
+ 300 0062 1900     		movs	r1, r3
+ 301 0064 0120     		movs	r0, #1
+ 302 0066 FFF7FEFF 		bl	WriteUserSFlashRow
+ 303 006a 0300     		movs	r3, r0
+ 304 006c 8C22     		movs	r2, #140
+ 305 006e BA18     		adds	r2, r7, r2
+ 306 0070 1360     		str	r3, [r2]
+ 154:WriteUserSFlash.c **** 	
+ 155:WriteUserSFlash.c **** 	if(status == USER_SFLASH_WRITE_SUCCESSFUL)
+ 307              		.loc 1 155 0
+ 308 0072 8C23     		movs	r3, #140
+ 309 0074 FB18     		adds	r3, r7, r3
+ 310 0076 1A68     		ldr	r2, [r3]
+ 311 0078 A023     		movs	r3, #160
+ 312 007a 1B06     		lsls	r3, r3, #24
+ 313 007c 9A42     		cmp	r2, r3
+ 314 007e 07D1     		bne	.L10
+ 156:WriteUserSFlash.c ****     {
+ 157:WriteUserSFlash.c **** 		#if (DEBUG_ENABLED == 1)
+ 158:WriteUserSFlash.c **** 		/* If SFLASH write was successfull */
+ 159:WriteUserSFlash.c ****         UART_UartPutString(" SFLASH Node Address Update successful");
+ 315              		.loc 1 159 0
+ 316 0080 0A4B     		ldr	r3, .L13+4
+ 317 0082 1800     		movs	r0, r3
+ 318 0084 FFF7FEFF 		bl	UART_UartPutString
+ 160:WriteUserSFlash.c **** 		UART_UartPutCRLF(' ');
+ 319              		.loc 1 160 0
+ 320 0088 2020     		movs	r0, #32
+ 321 008a FFF7FEFF 		bl	UART_UartPutCRLF
+ 161:WriteUserSFlash.c **** 		#endif
+ 162:WriteUserSFlash.c ****     }
+ 163:WriteUserSFlash.c ****     else
+ 164:WriteUserSFlash.c ****     {
+ 165:WriteUserSFlash.c **** 		#if (DEBUG_ENABLED == 1)
+ 166:WriteUserSFlash.c **** 		/* If SFLASH write was not successfull */
+ 167:WriteUserSFlash.c ****         UART_UartPutString(" SFLASH Node Address Update failed - ");
+ 168:WriteUserSFlash.c **** 		UART_UartPutCRLF(' ');
+ 169:WriteUserSFlash.c **** 		#endif
+ 170:WriteUserSFlash.c ****     }
+ 171:WriteUserSFlash.c **** 	#endif
+ 172:WriteUserSFlash.c **** }
+ 322              		.loc 1 172 0
+ 323 008e 06E0     		b	.L12
+ 324              	.L10:
+ 167:WriteUserSFlash.c **** 		UART_UartPutCRLF(' ');
+ 325              		.loc 1 167 0
+ 326 0090 074B     		ldr	r3, .L13+8
+ 327 0092 1800     		movs	r0, r3
+ 328 0094 FFF7FEFF 		bl	UART_UartPutString
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 10
+
+
+ 168:WriteUserSFlash.c **** 		#endif
+ 329              		.loc 1 168 0
+ 330 0098 2020     		movs	r0, #32
+ 331 009a FFF7FEFF 		bl	UART_UartPutCRLF
+ 332              	.L12:
+ 333              		.loc 1 172 0
+ 334 009e C046     		nop
+ 335 00a0 BD46     		mov	sp, r7
+ 336 00a2 26B0     		add	sp, sp, #152
+ 337              		@ sp needed
+ 338 00a4 80BD     		pop	{r7, pc}
+ 339              	.L14:
+ 340 00a6 C046     		.align	2
+ 341              	.L13:
+ 342 00a8 80F2FF0F 		.word	268432000
+ 343 00ac 00000000 		.word	.LC0
+ 344 00b0 28000000 		.word	.LC2
+ 345              		.cfi_endproc
+ 346              	.LFE37:
+ 347              		.size	UpdateSFlashNodeAddress, .-UpdateSFlashNodeAddress
+ 348              		.text
+ 349              	.Letext0:
+ 350              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 351              		.section	.debug_info,"",%progbits
+ 352              	.Ldebug_info0:
+ 353 0000 02020000 		.4byte	0x202
+ 354 0004 0400     		.2byte	0x4
+ 355 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 356 000a 04       		.byte	0x4
+ 357 000b 01       		.uleb128 0x1
+ 358 000c EF000000 		.4byte	.LASF34
+ 359 0010 0C       		.byte	0xc
+ 360 0011 E6010000 		.4byte	.LASF35
+ 361 0015 4D000000 		.4byte	.LASF36
+ 362 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 363 001d 00000000 		.4byte	0
+ 364 0021 00000000 		.4byte	.Ldebug_line0
+ 365 0025 02       		.uleb128 0x2
+ 366 0026 01       		.byte	0x1
+ 367 0027 06       		.byte	0x6
+ 368 0028 1B020000 		.4byte	.LASF0
+ 369 002c 02       		.uleb128 0x2
+ 370 002d 01       		.byte	0x1
+ 371 002e 08       		.byte	0x8
+ 372 002f 7D010000 		.4byte	.LASF1
+ 373 0033 02       		.uleb128 0x2
+ 374 0034 02       		.byte	0x2
+ 375 0035 05       		.byte	0x5
+ 376 0036 DC010000 		.4byte	.LASF2
+ 377 003a 02       		.uleb128 0x2
+ 378 003b 02       		.byte	0x2
+ 379 003c 07       		.byte	0x7
+ 380 003d 32020000 		.4byte	.LASF3
+ 381 0041 02       		.uleb128 0x2
+ 382 0042 04       		.byte	0x4
+ 383 0043 05       		.byte	0x5
+ 384 0044 F8010000 		.4byte	.LASF4
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 11
+
+
+ 385 0048 02       		.uleb128 0x2
+ 386 0049 04       		.byte	0x4
+ 387 004a 07       		.byte	0x7
+ 388 004b 8B010000 		.4byte	.LASF5
+ 389 004f 02       		.uleb128 0x2
+ 390 0050 08       		.byte	0x8
+ 391 0051 05       		.byte	0x5
+ 392 0052 CE010000 		.4byte	.LASF6
+ 393 0056 02       		.uleb128 0x2
+ 394 0057 08       		.byte	0x8
+ 395 0058 07       		.byte	0x7
+ 396 0059 4E020000 		.4byte	.LASF7
+ 397 005d 03       		.uleb128 0x3
+ 398 005e 04       		.byte	0x4
+ 399 005f 05       		.byte	0x5
+ 400 0060 696E7400 		.ascii	"int\000"
+ 401 0064 02       		.uleb128 0x2
+ 402 0065 04       		.byte	0x4
+ 403 0066 07       		.byte	0x7
+ 404 0067 2F000000 		.4byte	.LASF8
+ 405 006b 04       		.uleb128 0x4
+ 406 006c E9000000 		.4byte	.LASF9
+ 407 0070 02       		.byte	0x2
+ 408 0071 E401     		.2byte	0x1e4
+ 409 0073 2C000000 		.4byte	0x2c
+ 410 0077 04       		.uleb128 0x4
+ 411 0078 9D010000 		.4byte	.LASF10
+ 412 007c 02       		.byte	0x2
+ 413 007d E501     		.2byte	0x1e5
+ 414 007f 3A000000 		.4byte	0x3a
+ 415 0083 04       		.uleb128 0x4
+ 416 0084 A4010000 		.4byte	.LASF11
+ 417 0088 02       		.byte	0x2
+ 418 0089 E601     		.2byte	0x1e6
+ 419 008b 48000000 		.4byte	0x48
+ 420 008f 02       		.uleb128 0x2
+ 421 0090 04       		.byte	0x4
+ 422 0091 04       		.byte	0x4
+ 423 0092 9A000000 		.4byte	.LASF12
+ 424 0096 02       		.uleb128 0x2
+ 425 0097 08       		.byte	0x8
+ 426 0098 04       		.byte	0x4
+ 427 0099 BE010000 		.4byte	.LASF13
+ 428 009d 02       		.uleb128 0x2
+ 429 009e 01       		.byte	0x1
+ 430 009f 08       		.byte	0x8
+ 431 00a0 B9010000 		.4byte	.LASF14
+ 432 00a4 04       		.uleb128 0x4
+ 433 00a5 00000000 		.4byte	.LASF15
+ 434 00a9 02       		.byte	0x2
+ 435 00aa 9002     		.2byte	0x290
+ 436 00ac B0000000 		.4byte	0xb0
+ 437 00b0 05       		.uleb128 0x5
+ 438 00b1 83000000 		.4byte	0x83
+ 439 00b5 02       		.uleb128 0x2
+ 440 00b6 08       		.byte	0x8
+ 441 00b7 04       		.byte	0x4
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 12
+
+
+ 442 00b8 01020000 		.4byte	.LASF16
+ 443 00bc 02       		.uleb128 0x2
+ 444 00bd 04       		.byte	0x4
+ 445 00be 07       		.byte	0x7
+ 446 00bf C5010000 		.4byte	.LASF17
+ 447 00c3 06       		.uleb128 0x6
+ 448 00c4 BE000000 		.4byte	.LASF37
+ 449 00c8 01       		.byte	0x1
+ 450 00c9 25       		.byte	0x25
+ 451 00ca 83000000 		.4byte	0x83
+ 452 00ce 00000000 		.4byte	.LFB36
+ 453 00d2 38010000 		.4byte	.LFE36-.LFB36
+ 454 00d6 01       		.uleb128 0x1
+ 455 00d7 9C       		.byte	0x9c
+ 456 00d8 80010000 		.4byte	0x180
+ 457 00dc 07       		.uleb128 0x7
+ 458 00dd 0D020000 		.4byte	.LASF18
+ 459 00e1 01       		.byte	0x1
+ 460 00e2 25       		.byte	0x25
+ 461 00e3 6B000000 		.4byte	0x6b
+ 462 00e7 03       		.uleb128 0x3
+ 463 00e8 91       		.byte	0x91
+ 464 00e9 CF7E     		.sleb128 -177
+ 465 00eb 07       		.uleb128 0x7
+ 466 00ec 19000000 		.4byte	.LASF19
+ 467 00f0 01       		.byte	0x1
+ 468 00f1 25       		.byte	0x25
+ 469 00f2 80010000 		.4byte	0x180
+ 470 00f6 03       		.uleb128 0x3
+ 471 00f7 91       		.byte	0x91
+ 472 00f8 C87E     		.sleb128 -184
+ 473 00fa 08       		.uleb128 0x8
+ 474 00fb 27020000 		.4byte	.LASF20
+ 475 00ff 01       		.byte	0x1
+ 476 0100 28       		.byte	0x28
+ 477 0101 6B000000 		.4byte	0x6b
+ 478 0105 02       		.uleb128 0x2
+ 479 0106 91       		.byte	0x91
+ 480 0107 77       		.sleb128 -9
+ 481 0108 08       		.uleb128 0x8
+ 482 0109 06000000 		.4byte	.LASF21
+ 483 010d 01       		.byte	0x1
+ 484 010e 29       		.byte	0x29
+ 485 010f B0000000 		.4byte	0xb0
+ 486 0113 02       		.uleb128 0x2
+ 487 0114 91       		.byte	0x91
+ 488 0115 70       		.sleb128 -16
+ 489 0116 08       		.uleb128 0x8
+ 490 0117 AB010000 		.4byte	.LASF22
+ 491 011b 01       		.byte	0x1
+ 492 011c 2A       		.byte	0x2a
+ 493 011d 96010000 		.4byte	0x196
+ 494 0121 03       		.uleb128 0x3
+ 495 0122 91       		.byte	0x91
+ 496 0123 E87E     		.sleb128 -152
+ 497 0125 08       		.uleb128 0x8
+ 498 0126 A0000000 		.4byte	.LASF23
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 13
+
+
+ 499 012a 01       		.byte	0x1
+ 500 012b 2B       		.byte	0x2b
+ 501 012c B0000000 		.4byte	0xb0
+ 502 0130 03       		.uleb128 0x3
+ 503 0131 91       		.byte	0x91
+ 504 0132 E47E     		.sleb128 -156
+ 505 0134 08       		.uleb128 0x8
+ 506 0135 A5000000 		.4byte	.LASF24
+ 507 0139 01       		.byte	0x1
+ 508 013a 2B       		.byte	0x2b
+ 509 013b B0000000 		.4byte	0xb0
+ 510 013f 03       		.uleb128 0x3
+ 511 0140 91       		.byte	0x91
+ 512 0141 E07E     		.sleb128 -160
+ 513 0143 08       		.uleb128 0x8
+ 514 0144 AA000000 		.4byte	.LASF25
+ 515 0148 01       		.byte	0x1
+ 516 0149 2B       		.byte	0x2b
+ 517 014a B0000000 		.4byte	0xb0
+ 518 014e 03       		.uleb128 0x3
+ 519 014f 91       		.byte	0x91
+ 520 0150 DC7E     		.sleb128 -164
+ 521 0152 08       		.uleb128 0x8
+ 522 0153 AF000000 		.4byte	.LASF26
+ 523 0157 01       		.byte	0x1
+ 524 0158 2B       		.byte	0x2b
+ 525 0159 B0000000 		.4byte	0xb0
+ 526 015d 03       		.uleb128 0x3
+ 527 015e 91       		.byte	0x91
+ 528 015f D87E     		.sleb128 -168
+ 529 0161 08       		.uleb128 0x8
+ 530 0162 B4000000 		.4byte	.LASF27
+ 531 0166 01       		.byte	0x1
+ 532 0167 2B       		.byte	0x2b
+ 533 0168 B0000000 		.4byte	0xb0
+ 534 016c 03       		.uleb128 0x3
+ 535 016d 91       		.byte	0x91
+ 536 016e D47E     		.sleb128 -172
+ 537 0170 08       		.uleb128 0x8
+ 538 0171 B9000000 		.4byte	.LASF28
+ 539 0175 01       		.byte	0x1
+ 540 0176 2B       		.byte	0x2b
+ 541 0177 B0000000 		.4byte	0xb0
+ 542 017b 03       		.uleb128 0x3
+ 543 017c 91       		.byte	0x91
+ 544 017d D07E     		.sleb128 -176
+ 545 017f 00       		.byte	0
+ 546 0180 09       		.uleb128 0x9
+ 547 0181 04       		.byte	0x4
+ 548 0182 83000000 		.4byte	0x83
+ 549 0186 0A       		.uleb128 0xa
+ 550 0187 B0000000 		.4byte	0xb0
+ 551 018b 96010000 		.4byte	0x196
+ 552 018f 0B       		.uleb128 0xb
+ 553 0190 BC000000 		.4byte	0xbc
+ 554 0194 21       		.byte	0x21
+ 555 0195 00       		.byte	0
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 14
+
+
+ 556 0196 05       		.uleb128 0x5
+ 557 0197 86010000 		.4byte	0x186
+ 558 019b 0C       		.uleb128 0xc
+ 559 019c D1000000 		.4byte	.LASF38
+ 560 01a0 01       		.byte	0x1
+ 561 01a1 80       		.byte	0x80
+ 562 01a2 00000000 		.4byte	.LFB37
+ 563 01a6 B4000000 		.4byte	.LFE37-.LFB37
+ 564 01aa 01       		.uleb128 0x1
+ 565 01ab 9C       		.byte	0x9c
+ 566 01ac F9010000 		.4byte	0x1f9
+ 567 01b0 07       		.uleb128 0x7
+ 568 01b1 3C000000 		.4byte	.LASF29
+ 569 01b5 01       		.byte	0x1
+ 570 01b6 80       		.byte	0x80
+ 571 01b7 77000000 		.4byte	0x77
+ 572 01bb 03       		.uleb128 0x3
+ 573 01bc 91       		.byte	0x91
+ 574 01bd E67E     		.sleb128 -154
+ 575 01bf 08       		.uleb128 0x8
+ 576 01c0 25000000 		.4byte	.LASF30
+ 577 01c4 01       		.byte	0x1
+ 578 01c5 83       		.byte	0x83
+ 579 01c6 80010000 		.4byte	0x180
+ 580 01ca 02       		.uleb128 0x2
+ 581 01cb 91       		.byte	0x91
+ 582 01cc 74       		.sleb128 -12
+ 583 01cd 08       		.uleb128 0x8
+ 584 01ce 45020000 		.4byte	.LASF31
+ 585 01d2 01       		.byte	0x1
+ 586 01d3 84       		.byte	0x84
+ 587 01d4 F9010000 		.4byte	0x1f9
+ 588 01d8 03       		.uleb128 0x3
+ 589 01d9 91       		.byte	0x91
+ 590 01da EC7E     		.sleb128 -148
+ 591 01dc 08       		.uleb128 0x8
+ 592 01dd 0F000000 		.4byte	.LASF32
+ 593 01e1 01       		.byte	0x1
+ 594 01e2 85       		.byte	0x85
+ 595 01e3 77000000 		.4byte	0x77
+ 596 01e7 02       		.uleb128 0x2
+ 597 01e8 91       		.byte	0x91
+ 598 01e9 72       		.sleb128 -14
+ 599 01ea 08       		.uleb128 0x8
+ 600 01eb 46000000 		.4byte	.LASF33
+ 601 01ef 01       		.byte	0x1
+ 602 01f0 86       		.byte	0x86
+ 603 01f1 83000000 		.4byte	0x83
+ 604 01f5 02       		.uleb128 0x2
+ 605 01f6 91       		.byte	0x91
+ 606 01f7 6C       		.sleb128 -20
+ 607 01f8 00       		.byte	0
+ 608 01f9 0D       		.uleb128 0xd
+ 609 01fa 83000000 		.4byte	0x83
+ 610 01fe 0B       		.uleb128 0xb
+ 611 01ff BC000000 		.4byte	0xbc
+ 612 0203 1F       		.byte	0x1f
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 15
+
+
+ 613 0204 00       		.byte	0
+ 614 0205 00       		.byte	0
+ 615              		.section	.debug_abbrev,"",%progbits
+ 616              	.Ldebug_abbrev0:
+ 617 0000 01       		.uleb128 0x1
+ 618 0001 11       		.uleb128 0x11
+ 619 0002 01       		.byte	0x1
+ 620 0003 25       		.uleb128 0x25
+ 621 0004 0E       		.uleb128 0xe
+ 622 0005 13       		.uleb128 0x13
+ 623 0006 0B       		.uleb128 0xb
+ 624 0007 03       		.uleb128 0x3
+ 625 0008 0E       		.uleb128 0xe
+ 626 0009 1B       		.uleb128 0x1b
+ 627 000a 0E       		.uleb128 0xe
+ 628 000b 55       		.uleb128 0x55
+ 629 000c 17       		.uleb128 0x17
+ 630 000d 11       		.uleb128 0x11
+ 631 000e 01       		.uleb128 0x1
+ 632 000f 10       		.uleb128 0x10
+ 633 0010 17       		.uleb128 0x17
+ 634 0011 00       		.byte	0
+ 635 0012 00       		.byte	0
+ 636 0013 02       		.uleb128 0x2
+ 637 0014 24       		.uleb128 0x24
+ 638 0015 00       		.byte	0
+ 639 0016 0B       		.uleb128 0xb
+ 640 0017 0B       		.uleb128 0xb
+ 641 0018 3E       		.uleb128 0x3e
+ 642 0019 0B       		.uleb128 0xb
+ 643 001a 03       		.uleb128 0x3
+ 644 001b 0E       		.uleb128 0xe
+ 645 001c 00       		.byte	0
+ 646 001d 00       		.byte	0
+ 647 001e 03       		.uleb128 0x3
+ 648 001f 24       		.uleb128 0x24
+ 649 0020 00       		.byte	0
+ 650 0021 0B       		.uleb128 0xb
+ 651 0022 0B       		.uleb128 0xb
+ 652 0023 3E       		.uleb128 0x3e
+ 653 0024 0B       		.uleb128 0xb
+ 654 0025 03       		.uleb128 0x3
+ 655 0026 08       		.uleb128 0x8
+ 656 0027 00       		.byte	0
+ 657 0028 00       		.byte	0
+ 658 0029 04       		.uleb128 0x4
+ 659 002a 16       		.uleb128 0x16
+ 660 002b 00       		.byte	0
+ 661 002c 03       		.uleb128 0x3
+ 662 002d 0E       		.uleb128 0xe
+ 663 002e 3A       		.uleb128 0x3a
+ 664 002f 0B       		.uleb128 0xb
+ 665 0030 3B       		.uleb128 0x3b
+ 666 0031 05       		.uleb128 0x5
+ 667 0032 49       		.uleb128 0x49
+ 668 0033 13       		.uleb128 0x13
+ 669 0034 00       		.byte	0
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 16
+
+
+ 670 0035 00       		.byte	0
+ 671 0036 05       		.uleb128 0x5
+ 672 0037 35       		.uleb128 0x35
+ 673 0038 00       		.byte	0
+ 674 0039 49       		.uleb128 0x49
+ 675 003a 13       		.uleb128 0x13
+ 676 003b 00       		.byte	0
+ 677 003c 00       		.byte	0
+ 678 003d 06       		.uleb128 0x6
+ 679 003e 2E       		.uleb128 0x2e
+ 680 003f 01       		.byte	0x1
+ 681 0040 3F       		.uleb128 0x3f
+ 682 0041 19       		.uleb128 0x19
+ 683 0042 03       		.uleb128 0x3
+ 684 0043 0E       		.uleb128 0xe
+ 685 0044 3A       		.uleb128 0x3a
+ 686 0045 0B       		.uleb128 0xb
+ 687 0046 3B       		.uleb128 0x3b
+ 688 0047 0B       		.uleb128 0xb
+ 689 0048 27       		.uleb128 0x27
+ 690 0049 19       		.uleb128 0x19
+ 691 004a 49       		.uleb128 0x49
+ 692 004b 13       		.uleb128 0x13
+ 693 004c 11       		.uleb128 0x11
+ 694 004d 01       		.uleb128 0x1
+ 695 004e 12       		.uleb128 0x12
+ 696 004f 06       		.uleb128 0x6
+ 697 0050 40       		.uleb128 0x40
+ 698 0051 18       		.uleb128 0x18
+ 699 0052 9742     		.uleb128 0x2117
+ 700 0054 19       		.uleb128 0x19
+ 701 0055 01       		.uleb128 0x1
+ 702 0056 13       		.uleb128 0x13
+ 703 0057 00       		.byte	0
+ 704 0058 00       		.byte	0
+ 705 0059 07       		.uleb128 0x7
+ 706 005a 05       		.uleb128 0x5
+ 707 005b 00       		.byte	0
+ 708 005c 03       		.uleb128 0x3
+ 709 005d 0E       		.uleb128 0xe
+ 710 005e 3A       		.uleb128 0x3a
+ 711 005f 0B       		.uleb128 0xb
+ 712 0060 3B       		.uleb128 0x3b
+ 713 0061 0B       		.uleb128 0xb
+ 714 0062 49       		.uleb128 0x49
+ 715 0063 13       		.uleb128 0x13
+ 716 0064 02       		.uleb128 0x2
+ 717 0065 18       		.uleb128 0x18
+ 718 0066 00       		.byte	0
+ 719 0067 00       		.byte	0
+ 720 0068 08       		.uleb128 0x8
+ 721 0069 34       		.uleb128 0x34
+ 722 006a 00       		.byte	0
+ 723 006b 03       		.uleb128 0x3
+ 724 006c 0E       		.uleb128 0xe
+ 725 006d 3A       		.uleb128 0x3a
+ 726 006e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 17
+
+
+ 727 006f 3B       		.uleb128 0x3b
+ 728 0070 0B       		.uleb128 0xb
+ 729 0071 49       		.uleb128 0x49
+ 730 0072 13       		.uleb128 0x13
+ 731 0073 02       		.uleb128 0x2
+ 732 0074 18       		.uleb128 0x18
+ 733 0075 00       		.byte	0
+ 734 0076 00       		.byte	0
+ 735 0077 09       		.uleb128 0x9
+ 736 0078 0F       		.uleb128 0xf
+ 737 0079 00       		.byte	0
+ 738 007a 0B       		.uleb128 0xb
+ 739 007b 0B       		.uleb128 0xb
+ 740 007c 49       		.uleb128 0x49
+ 741 007d 13       		.uleb128 0x13
+ 742 007e 00       		.byte	0
+ 743 007f 00       		.byte	0
+ 744 0080 0A       		.uleb128 0xa
+ 745 0081 01       		.uleb128 0x1
+ 746 0082 01       		.byte	0x1
+ 747 0083 49       		.uleb128 0x49
+ 748 0084 13       		.uleb128 0x13
+ 749 0085 01       		.uleb128 0x1
+ 750 0086 13       		.uleb128 0x13
+ 751 0087 00       		.byte	0
+ 752 0088 00       		.byte	0
+ 753 0089 0B       		.uleb128 0xb
+ 754 008a 21       		.uleb128 0x21
+ 755 008b 00       		.byte	0
+ 756 008c 49       		.uleb128 0x49
+ 757 008d 13       		.uleb128 0x13
+ 758 008e 2F       		.uleb128 0x2f
+ 759 008f 0B       		.uleb128 0xb
+ 760 0090 00       		.byte	0
+ 761 0091 00       		.byte	0
+ 762 0092 0C       		.uleb128 0xc
+ 763 0093 2E       		.uleb128 0x2e
+ 764 0094 01       		.byte	0x1
+ 765 0095 3F       		.uleb128 0x3f
+ 766 0096 19       		.uleb128 0x19
+ 767 0097 03       		.uleb128 0x3
+ 768 0098 0E       		.uleb128 0xe
+ 769 0099 3A       		.uleb128 0x3a
+ 770 009a 0B       		.uleb128 0xb
+ 771 009b 3B       		.uleb128 0x3b
+ 772 009c 0B       		.uleb128 0xb
+ 773 009d 27       		.uleb128 0x27
+ 774 009e 19       		.uleb128 0x19
+ 775 009f 11       		.uleb128 0x11
+ 776 00a0 01       		.uleb128 0x1
+ 777 00a1 12       		.uleb128 0x12
+ 778 00a2 06       		.uleb128 0x6
+ 779 00a3 40       		.uleb128 0x40
+ 780 00a4 18       		.uleb128 0x18
+ 781 00a5 9642     		.uleb128 0x2116
+ 782 00a7 19       		.uleb128 0x19
+ 783 00a8 01       		.uleb128 0x1
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 18
+
+
+ 784 00a9 13       		.uleb128 0x13
+ 785 00aa 00       		.byte	0
+ 786 00ab 00       		.byte	0
+ 787 00ac 0D       		.uleb128 0xd
+ 788 00ad 01       		.uleb128 0x1
+ 789 00ae 01       		.byte	0x1
+ 790 00af 49       		.uleb128 0x49
+ 791 00b0 13       		.uleb128 0x13
+ 792 00b1 00       		.byte	0
+ 793 00b2 00       		.byte	0
+ 794 00b3 00       		.byte	0
+ 795              		.section	.debug_aranges,"",%progbits
+ 796 0000 24000000 		.4byte	0x24
+ 797 0004 0200     		.2byte	0x2
+ 798 0006 00000000 		.4byte	.Ldebug_info0
+ 799 000a 04       		.byte	0x4
+ 800 000b 00       		.byte	0
+ 801 000c 0000     		.2byte	0
+ 802 000e 0000     		.2byte	0
+ 803 0010 00000000 		.4byte	.LFB36
+ 804 0014 38010000 		.4byte	.LFE36-.LFB36
+ 805 0018 00000000 		.4byte	.LFB37
+ 806 001c B4000000 		.4byte	.LFE37-.LFB37
+ 807 0020 00000000 		.4byte	0
+ 808 0024 00000000 		.4byte	0
+ 809              		.section	.debug_ranges,"",%progbits
+ 810              	.Ldebug_ranges0:
+ 811 0000 00000000 		.4byte	.LFB36
+ 812 0004 38010000 		.4byte	.LFE36
+ 813 0008 00000000 		.4byte	.LFB37
+ 814 000c B4000000 		.4byte	.LFE37
+ 815 0010 00000000 		.4byte	0
+ 816 0014 00000000 		.4byte	0
+ 817              		.section	.debug_line,"",%progbits
+ 818              	.Ldebug_line0:
+ 819 0000 BB000000 		.section	.debug_str,"MS",%progbits,1
+ 819      02004C00 
+ 819      00000201 
+ 819      FB0E0D00 
+ 819      01010101 
+ 820              	.LASF15:
+ 821 0000 72656733 		.ascii	"reg32\000"
+ 821      3200
+ 822              	.LASF21:
+ 823 0006 72657456 		.ascii	"retValue\000"
+ 823      616C7565 
+ 823      00
+ 824              	.LASF32:
+ 825 000f 64617461 		.ascii	"dataIndex\000"
+ 825      496E6465 
+ 825      7800
+ 826              	.LASF19:
+ 827 0019 64617461 		.ascii	"dataPointer\000"
+ 827      506F696E 
+ 827      74657200 
+ 828              	.LASF30:
+ 829 0025 73666C61 		.ascii	"sflashPtr\000"
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 19
+
+
+ 829      73685074 
+ 829      7200
+ 830              	.LASF8:
+ 831 002f 756E7369 		.ascii	"unsigned int\000"
+ 831      676E6564 
+ 831      20696E74 
+ 831      00
+ 832              	.LASF29:
+ 833 003c 6E6F6465 		.ascii	"node_addr\000"
+ 833      5F616464 
+ 833      7200
+ 834              	.LASF33:
+ 835 0046 73746174 		.ascii	"status\000"
+ 835      757300
+ 836              	.LASF36:
+ 837 004d 433A5C55 		.ascii	"C:\\Users\\run1009\\Documents\\Mesh_Flood_DIR_Senso"
+ 837      73657273 
+ 837      5C72756E 
+ 837      31303039 
+ 837      5C446F63 
+ 838 007c 725C4D65 		.ascii	"r\\Mesh_Flood_DIR_Sensor.cydsn\000"
+ 838      73685F46 
+ 838      6C6F6F64 
+ 838      5F444952 
+ 838      5F53656E 
+ 839              	.LASF12:
+ 840 009a 666C6F61 		.ascii	"float\000"
+ 840      7400
+ 841              	.LASF23:
+ 842 00a0 72656731 		.ascii	"reg1\000"
+ 842      00
+ 843              	.LASF24:
+ 844 00a5 72656732 		.ascii	"reg2\000"
+ 844      00
+ 845              	.LASF25:
+ 846 00aa 72656733 		.ascii	"reg3\000"
+ 846      00
+ 847              	.LASF26:
+ 848 00af 72656734 		.ascii	"reg4\000"
+ 848      00
+ 849              	.LASF27:
+ 850 00b4 72656735 		.ascii	"reg5\000"
+ 850      00
+ 851              	.LASF28:
+ 852 00b9 72656736 		.ascii	"reg6\000"
+ 852      00
+ 853              	.LASF37:
+ 854 00be 57726974 		.ascii	"WriteUserSFlashRow\000"
+ 854      65557365 
+ 854      7253466C 
+ 854      61736852 
+ 854      6F7700
+ 855              	.LASF38:
+ 856 00d1 55706461 		.ascii	"UpdateSFlashNodeAddress\000"
+ 856      74655346 
+ 856      6C617368 
+ 856      4E6F6465 
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 20
+
+
+ 856      41646472 
+ 857              	.LASF9:
+ 858 00e9 75696E74 		.ascii	"uint8\000"
+ 858      3800
+ 859              	.LASF34:
+ 860 00ef 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 860      43313120 
+ 860      352E342E 
+ 860      31203230 
+ 860      31363036 
+ 861 0122 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 861      20726576 
+ 861      6973696F 
+ 861      6E203233 
+ 861      37373135 
+ 862 0155 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 862      66756E63 
+ 862      74696F6E 
+ 862      2D736563 
+ 862      74696F6E 
+ 863              	.LASF1:
+ 864 017d 756E7369 		.ascii	"unsigned char\000"
+ 864      676E6564 
+ 864      20636861 
+ 864      7200
+ 865              	.LASF5:
+ 866 018b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 866      20756E73 
+ 866      69676E65 
+ 866      6420696E 
+ 866      7400
+ 867              	.LASF10:
+ 868 019d 75696E74 		.ascii	"uint16\000"
+ 868      313600
+ 869              	.LASF11:
+ 870 01a4 75696E74 		.ascii	"uint32\000"
+ 870      333200
+ 871              	.LASF22:
+ 872 01ab 636D6444 		.ascii	"cmdDataBuffer\000"
+ 872      61746142 
+ 872      75666665 
+ 872      7200
+ 873              	.LASF14:
+ 874 01b9 63686172 		.ascii	"char\000"
+ 874      00
+ 875              	.LASF13:
+ 876 01be 646F7562 		.ascii	"double\000"
+ 876      6C6500
+ 877              	.LASF17:
+ 878 01c5 73697A65 		.ascii	"sizetype\000"
+ 878      74797065 
+ 878      00
+ 879              	.LASF6:
+ 880 01ce 6C6F6E67 		.ascii	"long long int\000"
+ 880      206C6F6E 
+ 880      6720696E 
+ 880      7400
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\cc84WxGB.s 			page 21
+
+
+ 881              	.LASF2:
+ 882 01dc 73686F72 		.ascii	"short int\000"
+ 882      7420696E 
+ 882      7400
+ 883              	.LASF35:
+ 884 01e6 57726974 		.ascii	"WriteUserSFlash.c\000"
+ 884      65557365 
+ 884      7253466C 
+ 884      6173682E 
+ 884      6300
+ 885              	.LASF4:
+ 886 01f8 6C6F6E67 		.ascii	"long int\000"
+ 886      20696E74 
+ 886      00
+ 887              	.LASF16:
+ 888 0201 6C6F6E67 		.ascii	"long double\000"
+ 888      20646F75 
+ 888      626C6500 
+ 889              	.LASF18:
+ 890 020d 75736572 		.ascii	"userRowNUmber\000"
+ 890      526F774E 
+ 890      556D6265 
+ 890      7200
+ 891              	.LASF0:
+ 892 021b 7369676E 		.ascii	"signed char\000"
+ 892      65642063 
+ 892      68617200 
+ 893              	.LASF20:
+ 894 0227 6C6F6361 		.ascii	"localCount\000"
+ 894      6C436F75 
+ 894      6E7400
+ 895              	.LASF3:
+ 896 0232 73686F72 		.ascii	"short unsigned int\000"
+ 896      7420756E 
+ 896      7369676E 
+ 896      65642069 
+ 896      6E7400
+ 897              	.LASF31:
+ 898 0245 72656164 		.ascii	"readData\000"
+ 898      44617461 
+ 898      00
+ 899              	.LASF7:
+ 900 024e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 900      206C6F6E 
+ 900      6720756E 
+ 900      7369676E 
+ 900      65642069 
+ 901              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

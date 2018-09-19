@@ -1,0 +1,40 @@
+--------------- Build Started: 09/20/2018 03:49:10 Project: Mesh_Flood_DIR_Sensor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+The code generation step is up to date.
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/WDT.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c WDT.c -o .\CortexM0\ARM_GCC_541\Debug\WDT.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ble_process.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ble_process.c -o .\CortexM0\ARM_GCC_541\Debug\ble_process.o
+ble_process.c: In function 'GenericEventHandler':
+ble_process.c:565:29: warning: unused variable 'index' [-Wunused-variable]
+                         int index = 0;
+                             ^
+ble_process.c:702:11: warning: unused variable 'rgb_data' [-Wunused-variable]
+     uint8 rgb_data[RGB_LED_DATA_LEN];
+           ^
+ble_process.c:77:21: warning: variable 'received_node_addr_type' set but not used [-Wunused-but-set-variable]
+  static uint8       received_node_addr_type ;
+                     ^
+ble_process.c:206:33: warning: 'writeReqData.handleValPair.attrHandle' may be used uninitialized in this function [-Wmaybe-uninitialized]
+    if(writeReqData.handleValPair.attrHandle == CYBLE_NODE_ADDRESS_CHAR_HANDLE)
+                                 ^
+ble_process.c:210:40: warning: 'writeReqData.handleValPair.value.len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     if(writeReqData.handleValPair.value.len == NODE_ADDR_DATA_LEN)
+                                        ^
+ble_process.c:269:7: warning: 'writeReqData.handleValPair.attrHandle' may be used uninitialized in this function [-Wmaybe-uninitialized]
+       SendErrorCode(CYBLE_GATT_WRITE_REQ, 
+       ^
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/low_power.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c low_power.c -o .\CortexM0\ARM_GCC_541\Debug\low_power.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/WriteUserSFlash.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c WriteUserSFlash.c -o .\CortexM0\ARM_GCC_541\Debug\WriteUserSFlash.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/sensor_process.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c sensor_process.c -o .\CortexM0\ARM_GCC_541\Debug\sensor_process.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/envsensor_process.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c envsensor_process.c -o .\CortexM0\ARM_GCC_541\Debug\envsensor_process.o
+arm-none-eabi-ar.exe -rs .\CortexM0\ARM_GCC_541\Debug\Mesh_Flood_DIR_Sensor.a .\CortexM0\ARM_GCC_541\Debug\BLE.o .\CortexM0\ARM_GCC_541\Debug\BLE_gatt.o .\CortexM0\ARM_GCC_541\Debug\BLE_eventHandler.o .\CortexM0\ARM_GCC_541\Debug\BLE_HAL_INT.o .\CortexM0\ARM_GCC_541\Debug\BLE_HAL_PVT.o .\CortexM0\ARM_GCC_541\Debug\BLE_custom.o .\CortexM0\ARM_GCC_541\Debug\PrISM_1.o .\CortexM0\ARM_GCC_541\Debug\PrISM_1_PM.o .\CortexM0\ARM_GCC_541\Debug\PrISM_Clock.o .\CortexM0\ARM_GCC_541\Debug\RED.o .\CortexM0\ARM_GCC_541\Debug\RED_PM.o .\CortexM0\ARM_GCC_541\Debug\GREEN.o .\CortexM0\ARM_GCC_541\Debug\GREEN_PM.o .\CortexM0\ARM_GCC_541\Debug\BLUE.o .\CortexM0\ARM_GCC_541\Debug\BLUE_PM.o .\CortexM0\ARM_GCC_541\Debug\PrISM_2.o .\CortexM0\ARM_GCC_541\Debug\PrISM_2_PM.o .\CortexM0\ARM_GCC_541\Debug\isr_WDT.o .\CortexM0\ARM_GCC_541\Debug\UART.o .\CortexM0\ARM_GCC_541\Debug\UART_SPI_UART.o .\CortexM0\ARM_GCC_541\Debug\UART_SPI_UART_INT.o .\CortexM0\ARM_GCC_541\Debug\UART_PM.o .\CortexM0\ARM_GCC_541\Debug\UART_UART.o .\CortexM0\ARM_GCC_541\Debug\UART_BOOT.o .\CortexM0\ARM_GCC_541\Debug\UART_UART_BOOT.o .\CortexM0\ARM_GCC_541\Debug\User_Button.o .\CortexM0\ARM_GCC_541\Debug\User_Button_PM.o .\CortexM0\ARM_GCC_541\Debug\Clock_Glitch.o .\CortexM0\ARM_GCC_541\Debug\isr_button.o .\CortexM0\ARM_GCC_541\Debug\BLE_bless_isr.o .\CortexM0\ARM_GCC_541\Debug\UART_SCBCLK.o .\CortexM0\ARM_GCC_541\Debug\UART_tx.o .\CortexM0\ARM_GCC_541\Debug\UART_tx_PM.o .\CortexM0\ARM_GCC_541\Debug\UART_rx.o .\CortexM0\ARM_GCC_541\Debug\UART_rx_PM.o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o .\CortexM0\ARM_GCC_541\Debug\CyLib.o .\CortexM0\ARM_GCC_541\Debug\cyPm.o .\CortexM0\ARM_GCC_541\Debug\cyutils.o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o
+arm-none-eabi-ar.exe: creating .\CortexM0\ARM_GCC_541\Debug\Mesh_Flood_DIR_Sensor.a
+arm-none-eabi-gcc.exe -Wl,--start-group -o C:\Users\run1009\Documents\Mesh_Flood_DIR_Sensor\Mesh_Flood_DIR_Sensor.cydsn\CortexM0\ARM_GCC_541\Debug\Mesh_Flood_DIR_Sensor.elf .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\debug.o .\CortexM0\ARM_GCC_541\Debug\WDT.o .\CortexM0\ARM_GCC_541\Debug\ble_process.o .\CortexM0\ARM_GCC_541\Debug\low_power.o .\CortexM0\ARM_GCC_541\Debug\WriteUserSFlash.o .\CortexM0\ARM_GCC_541\Debug\sensor_process.o .\CortexM0\ARM_GCC_541\Debug\envsensor_process.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\Mesh_Flood_DIR_Sensor.a "..\..\PSoC Creator\4.2\Downloads ( 4.2).cylib\BLE_v3_53\Library\gccCyBLEStack_BLE_SOC_CENTRAL_PERIPHERAL.a" -mcpu=cortex-m0 -mthumb -l m -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/Mesh_Flood_DIR_Sensor.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -O0 -ffat-lto-objects -Wl,--end-group
+cyelftool.exe -C C:\Users\run1009\Documents\Mesh_Flood_DIR_Sensor\Mesh_Flood_DIR_Sensor.cydsn\CortexM0\ARM_GCC_541\Debug\Mesh_Flood_DIR_Sensor.elf --flash_row_size 128 --flash_size 131072 --flash_offset 0x00000000
+No ELF section .cychecksum found, creating one
+Application checksum calculated and stored in ELF section .cychecksum
+Checksum calculated and stored in ELF section .cymeta
+cyelftool.exe -S C:\Users\run1009\Documents\Mesh_Flood_DIR_Sensor\Mesh_Flood_DIR_Sensor.cydsn\CortexM0\ARM_GCC_541\Debug\Mesh_Flood_DIR_Sensor.elf
+Flash used: 128017 of 131072 bytes (97.7 %).
+SRAM used: 11628 of 16384 bytes (71.0 %). Stack: 2048 bytes. Heap: 128 bytes.
+--------------- Build Succeeded: 09/20/2018 03:49:14 ---------------

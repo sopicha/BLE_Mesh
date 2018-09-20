@@ -59,8 +59,10 @@ extern volatile uint8 clientConnectToDevice;
 extern CYBLE_GAP_BD_ADDR_T				peripAddr;
 extern uint8 shut_down_led;
 extern uint16 node_address;
+volatile uint16 sensorReceiveStartedTime = 0;
 
 CY_ISR_PROTO(Button_ISR);
+uint8 receiveFirstData = TRUE;
 
 #ifdef RESTART_BLE_STACK
 uint8 stackRestartIssued = FALSE;
@@ -87,9 +89,10 @@ int main()
 	
 	/* Initialize system */	
 InitializeSystem();
+sensorReceiveStartedTime = WatchDog_CurrentCount();
 	
     for(;;)
-    {
+    {       
 		/* Process BLE Events. This function generates the respective 
 		* events to application layer */
 		CyBle_ProcessEvents();
@@ -114,7 +117,11 @@ InitializeSystem();
 		* using mesh network. CUrrently, the sensor data is the new RGB data selected on 
 		* each button press. The content in the API can be changed to collect and data 
 		* and forward it to the mesh network. */
-		CheckSensorStatus();
+       
+        if(receiveFirstData || WatchDog_CurrentCount()-sensorReceiveStartedTime > SENSOR_RECEIVE_TIME){
+		   CheckSensorStatus();
+           receiveFirstData = FALSE;
+        }
 		#endif
 		
 		#ifdef RESTART_BLE_STACK

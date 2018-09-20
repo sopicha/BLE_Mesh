@@ -21,6 +21,7 @@ uint8 dataADVCounter = 1;
 uint8 switch_Role = FALSE;
 
 uint16 node_address = 0;
+extern uint16 sensorReceiveStartedTime;
 
 #ifdef ENABLE_ADV_DATA_COUNTER
 CYBLE_GAPP_DISC_DATA_T  new_advData;
@@ -43,6 +44,8 @@ uint8 deviceConnected = FALSE;
 uint8 restartScanning = FALSE;
 volatile uint16 centralStartedTime = 0;
 char val[31];
+uint8 bt_addr[6] = {0x04,0x27,0xA8,0x1B,0x00,0xC4};
+ENV_SENSOR_T                    result;
 
 #ifdef RESTART_BLE_STACK
 extern uint8 stackRestartIssued;
@@ -508,8 +511,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         
                     }
                     else{
-                    int check = 0;
-                    uint8 bt_addr[6] = {0x04,0x27,0xA8,0x1B,0x00,0xC4};
+                    int check = 0;                   
                     
                     for(uint8 i=0u;i<6u;i++){
                         if(scan_report.peerBdAddr[i] == bt_addr[i]){
@@ -549,6 +551,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         UART_UartPutCRLF(' ');
     					
                         UART_UartPutString("****************Device Found***************\r\n");
+                        /*
                         peripAddr.type = scan_report.peerAddrType;
 						peripAddr.bdAddr[0] = scan_report.peerBdAddr[0];
 						peripAddr.bdAddr[1] = scan_report.peerBdAddr[1];
@@ -556,11 +559,11 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						peripAddr.bdAddr[3] = scan_report.peerBdAddr[3];
 						peripAddr.bdAddr[4] = scan_report.peerBdAddr[4];
 						peripAddr.bdAddr[5] = scan_report.peerBdAddr[5];
-                        
+                         */
                         /* Set the flag to allow application to connect to the
 									* peripheral found */
-									clientConnectToDevice = TRUE;
-                        
+									//clientConnectToDevice = TRUE;
+                       
                        //writeReqData = *(CYBLE_GATTS_WRITE_REQ_PARAM_T*)eventParam;
                         int index = 0;
                         //UART_UartPutString("writeReqData: ");
@@ -573,7 +576,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         //    UART_UartPutChar(val[i]);                      
                         UART_UartPutCRLF(' ');
                         EnvSensorProcess(scan_report.rssi,scan_report.data);
-                        ENV_SENSOR_T result = GetSensorData();
+                        result = GetSensorData();
                         char* temp = ftoa(result.temp);
                         UART_UartPutString("temperature: ");
                         UART_UartPutString(temp);
@@ -617,6 +620,17 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         UART_UartPutString(distance);
                         UART_UartPutCRLF(' ');
                         UART_UartPutCRLF(' ');
+                        
+                        /* After receiveing the sensor data, set the switch role flag to allow the system
+						* to switch role to Central role */
+						switch_Role = TRUE;
+                        sensorReceiveStartedTime = WatchDog_CurrentCount();
+						
+						#if (DEBUG_ENABLED == 1)
+						UART_UartPutString("switchRole to Pheripheral");
+						UART_UartPutCRLF(' ');
+						#endif
+                        
                         #endif
                     }
 					}
@@ -754,13 +768,10 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			#ifdef ENABLE_CENTRAL_DISCOVERY
 			deviceConnected = TRUE;
 			#if (DEBUG_ENABLED == 1)
-				UART_UartPutString("CYBLE_EVT_GATTC_DISCOVERY_COMPLETE ");
+				UART_UartPutString("CYBLE_EVT_GATTC_DISCOVERY_COMPLET ");
 				SendBLEStatetoUART(CyBle_GetState());
 				UART_UartPutCRLF(' ');
 
-                readBlobdata.attrHandle = CYBLE_CUSTOM_SERVICE_CHAR_DESCRIPTORS_COUNT;
-                readBlobdata.offset = 
-               CyBle_GattcReadLongCharacteristicDescriptors(cyBle_connHandle, &readBlobdata);
 			#endif
 			
 			/* Write the Data Counter value */
@@ -872,7 +883,7 @@ void SwitchRole(void)
 	if(switch_Role == TRUE)
 	{	
         UART_UartPutString("switch_Role");
-		
+		UART_UartPutCRLF(' ');
 		/* Process pending BLE events */
 		CyBle_ProcessEvents();
 		

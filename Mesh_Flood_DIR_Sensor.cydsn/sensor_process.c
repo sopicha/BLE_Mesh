@@ -24,6 +24,7 @@ extern uint8 switch_Role;
 extern uint8 dataADVCounter;
 
 uint8 check_pressed = FALSE;
+
 /*******************************************************************************
 * Function Name: CheckSensorStatus
 ********************************************************************************
@@ -43,15 +44,15 @@ uint8 check_pressed = FALSE;
 void CheckSensorStatus(void)
 {
 	/* Is ISR registered a button press... */
-	if(TRUE == check_pressed)
-	{
+	//if(TRUE == check_pressed)
+	//{
 		/* Change color (new sensor data) only when the node is in
 		* peripheral mode and advertising */
 		if((BLE_PERIPHERAL == ble_gap_state)
 			&& (CYBLE_STATE_ADVERTISING == CyBle_GetState()))
 		{
 			#if (DEBUG_ENABLED == 1)
-			UART_UartPutString("Button Pressed:  ");
+			UART_UartPutString("Time to get sensor data:  ");
 			UART_UartPutCRLF(' ');
 			#endif
 			
@@ -61,8 +62,8 @@ void CheckSensorStatus(void)
 		}
 		
 		/* Reset flag */
-		check_pressed = FALSE;
-	}
+		//check_pressed = FALSE;
+	//}
 }
 
 /*******************************************************************************

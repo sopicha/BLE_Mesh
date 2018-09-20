@@ -55,11 +55,12 @@ extern volatile uint16 current_watchdog_counter;
 #define BLE_CENTRAL							2
 #define SCAN_TAG_DATA_LEN					20
 	
-#define CENTRAL_STATE_SPAN					30
+#define CENTRAL_STATE_SPAN					180
 #define PERIP_RGB_HOLD_TIME					10
     
 
 #define WatchDog_CurrentCount()				(current_watchdog_counter)
+#define SENSOR_RECEIVE_TIME                 1800
 
 /*****************************************************
 *                  Function Declarations

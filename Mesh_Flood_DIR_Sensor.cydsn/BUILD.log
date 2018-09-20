@@ -1,26 +1,29 @@
---------------- Build Started: 09/20/2018 03:49:10 Project: Mesh_Flood_DIR_Sensor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Build Started: 09/20/2018 22:58:25 Project: Mesh_Flood_DIR_Sensor, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 The code generation step is up to date.
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c debug.c -o .\CortexM0\ARM_GCC_541\Debug\debug.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/WDT.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c WDT.c -o .\CortexM0\ARM_GCC_541\Debug\WDT.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ble_process.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c ble_process.c -o .\CortexM0\ARM_GCC_541\Debug\ble_process.o
 ble_process.c: In function 'GenericEventHandler':
-ble_process.c:565:29: warning: unused variable 'index' [-Wunused-variable]
+ble_process.c:568:29: warning: unused variable 'index' [-Wunused-variable]
                          int index = 0;
                              ^
-ble_process.c:702:11: warning: unused variable 'rgb_data' [-Wunused-variable]
+ble_process.c:716:11: warning: unused variable 'rgb_data' [-Wunused-variable]
      uint8 rgb_data[RGB_LED_DATA_LEN];
            ^
-ble_process.c:77:21: warning: variable 'received_node_addr_type' set but not used [-Wunused-but-set-variable]
+ble_process.c:80:21: warning: variable 'received_node_addr_type' set but not used [-Wunused-but-set-variable]
   static uint8       received_node_addr_type ;
                      ^
-ble_process.c:206:33: warning: 'writeReqData.handleValPair.attrHandle' may be used uninitialized in this function [-Wmaybe-uninitialized]
+ble_process.c:78:41: warning: unused variable 'readBlobdata' [-Wunused-variable]
+     CYBLE_GATTC_READ_BLOB_REQ_T         readBlobdata;
+                                         ^
+ble_process.c:209:33: warning: 'writeReqData.handleValPair.attrHandle' may be used uninitialized in this function [-Wmaybe-uninitialized]
     if(writeReqData.handleValPair.attrHandle == CYBLE_NODE_ADDRESS_CHAR_HANDLE)
                                  ^
-ble_process.c:210:40: warning: 'writeReqData.handleValPair.value.len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+ble_process.c:213:40: warning: 'writeReqData.handleValPair.value.len' may be used uninitialized in this function [-Wmaybe-uninitialized]
      if(writeReqData.handleValPair.value.len == NODE_ADDR_DATA_LEN)
                                         ^
-ble_process.c:269:7: warning: 'writeReqData.handleValPair.attrHandle' may be used uninitialized in this function [-Wmaybe-uninitialized]
+ble_process.c:272:7: warning: 'writeReqData.handleValPair.attrHandle' may be used uninitialized in this function [-Wmaybe-uninitialized]
        SendErrorCode(CYBLE_GATT_WRITE_REQ, 
        ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/low_power.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -O0 -c low_power.c -o .\CortexM0\ARM_GCC_541\Debug\low_power.o
@@ -35,6 +38,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S C:\Users\run1009\Documents\Mesh_Flood_DIR_Sensor\Mesh_Flood_DIR_Sensor.cydsn\CortexM0\ARM_GCC_541\Debug\Mesh_Flood_DIR_Sensor.elf
-Flash used: 128017 of 131072 bytes (97.7 %).
-SRAM used: 11628 of 16384 bytes (71.0 %). Stack: 2048 bytes. Heap: 128 bytes.
---------------- Build Succeeded: 09/20/2018 03:49:14 ---------------
+Flash used: 127941 of 131072 bytes (97.6 %).
+SRAM used: 11700 of 16384 bytes (71.4 %). Stack: 2048 bytes. Heap: 128 bytes.
+--------------- Build Succeeded: 09/20/2018 22:58:28 ---------------

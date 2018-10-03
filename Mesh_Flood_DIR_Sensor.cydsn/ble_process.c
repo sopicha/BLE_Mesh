@@ -17,6 +17,8 @@
 #include <main.h>
 
 uint8 RGBData[4];
+uint8 tempData[4];
+uint8 recvTempData[4];
 uint8 dataADVCounter = 1;
 uint8 switch_Role = FALSE;
 
@@ -44,9 +46,9 @@ uint8 deviceConnected = FALSE;
 uint8 restartScanning = FALSE;
 volatile uint16 centralStartedTime = 0;
 char val[31];
-uint8 bt_addr[6] = {0x04,0x27,0xA8,0x1B,0x00,0xC4};
+//uint8 bt_addr[6] = {0x04,0x27,0xA8,0x1B,0x00,0xC4};
+uint8 bt_addr[6] = {0x00,0x00,0x00,0x00,0x00,0x00};
 ENV_SENSOR_T                    result;
-
 #ifdef RESTART_BLE_STACK
 extern uint8 stackRestartIssued;
 #endif
@@ -78,11 +80,12 @@ void GenericEventHandler(uint32 event, void * eventParam)
     CYBLE_GATTC_READ_BLOB_REQ_T         readBlobdata;
 	static uint16 						received_node_addr ;
 	static uint8 						received_node_addr_type ;
+
 	
 	#if (DEBUG_ENABLED == 1)
 	CYBLE_GAP_BD_ADDR_T					gap_bdaddr;
 	#endif
-	
+    	
 	switch(event)
 	{
 		case CYBLE_EVT_STACK_ON:
@@ -202,10 +205,18 @@ void GenericEventHandler(uint32 event, void * eventParam)
 		break;
 			
 		case CYBLE_EVT_GATTS_WRITE_REQ:
-			/* This event is received at when Server receives a Write request from
-			* connected Client device */
-			/* Save the associated event parameter in local variable */
+			/* This event is received at when Server receives a Write request from */
 			
+			/* Save the associated event parameter in local variable */
+            writeReqData = *(CYBLE_GATTS_WRITE_REQ_PARAM_T*)eventParam;
+            
+            /* connected Client device */
+            #if (DEBUG_ENABLED == 1)
+                        UART_UartPutString("CYBLE_EVT_GATTS_WRITE_REQ ");  
+                        PrintHex(writeReqData.handleValPair.attrHandle);
+                        
+                        UART_UartPutCRLF(' ');
+			#endif
 			if(writeReqData.handleValPair.attrHandle == CYBLE_NODE_ADDRESS_CHAR_HANDLE)
 			{
 				/* If the Write request is on Node Address Characteristic, then Client is 
@@ -273,13 +284,13 @@ void GenericEventHandler(uint32 event, void * eventParam)
 										writeReqData.handleValPair.attrHandle, 
 										ERR_INVALID_ATT_LEN);
 						node_address = 0x0000;
-						
+						UART_UartPutString("node_address = 0 ");
+                        UART_UartPutCRLF(' ');
 						/* Do not proceed further */
 						return;
 				}
 			}
-			
-			if(writeReqData.handleValPair.attrHandle == CYBLE_RGB_LED_CONTROL_CHAR_HANDLE)
+		if(writeReqData.handleValPair.attrHandle == CYBLE_TEMP_DATA_CONTROL_CHAR_HANDLE)
 			{
 				/* If the Write request is on RGB LED Control Characteristic, then Client is 
 				* trying to set a new color to the device. */
@@ -289,10 +300,11 @@ void GenericEventHandler(uint32 event, void * eventParam)
 				{
 					/* If the data length of the received data meets the expected data 
 					* length, then proceeed. Else send error code */
-					if(writeReqData.handleValPair.value.len == RGB_LED_DATA_LEN)
+                    
+					if(writeReqData.handleValPair.value.len == TEMP_DATA_LEN)
 					{
 						#if (DEBUG_ENABLED == 1)
-							UART_UartPutString("RGB CYBLE_EVT_GATTS_WRITE_REQ ");
+							UART_UartPutString("TEMP CYBLE_EVT_GATTS_WRITE_REQ ");
 							UART_UartPutCRLF(' ');
 						#endif
 						
@@ -303,12 +315,22 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						received_node_addr = (uint16)(((uint16)writeReqData.handleValPair.value.val[DATA_NODE_ADDR_MSB_INDEX] << 8)
 													| writeReqData.handleValPair.value.val[DATA_NODE_ADDR_LSB_INDEX]);
 						
-						/* Next four bytes contain the color value. Store the Color Value */
-						RGBData[RGB_RED_INDEX] = writeReqData.handleValPair.value.val[DATA_INDEX];
-						RGBData[RGB_GREEN_INDEX] = writeReqData.handleValPair.value.val[DATA_INDEX+1];
-						RGBData[RGB_BLUE_INDEX] = writeReqData.handleValPair.value.val[DATA_INDEX+2];
-						RGBData[RGB_INTENSITY_INDEX] = writeReqData.handleValPair.value.val[DATA_INDEX+3];
-						
+						/* Next four bytes contain the color value. Store the temperature Value */
+                        
+						recvTempData[RGB_RED_INDEX] = writeReqData.handleValPair.value.val[RGB_RED_INDEX];
+						recvTempData[RGB_GREEN_INDEX] = writeReqData.handleValPair.value.val[RGB_GREEN_INDEX];
+						recvTempData[RGB_BLUE_INDEX] = writeReqData.handleValPair.value.val[RGB_BLUE_INDEX];
+					    recvTempData[RGB_INTENSITY_INDEX] = writeReqData.handleValPair.value.val[RGB_INTENSITY_INDEX];
+                        
+                        UART_UartPutString("tempData: ");
+                        for(int i=0;i<writeReqData.handleValPair.value.len;i++)
+                            PrintHex(writeReqData.handleValPair.value.val[i]);
+						UART_UartPutCRLF(' ');
+                        
+                        char* temperture = ftoa(Byte2Short(recvTempData[RGB_RED_INDEX],recvTempData[RGB_GREEN_INDEX])/100.0);
+                        UART_UartPutString("receive temperature: ");
+                        UART_UartPutString(temperture);
+                        UART_UartPutCRLF(' ');
 						
 						if(writeReqData.handleValPair.value.val[DATA_NODE_ADDR_TYPE_INDEX] == NODE_ADDR_TYPE_PICONET)
 						{
@@ -318,14 +340,15 @@ void GenericEventHandler(uint32 event, void * eventParam)
 							{
 								/* If the MSB of node address matches the MSB of address in write request packet, 
 								* then the Piconet address matches; change the RGB Color */
-								UpdateRGBled(RGBData, RGB_PAYLOAD_LEN);
+								//UpdateRGBled(RGBData, RGB_PAYLOAD_LEN);
 								
 								/* Update the RGB LED Control characteristic in GATT DB  to allow
 								* Client to read the latest RGB LED color value set */
 								CyBle_GattsWriteAttributeValue(&writeReqData.handleValPair,0,&cyBle_connHandle,CYBLE_GATT_DB_LOCALLY_INITIATED);
 								
 								#if (DEBUG_ENABLED == 1)
-									UART_UartPutString("UpdateRGBled ");
+                                   
+									UART_UartPutString("UpdateTempData ");
 									SendBLEStatetoUART(CyBle_GetState());
 									UART_UartPutCRLF(' ');
 								#endif
@@ -340,16 +363,17 @@ void GenericEventHandler(uint32 event, void * eventParam)
 							{
 								/* If the node address matches the address in write request packet, 
 								* or if the address is broadcast all, change the RGB Color */
-								UpdateRGBled(RGBData, RGB_PAYLOAD_LEN);
+								//UpdateRGBled(RGBData, RGB_PAYLOAD_LEN);
 								
 								/* Update the RGB LED Control characteristic in GATT DB  to allow
 								* Client to read the latest RGB LED color value set */
 								CyBle_GattsWriteAttributeValue(&writeReqData.handleValPair,0,&cyBle_connHandle,CYBLE_GATT_DB_LOCALLY_INITIATED);
 								
 								#if (DEBUG_ENABLED == 1)
+                                    /*
 									UART_UartPutString("UpdateRGBled ");
 									SendBLEStatetoUART(CyBle_GetState());
-									UART_UartPutCRLF(' ');
+									UART_UartPutCRLF(' ');*/
 								#endif
 							}
 						}
@@ -364,6 +388,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						UART_UartPutString("incremented dataADVCounter value in CYBLE_EVT_GATTS_WRITE_REQ= ");
 						PrintNum(dataADVCounter);
 						UART_UartPutCRLF(' ');
+                        
 						#endif
 						
 						/* After receiveing the color value, set the switch role flag to allow the system
@@ -436,6 +461,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						UART_UartPutCRLF(' ');
 						#endif
 					} /* if(writeCmdData.handleValPair.value.len == 1) */
+                   
 				}
 			}	/* if(node_address != 0) */
 			break;
@@ -551,30 +577,15 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         UART_UartPutCRLF(' ');
     					
                         UART_UartPutString("****************Device Found***************\r\n");
-                        /*
-                        peripAddr.type = scan_report.peerAddrType;
-						peripAddr.bdAddr[0] = scan_report.peerBdAddr[0];
-						peripAddr.bdAddr[1] = scan_report.peerBdAddr[1];
-						peripAddr.bdAddr[2] = scan_report.peerBdAddr[2];
-						peripAddr.bdAddr[3] = scan_report.peerBdAddr[3];
-						peripAddr.bdAddr[4] = scan_report.peerBdAddr[4];
-						peripAddr.bdAddr[5] = scan_report.peerBdAddr[5];
-                         */
-                        /* Set the flag to allow application to connect to the
-									* peripheral found */
-									//clientConnectToDevice = TRUE;
-                       
-                       //writeReqData = *(CYBLE_GATTS_WRITE_REQ_PARAM_T*)eventParam;
+
                         int index = 0;
-                        //UART_UartPutString("writeReqData: ");
-                    
+
                         for(int i=0;i<scan_report.dataLen;i++){
                             val[i] = (uint8_t) scan_report.data[i];
                         }
-                        //UART_UartPutCRLF(' '); 
-                        // for(int i=0;i<scan_report.dataLen;i++)
-                        //    UART_UartPutChar(val[i]);                      
-                        UART_UartPutCRLF(' ');
+              
+                        UART_UartPutCRLF(' ');                     
+                        
                         EnvSensorProcess(scan_report.rssi,scan_report.data);
                         result = GetSensorData();
                         char* temp = ftoa(result.temp);
@@ -584,7 +595,6 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         char li[1];
                         sprintf(li, "%hi", result.light);
                         UART_UartPutString("light: ");
-                        //UART_UartPutChar(li);
                         PrintNum(result.light);
                         UART_UartPutCRLF(' ');
                         char* noise = ftoa(result.noise);
@@ -621,18 +631,37 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         UART_UartPutCRLF(' ');
                         UART_UartPutCRLF(' ');
                         
+                       
+                        //if(result.flagActive == TRUE){
+                        tempData[RGB_RED_INDEX] = scan_report.data[9];
+                        tempData[RGB_GREEN_INDEX] = scan_report.data[8];
+                        tempData[RGB_BLUE_INDEX] = 0x00; //reserved
+                        tempData[RGB_INTENSITY_INDEX] = 0x00; //reserved
+                        //result.flagActive = FALSE;
+                        //}
+                       
+                        UART_UartPutString("tempData: ");
+                        for(int i=0;i<5;i++)
+                            PrintHex(tempData[i]);
+						UART_UartPutCRLF(' ');
+                        
                         /* After receiveing the sensor data, set the switch role flag to allow the system
 						* to switch role to Central role */
-						switch_Role = TRUE;
-                        sensorReceiveStartedTime = WatchDog_CurrentCount();
-						
-						#if (DEBUG_ENABLED == 1)
-						UART_UartPutString("switchRole to Pheripheral");
+                        dataADVCounter++;
+						//switch_Role = TRUE;                       
+                        
+                        UART_UartPutString("timestamp: ");
+                        PrintNum(sensorReceiveStartedTime);
 						UART_UartPutCRLF(' ');
+						#if (DEBUG_ENABLED == 1)
+						//UART_UartPutString("switchRole to Pheripheral");
+						//UART_UartPutCRLF(' ');
 						#endif
                         
                         #endif
                     }
+                    //reset timer to receive sensor data every 1 min
+                     sensorReceiveStartedTime = WatchDog_CurrentCount();
 					}
 				}
 				#endif
@@ -660,7 +689,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 								if(!memcmp(scan_report.data, scan_tag, scan_report.dataLen))
 								{
 									#if (DEBUG_ENABLED == 1)
-									UART_UartPutString("Titan Found ");
+									UART_UartPutString("*********** Titan Found ***********");
 									UART_UartPutCRLF(' ');
 									#endif
 									/* Stop existing scan */
@@ -713,7 +742,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			
 			if(ble_gap_state == BLE_CENTRAL)
 			{
-				uint8 rgb_data[RGB_LED_DATA_LEN];
+				//uint8 rgb_data[RGB_LED_DATA_LEN];
 				
 				#ifdef ENABLE_CENTRAL_DISCOVERY
 					/* The Device is connected now. Start Attributes discovery process.*/
@@ -721,9 +750,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 					#if (DEBUG_ENABLED == 1)
 						UART_UartPutString("CYBLE_EVT_GAP_DEVICE_CONNECTED ");
 						SendBLEStatetoUART(CyBle_GetState());
-						UART_UartPutCRLF(' ');
-                        
-                        
+						UART_UartPutCRLF(' ');                  
 					#endif
 				#else
 					/* If this system is currently acting in Central role and has connected
@@ -749,15 +776,24 @@ void GenericEventHandler(uint32 event, void * eventParam)
 					rgb_data[RESERVED_BYTE_INDEX] = 		RESERVED_BYTE_VALUE;
 					rgb_data[DATA_NODE_ADDR_LSB_INDEX] = 	(uint8)(received_node_addr & 0x00FF);
 					rgb_data[DATA_NODE_ADDR_MSB_INDEX] = 	(uint8)((received_node_addr & 0xFF00) >> 8);
-					rgb_data[DATA_INDEX] = 					RGBData[RGB_RED_INDEX];
-					rgb_data[DATA_INDEX+1] = 				RGBData[RGB_GREEN_INDEX];
-					rgb_data[DATA_INDEX+2] = 				RGBData[RGB_BLUE_INDEX];
-					rgb_data[DATA_INDEX+3] = 				RGBData[RGB_INTENSITY_INDEX];
+					rgb_data[DATA_INDEX] = 					tempData[RGB_RED_INDEX];//RGBData[RGB_RED_INDEX];
+					rgb_data[DATA_INDEX+1] = 				tempData[RGB_GREEN_INDEX];//RGBData[RGB_GREEN_INDEX];
+					rgb_data[DATA_INDEX+2] = 				tempData[RGB_BLUE_INDEX];//RGBData[RGB_BLUE_INDEX];
+					rgb_data[DATA_INDEX+3] = 				tempData[RGB_INTENSITY_INDEX];//RGBData[RGB_INTENSITY_INDEX];
 					
 					writeRGBdata.attrHandle = CYBLE_RGB_LED_CONTROL_CHAR_HANDLE;
 					writeRGBdata.value.val = rgb_data;
 					writeRGBdata.value.len = RGB_LED_DATA_LEN;
-					CyBle_GattcWriteCharacteristicValue(cyBle_connHandle, &writeRGBdata);
+                    
+                    for(int i=0;i<8;i++)
+                            PrintHex(tempData[i]);
+                    UART_UartPutCRLF(' ');        
+                    char* temperture = ftoa(Byte2Short(tempData[RGB_RED_INDEX],tempData[RGB_GREEN_INDEX])/100.0);
+                        UART_UartPutString("receive temperature: ");
+                        UART_UartPutString(temperture);
+                        UART_UartPutCRLF(' ');
+					CyBle_GattcWriteCharacteristicDescriptors(cyBle_connHandle, &writeRGBdata);
+                    //CyBle_GattcWriteWithoutResponse(cyBle_connHandle, &writeRGBdata);
 				#endif
 			}	
         break;
@@ -779,12 +815,19 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			writeADVcounterdata.value.val = &dataADVCounter;
 			writeADVcounterdata.value.len = 1;
 			CyBle_GattcWriteWithoutResponse(cyBle_connHandle, &writeADVcounterdata);
+            
+            char* tem = ftoa(Byte2Short(tempData[RGB_RED_INDEX],tempData[RGB_GREEN_INDEX])/100.0);
+            UART_UartPutString("receive temperature: ");
+            UART_UartPutString(tem);
+            UART_UartPutCRLF(' ');
+						
 		
 			/* Write the RGB LED Value */
-			writeRGBdata.attrHandle = CYBLE_RGB_LED_CONTROL_CHAR_HANDLE;
-			writeRGBdata.value.val = RGBData;
-			writeRGBdata.value.len = RGB_LED_DATA_LEN;
+			writeRGBdata.attrHandle = CYBLE_TEMP_DATA_CONTROL_CHAR_HANDLE;
+			writeRGBdata.value.val = tempData;
+			writeRGBdata.value.len = TEMP_DATA_LEN;
 			CyBle_GattcWriteCharacteristicValue(cyBle_connHandle, &writeRGBdata);
+            //CyBle_GattcWriteWithoutResponse(cyBle_connHandle, &writeRGBdata);
 			#endif
             
 		break;
@@ -796,7 +839,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			#if (DEBUG_ENABLED == 1)
 				UART_UartPutString("CYBLE_EVT_GATTC_WRITE_RSP ");
 				SendBLEStatetoUART(CyBle_GetState());
-				UART_UartPutCRLF(' ');
+				UART_UartPutCRLF(' ');          
+               
 			#endif
 			
 			/* Disconnect the existing connection and restart scanning */

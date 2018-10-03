@@ -60,7 +60,7 @@ extern volatile uint16 current_watchdog_counter;
     
 
 #define WatchDog_CurrentCount()				(current_watchdog_counter)
-#define SENSOR_RECEIVE_TIME                 1800
+#define SENSOR_RECEIVE_TIME                 600 //1 mins 
 
 /*****************************************************
 *                  Function Declarations

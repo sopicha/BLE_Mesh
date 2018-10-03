@@ -89,7 +89,7 @@ int main()
 	
 	/* Initialize system */	
 InitializeSystem();
-sensorReceiveStartedTime = WatchDog_CurrentCount();
+//sensorReceiveStartedTime = WatchDog_CurrentCount();
 	
     for(;;)
     {       
@@ -117,7 +117,7 @@ sensorReceiveStartedTime = WatchDog_CurrentCount();
 		* using mesh network. CUrrently, the sensor data is the new RGB data selected on 
 		* each button press. The content in the API can be changed to collect and data 
 		* and forward it to the mesh network. */
-       
+
         if(receiveFirstData || WatchDog_CurrentCount()-sensorReceiveStartedTime > SENSOR_RECEIVE_TIME){
 		   CheckSensorStatus();
            receiveFirstData = FALSE;

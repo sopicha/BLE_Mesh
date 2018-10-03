@@ -181,7 +181,7 @@ void SetNextColor(void)
 	#ifdef ENABLE_ADV_DATA_COUNTER
 	/* Increment the ADV data counter so that scanning Central device knows
 	* if this device has updated RGB LED data or not */
-	dataADVCounter++;
+	//dataADVCounter++;
 	#endif
 	
 	/* Set the role switch flag so that main loop can switch to Central role */

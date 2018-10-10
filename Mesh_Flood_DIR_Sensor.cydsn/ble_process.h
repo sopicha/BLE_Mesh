@@ -24,12 +24,12 @@
 #define TEMP_DATA_LEN					    8
 #define RGB_PAYLOAD_LEN						4
 
-#define RGB_RED_INDEX						0
-#define RGB_GREEN_INDEX						1
-#define RGB_BLUE_INDEX						2
-#define RGB_INTENSITY_INDEX					3
+#define TEMP_FIRST_INDEX					0
+#define TEMP_SECOND_INDEX					1
+#define TEMP_THIRD_INDEX					2
+#define TEMP_FORTH_INDEX					3
 #define RGB_LED_MAX_VAL						255
-#define RGB_OFF_THRESHOLD					2
+#define TEMP_OFF_THRESHOLD					2
 #define NODE_ADDR_DATA_LEN					2
 	
 #define BROADCAST_ADDR						0x0000

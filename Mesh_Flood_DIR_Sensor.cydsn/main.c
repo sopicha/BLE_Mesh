@@ -60,10 +60,7 @@ extern CYBLE_GAP_BD_ADDR_T				peripAddr;
 extern uint8 shut_down_led;
 extern uint16 node_address;
 volatile uint16 sensorReceiveStartedTime = 0;
-
-CY_ISR_PROTO(Button_ISR);
 uint8 receiveFirstData = TRUE;
-
 #ifdef RESTART_BLE_STACK
 uint8 stackRestartIssued = FALSE;
 #endif
@@ -260,11 +257,6 @@ void InitializeSystem(void)
 		}
 	#endif
 	
-	#ifdef SENSOR_DATA_ROUTING
-	/* Clear pending interrupts and enable ISR to record Button press through Glitch Filter */
-	isr_button_ClearPending();	
-	isr_button_StartEx(Button_ISR);
-	#endif
 
 	#if (DEBUG_ENABLED == 1)
 		UART_Start();
@@ -300,9 +292,9 @@ void UpdateRGBled(uint8 * rgb_led_data, uint8 len)
 	{
 		/* If a valid length packet has been sent, calculate the intensity of each of
 		* R, G and B color and update the PrISM module */
-		calc_red = (uint8)(((uint16)rgb_led_data[RGB_RED_INDEX]*rgb_led_data[RGB_INTENSITY_INDEX])/RGB_LED_MAX_VAL);
-		calc_green = (uint8)(((uint16)rgb_led_data[RGB_GREEN_INDEX]*rgb_led_data[RGB_INTENSITY_INDEX])/RGB_LED_MAX_VAL);
-		calc_blue = (uint8)(((uint16)rgb_led_data[RGB_BLUE_INDEX]*rgb_led_data[RGB_INTENSITY_INDEX])/RGB_LED_MAX_VAL);
+		calc_red = (uint8)(((uint16)rgb_led_data[TEMP_FIRST_INDEX]*rgb_led_data[TEMP_FORTH_INDEX])/RGB_LED_MAX_VAL);
+		calc_green = (uint8)(((uint16)rgb_led_data[TEMP_SECOND_INDEX]*rgb_led_data[TEMP_FORTH_INDEX])/RGB_LED_MAX_VAL);
+		calc_blue = (uint8)(((uint16)rgb_led_data[TEMP_THIRD_INDEX]*rgb_led_data[TEMP_FORTH_INDEX])/RGB_LED_MAX_VAL);
 		
 		PrISM_1_WritePulse0(RGB_LED_MAX_VAL - calc_red);
 		PrISM_1_WritePulse1(RGB_LED_MAX_VAL - calc_green);

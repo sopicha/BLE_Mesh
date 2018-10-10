@@ -36,7 +36,6 @@
 *****************************************************/
 void CheckSensorStatus(void);
 void SetNextColor(void);
-void Button_ISR(void);
 
 #endif
 /* [] END OF FILE */

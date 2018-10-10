@@ -53,10 +53,7 @@
 
 #define CYBLE_RGB_SERVICE_HANDLE   (0x000Cu) /* Handle of RGB service */
 #define CYBLE_RGB_LED_CONTROL_DECL_HANDLE   (0x000Du) /* Handle of LED Control characteristic declaration */
-    
-//#define CYBLE_RGB_LED_CONTROL_CHAR_HANDLE   (0x000Eu) /* Handle of LED Control characteristic */
-#define CYBLE_TEMP_DATA_CONTROL_CHAR_HANDLE   (0x000Eu) /* Handle of temperature data characteristic */
-    
+#define CYBLE_TEMP_DATA_CONTROL_CHAR_HANDLE   (0x000Eu) /* Handle of LED Control characteristic */
 #define CYBLE_RGB_LED_CONTROL_CUD_DESC_HANDLE   (0x000Fu) /* Handle of CUD descriptor */
 #define CYBLE_RGB_DATA_COUNT_DECL_HANDLE   (0x0010u) /* Handle of Data Count characteristic declaration */
 #define CYBLE_RGB_DATA_COUNT_CHAR_HANDLE   (0x0011u) /* Handle of Data Count characteristic */

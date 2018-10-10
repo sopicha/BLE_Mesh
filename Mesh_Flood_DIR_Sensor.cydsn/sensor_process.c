@@ -22,7 +22,7 @@ extern uint8 ble_gap_state;
 extern uint8 RGBData[];
 extern uint8 switch_Role;
 extern uint8 dataADVCounter;
-
+uint8 time_to_get_sensordata = FALSE;
 uint8 check_pressed = FALSE;
 
 /*******************************************************************************
@@ -43,9 +43,7 @@ uint8 check_pressed = FALSE;
 *******************************************************************************/
 void CheckSensorStatus(void)
 {
-	/* Is ISR registered a button press... */
-	//if(TRUE == check_pressed)
-	//{
+
 		/* Change color (new sensor data) only when the node is in
 		* peripheral mode and advertising */
 		if((BLE_PERIPHERAL == ble_gap_state)
@@ -55,15 +53,11 @@ void CheckSensorStatus(void)
 			UART_UartPutString("Time to get sensor data:  ");
 			UART_UartPutCRLF(' ');
 			#endif
-			
+			time_to_get_sensordata = TRUE;
 			/* Set the next RGB LED color as reflection of new sensor data.
 			* Broadcast to all. */
 			SetNextColor();	
 		}
-		
-		/* Reset flag */
-		//check_pressed = FALSE;
-	//}
 }
 
 /*******************************************************************************
@@ -170,20 +164,14 @@ void SetNextColor(void)
 	}
 	
 	/* Update PrISM parameters for new RGB LED color */
-	RGBData[RGB_RED_INDEX] = red;
-	RGBData[RGB_GREEN_INDEX] = green;
-	RGBData[RGB_BLUE_INDEX] = blue;
-	RGBData[RGB_INTENSITY_INDEX] = intensity;
+	RGBData[TEMP_FIRST_INDEX] = red;
+	RGBData[TEMP_SECOND_INDEX] = green;
+	RGBData[TEMP_THIRD_INDEX] = blue;
+	RGBData[TEMP_FORTH_INDEX] = intensity;
 	
 	/* Update PrISM parameters for new  RGB LED data */
-	UpdateRGBled(RGBData, 4);
-	
-	#ifdef ENABLE_ADV_DATA_COUNTER
-	/* Increment the ADV data counter so that scanning Central device knows
-	* if this device has updated RGB LED data or not */
-	//dataADVCounter++;
-	#endif
-	
+	UpdateRGBled(RGBData, 4);	
+    
 	/* Set the role switch flag so that main loop can switch to Central role */
 	switch_Role = TRUE;
 	#if (DEBUG_ENABLED == 1)
@@ -191,28 +179,6 @@ void SetNextColor(void)
 		SendBLEStatetoUART(CyBle_GetState());
 		UART_UartPutCRLF(' ');
 	#endif
-	
 }
 
-/*******************************************************************************
-* Function Name: Button_ISR
-********************************************************************************
-* Summary:
-*        ISR for Button Press Event thgough Glitch Filter
-*
-* Parameters:
-*  void
-*
-* Return:
-*  void
-*
-*******************************************************************************/
-void Button_ISR(void)
-{
-	/* Clear pending button interrupt */
-	isr_button_ClearPending();
-	
-	/* Set flag for processing button application */
-	check_pressed = TRUE;
-}
 /* [] END OF FILE */

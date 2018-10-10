@@ -13,7 +13,6 @@
 /* [] END OF FILE */
 
 #include <main.h>
-#include "math.h"
 ENV_SENSOR_T sensor;
 #define BEACON_MEASURED_POWER  -59  //BEACON Measured power (RSSI at 1m distance)
 /*******************************************************************************

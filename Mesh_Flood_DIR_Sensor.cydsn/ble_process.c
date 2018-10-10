@@ -21,7 +21,8 @@ uint8 tempData[4];
 uint8 recvTempData[4];
 uint8 dataADVCounter = 1;
 uint8 switch_Role = FALSE;
-
+uint8 scan_for_titan = FALSE;
+extern uint8 time_to_get_sensordata;
 uint16 node_address = 0;
 extern uint16 sensorReceiveStartedTime;
 
@@ -46,8 +47,8 @@ uint8 deviceConnected = FALSE;
 uint8 restartScanning = FALSE;
 volatile uint16 centralStartedTime = 0;
 char val[31];
-//uint8 bt_addr[6] = {0x04,0x27,0xA8,0x1B,0x00,0xC4};
-uint8 bt_addr[6] = {0x00,0x00,0x00,0x00,0x00,0x00};
+uint8 bt_addr[6] = {0x04,0x27,0xA8,0x1B,0x00,0xC4};
+//uint8 bt_addr[6] = {0x1C,0x87,0x6A,0x4A,0x11,0xFA};
 ENV_SENSOR_T                    result;
 #ifdef RESTART_BLE_STACK
 extern uint8 stackRestartIssued;
@@ -137,10 +138,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
 		case CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP:
 			/* This event is received at every start or stop of peripheral advertisement*/
 			#if (DEBUG_ENABLED == 1)
-			//UART_UartPutString("CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP :");
-			//PrintHex(*(uint8*)eventParam);
-			//SendBLEStatetoUART(CyBle_GetState());
-			//UART_UartPutCRLF(' ');
+			UART_UartPutString("CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP :");
+			UART_UartPutCRLF(' ');
 			#endif
 			
 			if((CYBLE_STATE_DISCONNECTED == CyBle_GetState()) && (switch_Role == FALSE))
@@ -317,18 +316,18 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						
 						/* Next four bytes contain the color value. Store the temperature Value */
                         
-						recvTempData[RGB_RED_INDEX] = writeReqData.handleValPair.value.val[RGB_RED_INDEX];
-						recvTempData[RGB_GREEN_INDEX] = writeReqData.handleValPair.value.val[RGB_GREEN_INDEX];
-						recvTempData[RGB_BLUE_INDEX] = writeReqData.handleValPair.value.val[RGB_BLUE_INDEX];
-					    recvTempData[RGB_INTENSITY_INDEX] = writeReqData.handleValPair.value.val[RGB_INTENSITY_INDEX];
+						recvTempData[TEMP_FIRST_INDEX] = writeReqData.handleValPair.value.val[TEMP_FIRST_INDEX];
+						recvTempData[TEMP_SECOND_INDEX] = writeReqData.handleValPair.value.val[TEMP_SECOND_INDEX];
+						recvTempData[TEMP_THIRD_INDEX] = writeReqData.handleValPair.value.val[TEMP_THIRD_INDEX];
+					    recvTempData[TEMP_FORTH_INDEX] = writeReqData.handleValPair.value.val[TEMP_FORTH_INDEX];
                         
                         UART_UartPutString("tempData: ");
                         for(int i=0;i<writeReqData.handleValPair.value.len;i++)
                             PrintHex(writeReqData.handleValPair.value.val[i]);
 						UART_UartPutCRLF(' ');
                         
-                        char* temperture = ftoa(Byte2Short(recvTempData[RGB_RED_INDEX],recvTempData[RGB_GREEN_INDEX])/100.0);
-                        UART_UartPutString("receive temperature: ");
+                        char* temperture = ftoa(Byte2Short(recvTempData[TEMP_FIRST_INDEX],recvTempData[TEMP_SECOND_INDEX])/100.0);
+                        UART_UartPutString("receiving temperature: ");
                         UART_UartPutString(temperture);
                         UART_UartPutCRLF(' ');
 						
@@ -338,11 +337,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
 							* for all nodes in a Piconet. Nodes in Piconet have the same MSB in address */
 							if((received_node_addr & PICONET_SUBMASK) == (node_address & PICONET_SUBMASK))
 							{
-								/* If the MSB of node address matches the MSB of address in write request packet, 
-								* then the Piconet address matches; change the RGB Color */
-								//UpdateRGBled(RGBData, RGB_PAYLOAD_LEN);
 								
-								/* Update the RGB LED Control characteristic in GATT DB  to allow
+								/* Update the tempertaure data characteristic in GATT DB  to allow
 								* Client to read the latest RGB LED color value set */
 								CyBle_GattsWriteAttributeValue(&writeReqData.handleValPair,0,&cyBle_connHandle,CYBLE_GATT_DB_LOCALLY_INITIATED);
 								
@@ -361,20 +357,11 @@ void GenericEventHandler(uint32 event, void * eventParam)
 							if((received_node_addr == node_address) ||
 								(received_node_addr == BROADCAST_ADDR))
 							{
-								/* If the node address matches the address in write request packet, 
-								* or if the address is broadcast all, change the RGB Color */
-								//UpdateRGBled(RGBData, RGB_PAYLOAD_LEN);
-								
-								/* Update the RGB LED Control characteristic in GATT DB  to allow
+				
+								/* Update the tempertaure data characteristic in GATT DB  to allow
 								* Client to read the latest RGB LED color value set */
 								CyBle_GattsWriteAttributeValue(&writeReqData.handleValPair,0,&cyBle_connHandle,CYBLE_GATT_DB_LOCALLY_INITIATED);
 								
-								#if (DEBUG_ENABLED == 1)
-                                    /*
-									UART_UartPutString("UpdateRGBled ");
-									SendBLEStatetoUART(CyBle_GetState());
-									UART_UartPutCRLF(' ');*/
-								#endif
 							}
 						}
 						
@@ -538,13 +525,14 @@ void GenericEventHandler(uint32 event, void * eventParam)
                     }
                     else{
                     int check = 0;                   
-                    
-                    for(uint8 i=0u;i<6u;i++){
-                        if(scan_report.peerBdAddr[i] == bt_addr[i]){
-                            check++;   
+                    if(scan_for_titan == FALSE || time_to_get_sensordata){
+                        for(uint8 i=0u;i<6u;i++){
+                            if(scan_report.peerBdAddr[i] == bt_addr[i]){
+                                check++;   
+                            }
                         }
+                        time_to_get_sensordata = FALSE;
                     }
-                    
                     if(check == 6){
                         /* Stop existing scan */
     					CyBle_GapcStopScan();
@@ -631,37 +619,44 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         UART_UartPutCRLF(' ');
                         UART_UartPutCRLF(' ');
                         
-                       
-                        //if(result.flagActive == TRUE){
-                        tempData[RGB_RED_INDEX] = scan_report.data[9];
-                        tempData[RGB_GREEN_INDEX] = scan_report.data[8];
-                        tempData[RGB_BLUE_INDEX] = 0x00; //reserved
-                        tempData[RGB_INTENSITY_INDEX] = 0x00; //reserved
-                        //result.flagActive = FALSE;
-                        //}
+                       // if(result.flagActive == TRUE){
+                        tempData[TEMP_FIRST_INDEX] = scan_report.data[9];
+                        tempData[TEMP_SECOND_INDEX] = scan_report.data[8];
+                        tempData[TEMP_THIRD_INDEX] = 0x00; //reserved
+                        tempData[TEMP_FORTH_INDEX] = 0x00; //reserved
                        
                         UART_UartPutString("tempData: ");
                         for(int i=0;i<5;i++)
                             PrintHex(tempData[i]);
 						UART_UartPutCRLF(' ');
                         
-                        /* After receiveing the sensor data, set the switch role flag to allow the system
+                        #ifdef ENABLE_ADV_DATA_COUNTER
+                    	/* Increment the ADV data counter so that scanning Central device knows*/
+                    	/* After receiveing the sensor data, set the switch role flag to allow the system
 						* to switch role to Central role */
                         dataADVCounter++;
-						//switch_Role = TRUE;                       
+                    	#endif  
                         
+                        #if (DEBUG_ENABLED == 1)
                         UART_UartPutString("timestamp: ");
                         PrintNum(sensorReceiveStartedTime);
 						UART_UartPutCRLF(' ');
-						#if (DEBUG_ENABLED == 1)
-						//UART_UartPutString("switchRole to Pheripheral");
-						//UART_UartPutCRLF(' ');
-						#endif
+                        #endif
+                       
+                        restartScanning = TRUE;
+				        scan_for_titan = TRUE;
+        				#if (DEBUG_ENABLED == 1)
+        				UART_UartPutString("Disconnect and restart scanning ");
+        				SendBLEStatetoUART(CyBle_GetState());
+        				UART_UartPutCRLF(' ');
+                        #endif
                         
+                        //result.flagActive = FALSE;
+                       // }
                         #endif
                     }
                     //reset timer to receive sensor data every 1 min
-                     sensorReceiveStartedTime = WatchDog_CurrentCount();
+                        sensorReceiveStartedTime = WatchDog_CurrentCount();
 					}
 				}
 				#endif
@@ -692,6 +687,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
 									UART_UartPutString("*********** Titan Found ***********");
 									UART_UartPutCRLF(' ');
 									#endif
+                              
+                                    scan_for_titan = FALSE;
 									/* Stop existing scan */
 									CyBle_GapcStopScan();
 									
@@ -816,8 +813,8 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			writeADVcounterdata.value.len = 1;
 			CyBle_GattcWriteWithoutResponse(cyBle_connHandle, &writeADVcounterdata);
             
-            char* tem = ftoa(Byte2Short(tempData[RGB_RED_INDEX],tempData[RGB_GREEN_INDEX])/100.0);
-            UART_UartPutString("receive temperature: ");
+            char* tem = ftoa(Byte2Short(tempData[TEMP_FIRST_INDEX],tempData[TEMP_SECOND_INDEX])/100.0);
+            UART_UartPutString("sending temperature: ");
             UART_UartPutString(tem);
             UART_UartPutCRLF(' ');
 						

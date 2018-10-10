@@ -20,6 +20,7 @@
 #include <project.h>
 #include <debug.h>
 #include "stdio.h"
+#include "math.h"
 #include <stdlib.h>
 #include <ble_process.h>
 #include <WDT.h>
@@ -27,6 +28,7 @@
 #include <WriteUserSFlash.h>
 #include <sensor_process.h>
 #include <envsensor_process.h>    
+#include <store.h>    
 
 /*****************************************************
 *                  Variables
@@ -55,12 +57,12 @@ extern volatile uint16 current_watchdog_counter;
 #define BLE_CENTRAL							2
 #define SCAN_TAG_DATA_LEN					20
 	
-#define CENTRAL_STATE_SPAN					180
+#define CENTRAL_STATE_SPAN					150
 #define PERIP_RGB_HOLD_TIME					10
     
 
 #define WatchDog_CurrentCount()				(current_watchdog_counter)
-#define SENSOR_RECEIVE_TIME                 600 //1 mins 
+#define SENSOR_RECEIVE_TIME                 780 //1 mins 
 
 /*****************************************************
 *                  Function Declarations

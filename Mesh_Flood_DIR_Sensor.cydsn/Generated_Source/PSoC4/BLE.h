@@ -476,8 +476,8 @@ typedef enum
     CYBLE_GAP_ADV_ADVERT_INTERVAL,
 
     /** LE Bluetooth Device Address */
-//    CYBLE_GAP_ADV_LE_BT_DEVICE_ADDR,
-//
+    CYBLE_GAP_ADV_LE_BT_DEVICE_ADDR,
+
     /** LE Role */
     CYBLE_GAP_ADV_LE_ROLE,
 

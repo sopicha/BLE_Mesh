@@ -15,7 +15,7 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 #include <debug.h>
-
+extern uint16 connectingTime;
 /*******************************************************************************
 * Function Name: SendBLEStatetoUART
 ********************************************************************************
@@ -56,6 +56,7 @@ void SendBLEStatetoUART(CYBLE_STATE_T ble_state)
 		break;
 		
 		case CYBLE_STATE_CONNECTING:
+            connectingTime = WatchDog_CurrentCount();
 			UART_UartPutString(" |BLE State: CYBLE_STATE_CONNECTING ");
 		break;
 		

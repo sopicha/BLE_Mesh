@@ -53,18 +53,24 @@ void nodeInit(uint8 index){
 *  TRUE when update success, and FALSE vice versa
 *
 *******************************************************************************/
-uint8 updateNodeTable(uint16 nodeAddr, uint8 advdata, uint8 firstByteTemp, uint8 secondByteTemp, uint16 timestamp){
+uint8 updateNodeTable(CYBLE_GAP_BD_ADDR_T* nodeAddr, uint8 advdata, uint8 firstByteTemp, uint8 secondByteTemp, uint16 timestamp){
  
     if(number_of_node != 0){
         uint8 foundStoredNode = FALSE;
+        uint8 count = 0;
         /** check if the node has already stored */
-        for(int i= 0;i<MAX_NODE;i++){
-           if(nodeTable[i].nodeAddr == nodeAddr){
+        for(int i= 0;i<MAX_NODE;i++){            
+            for(int j= 0;j<6;j++){
+            if(nodeTable[i].nodeAddr->bdAddr[j] == nodeAddr->bdAddr[j])
+                count++;
+            }
+           if(nodeTable[i].nodeAddr->bdAddr == nodeAddr->bdAddr){
                 /** if found node address, get the old index */
                 nodeIndex = i;
                 foundStoredNode = TRUE;
                 break;
-            }          
+            }    
+        count = 0;
         }
         
         if(!foundStoredNode){
@@ -178,15 +184,21 @@ void float2Bytes(float value, uint8* fistByte, uint8* secondByte){
 *  NODE_TABLE_T node
 *
 *******************************************************************************/
-uint8 getNodeFromTable(uint16 nodeAddr,NODE_TABLE_T* node){
+uint8 getNodeFromTable(uint8 nodeAddr[6u],NODE_TABLE_T* node){
     uint8 found = FALSE;
+    uint8 count = 0;
     for(int i= 0;i<MAX_NODE;i++){
-           if(nodeTable[i].nodeAddr == nodeAddr){
+        for(int j= 0;j<6;j++){
+            if(nodeTable[i].nodeAddr->bdAddr[j] == nodeAddr[j])
+                count++;
+        }
+           if(count == 6){
                 /** if found node address, get the old index */
                 *node = nodeTable[i];
                 found = TRUE;
                 break;
-            }          
+            } 
+        count = 0;
         }   
     
     return found;

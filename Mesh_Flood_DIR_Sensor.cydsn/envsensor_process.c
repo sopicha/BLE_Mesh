@@ -34,6 +34,7 @@ ENV_SENSOR_T sensor;
 void EnvSensorProcess(int8 rssi ,uint8* data){       
      sensor.seqNum = data[7];
      sensor.temp = Byte2Short(data[9],data[8])/100.0;
+     /*
      sensor.humi = Byte2UShort(data[10],data[11])/100.0;
      sensor.light = Byte2UShort(data[13],data[12]);
      sensor.uv = Byte2UShort(data[15],data[14])/100.0;
@@ -46,7 +47,7 @@ void EnvSensorProcess(int8 rssi ,uint8* data){
      sensor.di = Byte2Short(data[21],data[20])/100.0;
      sensor.heat = Byte2Short(data[23],data[22])/100.0;
      sensor.rssi = rssi;
-     sensor.distance = ReturnAccuracy(sensor.rssi);
+     sensor.distance = ReturnAccuracy(sensor.rssi); */
      sensor.flagActive = TRUE;
 }
 /*******************************************************************************

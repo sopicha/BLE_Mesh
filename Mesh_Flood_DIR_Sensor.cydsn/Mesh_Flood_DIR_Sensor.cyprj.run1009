@@ -642,6 +642,76 @@
 <dep name=".\store.h" />
 </file>
 <file name=".\sensor_process.c" />
+<file name=".\CortexM0\ARM_GCC_541\Debug\store.o">
+<dep name=".\Generated_Source\PSoC4\BLE.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_HAL_PVT.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_STACK_PVT.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_Stack.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_StackGap.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_StackGatt.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_StackGattClient.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_StackGattDb.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_StackGattServer.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_StackHostMain.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_StackL2cap.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_bless_isr.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_custom.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_eventHandler.h" />
+<dep name=".\Generated_Source\PSoC4\BLE_gatt.h" />
+<dep name=".\Generated_Source\PSoC4\BLUE.h" />
+<dep name=".\Generated_Source\PSoC4\BLUE_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\Clock_Glitch.h" />
+<dep name=".\Generated_Source\PSoC4\CyFlash.h" />
+<dep name=".\Generated_Source\PSoC4\CyLFClk.h" />
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\GREEN.h" />
+<dep name=".\Generated_Source\PSoC4\GREEN_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\PrISM_1.h" />
+<dep name=".\Generated_Source\PSoC4\PrISM_2.h" />
+<dep name=".\Generated_Source\PSoC4\PrISM_Clock.h" />
+<dep name=".\Generated_Source\PSoC4\RED.h" />
+<dep name=".\Generated_Source\PSoC4\RED_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\UART.h" />
+<dep name=".\Generated_Source\PSoC4\UART_BOOT.h" />
+<dep name=".\Generated_Source\PSoC4\UART_PINS.h" />
+<dep name=".\Generated_Source\PSoC4\UART_PVT.h" />
+<dep name=".\Generated_Source\PSoC4\UART_SCBCLK.h" />
+<dep name=".\Generated_Source\PSoC4\UART_SPI_UART.h" />
+<dep name=".\Generated_Source\PSoC4\UART_SPI_UART_PVT.h" />
+<dep name=".\Generated_Source\PSoC4\UART_rx.h" />
+<dep name=".\Generated_Source\PSoC4\UART_rx_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\UART_tx.h" />
+<dep name=".\Generated_Source\PSoC4\UART_tx_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\User_Button.h" />
+<dep name=".\Generated_Source\PSoC4\User_Button_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\cmsis_armcc.h" />
+<dep name=".\Generated_Source\PSoC4\cmsis_compiler.h" />
+<dep name=".\Generated_Source\PSoC4\cmsis_gcc.h" />
+<dep name=".\Generated_Source\PSoC4\core_cm0.h" />
+<dep name=".\Generated_Source\PSoC4\core_cm0_psoc4.h" />
+<dep name=".\Generated_Source\PSoC4\cyPm.h" />
+<dep name=".\Generated_Source\PSoC4\cy_em_eeprom.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cydisabledsheets.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter_cfg.h" />
+<dep name=".\Generated_Source\PSoC4\cypins.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\isr_WDT.h" />
+<dep name=".\Generated_Source\PSoC4\isr_button.h" />
+<dep name=".\Generated_Source\PSoC4\project.h" />
+<dep name=".\WDT.h" />
+<dep name=".\WriteUserSFlash.h" />
+<dep name=".\ble_process.h" />
+<dep name=".\debug.h" />
+<dep name=".\envsensor_process.h" />
+<dep name=".\low_power.h" />
+<dep name=".\main.h" />
+<dep name=".\sensor_process.h" />
+<dep name=".\store.c" />
+<dep name=".\store.h" />
+</file>
+<file name=".\store.c" />
 <file name=".\CortexM0\ARM_GCC_541\Debug\BLE.o">
 <dep name=".\Generated_Source\PSoC4\BLE.c" />
 <dep name=".\Generated_Source\PSoC4\BLE.h" />
@@ -783,10 +853,6 @@
 <dep name=".\Generated_Source\PSoC4\cytypes.h" />
 </file>
 <file name=".\Generated_Source\PSoC4\BLE_gatt.c" />
-<file name=".\CortexM0\ARM_GCC_541\Debug\store.o">
-<dep name=".\store.c" />
-</file>
-<file name=".\store.c" />
 <file name=".\CortexM0\ARM_GCC_541\Debug\BLE_bless_isr.o">
 <dep name=".\Generated_Source\PSoC4\BLE_bless_isr.c" />
 <dep name=".\Generated_Source\PSoC4\BLE_bless_isr.h" />
@@ -1849,7 +1915,7 @@
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
 <link_deps_times>
-<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM0" v="131836378274911042" />
+<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM0" v="131841634308580710" />
 </link_deps_times>
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>

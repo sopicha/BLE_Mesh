@@ -47,6 +47,7 @@ extern volatile uint16 current_watchdog_counter;
 #define DEBUG_ENABLED						1
 	
 #define RESTART_BLE_STACK						//CDT 214662 workaround
+#define NODE2
 	
 /*****************************************************
 *                  Enums and macros
@@ -57,19 +58,21 @@ extern volatile uint16 current_watchdog_counter;
 #define BLE_CENTRAL							2
 #define SCAN_TAG_DATA_LEN					20
 	
-#define CENTRAL_STATE_SPAN					150
-#define PERIP_RGB_HOLD_TIME					10
-    
+#ifdef NODE1    
+#define CENTRAL_STATE_SPAN					0.5
+#endif
+
+#ifdef NODE2
+#define CENTRAL_STATE_SPAN					1
+#endif    
 
 #define WatchDog_CurrentCount()				(current_watchdog_counter)
-#define SENSOR_RECEIVE_TIME                 780 //1 mins 
+#define SENSOR_RECEIVE_TIME                 600 //1 mins 
 
 /*****************************************************
 *                  Function Declarations
 *****************************************************/
 void InitializeSystem(void);
-void UpdateRGBled(uint8*, uint8);
-
 #endif
 
 /* [] END OF FILE */

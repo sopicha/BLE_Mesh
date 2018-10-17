@@ -17,25 +17,8 @@
 #include "project.h"
 
 /*****************************************************
-*                  Enums and macros
-*****************************************************/ 
-#define BUTTON_PRESSED						(0u)
-#define BUTTON_NOT_PRESSED					(1u)
-
-#define COLOR_STATE_RED						0x01
-#define COLOR_STATE_GREEN					0x02
-#define COLOR_STATE_BLUE					0x03
-#define COLOR_STATE_YELLOW					0x04
-#define COLOR_STATE_CYAN					0x05
-#define COLOR_STATE_PURPLE					0x06
-#define COLOR_STATE_WHITE					0x07
-#define COLOR_STATE_HALF_INT				0x08
-#define COLOR_STATE_OFF						0x09
-/*****************************************************
 *                  Function Declarations
 *****************************************************/
 void CheckSensorStatus(void);
-void SetNextColor(void);
-
 #endif
 /* [] END OF FILE */

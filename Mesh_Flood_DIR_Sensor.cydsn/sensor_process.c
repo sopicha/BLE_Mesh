@@ -24,6 +24,7 @@ extern uint8 switch_Role;
 extern uint8 dataADVCounter;
 uint8 time_to_get_sensordata = FALSE;
 uint8 check_pressed = FALSE;
+extern uint8 scan_for_titan;
 
 /*******************************************************************************
 * Function Name: CheckSensorStatus
@@ -43,7 +44,6 @@ uint8 check_pressed = FALSE;
 *******************************************************************************/
 void CheckSensorStatus(void)
 {
-
 		/* Change color (new sensor data) only when the node is in
 		* peripheral mode and advertising */
 		if((BLE_PERIPHERAL == ble_gap_state)
@@ -54,131 +54,14 @@ void CheckSensorStatus(void)
 			UART_UartPutCRLF(' ');
 			#endif
 			time_to_get_sensordata = TRUE;
-			/* Set the next RGB LED color as reflection of new sensor data.
-			* Broadcast to all. */
-			SetNextColor();	
+            scan_for_titan = FALSE;
+            /* Set the role switch flag so that main loop can switch to Central role */
+	        switch_Role = TRUE;
+            #if (DEBUG_ENABLED == 1)
+    		UART_UartPutString("switch_Role called from CheckSensorStatus ");
+    		SendBLEStatetoUART(CyBle_GetState());
+    		UART_UartPutCRLF(' ');
+    	    #endif
 		}
 }
-
-/*******************************************************************************
-* Function Name: SetNextColor
-********************************************************************************
-* Summary:
-*        Sets next RGB color and intensity data
-*
-* Parameters:
-*  Global variables for R,G,B and intensity
-*
-* Return:
-*  void
-*
-*******************************************************************************/
-void SetNextColor(void)
-{
-	/* State variable for controlling color */
-	static uint8 color_state = COLOR_STATE_RED;
-	uint8 red, green, blue, intensity;
-	
-	switch(color_state)
-	{
-		case COLOR_STATE_RED:
-			red = 0xFF;
-			green = 0x00;
-			blue = 0x00;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_GREEN;
-		break;
-		
-		case COLOR_STATE_GREEN:
-			red = 0x00;
-			green = 0xFF;
-			blue = 0x00;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_BLUE;
-		break;
-		
-		case COLOR_STATE_BLUE:
-			red = 0x00;
-			green = 0x00;
-			blue = 0xFF;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_YELLOW;
-		break;
-		
-		case COLOR_STATE_YELLOW:
-			red = 0xFF;
-			green = 0xFF;
-			blue = 0x00;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_CYAN;
-		break;
-		
-		case COLOR_STATE_CYAN:
-			red = 0x00;
-			green = 0xFF;
-			blue = 0xFF;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_PURPLE;
-		break;
-		
-		case COLOR_STATE_PURPLE:
-			red = 0xFF;
-			green = 0x00;
-			blue = 0xFF;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_WHITE;
-		break;
-		
-		case COLOR_STATE_WHITE:
-			red = 0xFF;
-			green = 0xFF;
-			blue = 0xFF;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_HALF_INT;
-		break;
-		
-		case COLOR_STATE_HALF_INT:
-			red = 0xFF;
-			green = 0xFF;
-			blue = 0xFF;
-			intensity = 0x22;
-		
-			color_state = COLOR_STATE_RED;
-		break;
-		
-		default:
-			red = 0xFF;
-			green = 0x00;
-			blue = 0x00;
-			intensity = 0xFF;
-		
-			color_state = COLOR_STATE_RED;	
-		break;
-	}
-	
-	/* Update PrISM parameters for new RGB LED color */
-	RGBData[TEMP_FIRST_INDEX] = red;
-	RGBData[TEMP_SECOND_INDEX] = green;
-	RGBData[TEMP_THIRD_INDEX] = blue;
-	RGBData[TEMP_FORTH_INDEX] = intensity;
-	
-	/* Update PrISM parameters for new  RGB LED data */
-	UpdateRGBled(RGBData, 4);	
-    
-	/* Set the role switch flag so that main loop can switch to Central role */
-	switch_Role = TRUE;
-	#if (DEBUG_ENABLED == 1)
-		UART_UartPutString("switch_Role called from SetNextColor() ");
-		SendBLEStatetoUART(CyBle_GetState());
-		UART_UartPutCRLF(' ');
-	#endif
-}
-
 /* [] END OF FILE */

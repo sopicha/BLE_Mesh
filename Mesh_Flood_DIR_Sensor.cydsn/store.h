@@ -14,7 +14,7 @@
 #if !defined(STORE_H)
 #define STORE_H
 #include "project.h"    
-#define MAX_TEMP_DATA               800     
+#define MAX_TEMP_DATA               50     
 #define MAX_NODE                    9
 /***************************************
 * Exported structures and unions
@@ -26,7 +26,7 @@ typedef struct
 {	
     
     /** node address */
-    uint16	    				nodeAddr;		
+    CYBLE_GAP_BD_ADDR_T*	    				nodeAddr;		
 
 	/** temperature data in short uint */
     uint8                       fistByteTempData[MAX_TEMP_DATA];
@@ -51,7 +51,8 @@ typedef struct
 *                  Function Declarations
 *****************************************************/
 void nodeInit(uint8 index);
-uint8 updateNodeTable(uint16 nodeAddr, uint8 advdata, uint8 firstByteTemp, uint8 secondByteTemp, uint16 timestamp);
+uint8 updateNodeTable(CYBLE_GAP_BD_ADDR_T* nodeAddr, uint8 advdata, uint8 firstByteTemp, uint8 secondByteTemp, uint16 timestamp);
 void calAverage(uint8 firstByteTemp, uint8 secondByteTemp);
 void float2Bytes(float value, uint8* fistByte, uint8* secondByte);
+uint8 getNodeFromTable(uint8 nodeAddr[6u],NODE_TABLE_T* node);
 #endif

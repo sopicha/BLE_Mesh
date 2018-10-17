@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\run1009\AppData\Local\Temp\cccHUWKD.s 			page 1
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 1
 
 
    1              		.syntax unified
@@ -19,38 +19,3263 @@ ARM GAS  C:\Users\run1009\AppData\Local\Temp\cccHUWKD.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              	.Letext0:
-  20              		.section	.debug_line,"",%progbits
-  21              	.Ldebug_line0:
-  22              		.section	.debug_str,"MS",%progbits,1
-  23              	.LASF0:
-  24 0000 433A5C55 		.ascii	"C:\\Users\\run1009\\Documents\\Mesh_Flood_DIR_Senso"
-  24      73657273 
-  24      5C72756E 
-  24      31303039 
-  24      5C446F63 
-  25 002f 725C4D65 		.ascii	"r\\Mesh_Flood_DIR_Sensor.cydsn\000"
-  25      73685F46 
-  25      6C6F6F64 
-  25      5F444952 
-  25      5F53656E 
-  26              	.LASF1:
-  27 004d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
-  27      43313120 
-  27      352E342E 
-  27      31203230 
-  27      31363036 
-  28 0080 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
-  28      20726576 
-  28      6973696F 
-  28      6E203233 
-  28      37373135 
-  29 00b3 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
-  29      66756E63 
-  29      74696F6E 
-  29      2D736563 
-  29      74696F6E 
-  30              	.LASF2:
-  31 00db 73746F72 		.ascii	"store.c\000"
-  31      652E6300 
-  32              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+  19              		.comm	nodeTable,1908,4
+  20              		.global	number_of_node
+  21              		.bss
+  22              		.type	number_of_node, %object
+  23              		.size	number_of_node, 1
+  24              	number_of_node:
+  25 0000 00       		.space	1
+  26              		.comm	nodeIndex,1,1
+  27              		.section	.text.nodeInit,"ax",%progbits
+  28              		.align	2
+  29              		.global	nodeInit
+  30              		.code	16
+  31              		.thumb_func
+  32              		.type	nodeInit, %function
+  33              	nodeInit:
+  34              	.LFB36:
+  35              		.file 1 "store.c"
+   1:store.c       **** /* ========================================
+   2:store.c       ****  *
+   3:store.c       ****  * Copyright YOUR COMPANY, THE YEAR
+   4:store.c       ****  * All Rights Reserved
+   5:store.c       ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:store.c       ****  *
+   7:store.c       ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:store.c       ****  * WHICH IS THE PROPERTY OF your company.
+   9:store.c       ****  *
+  10:store.c       ****  * ========================================
+  11:store.c       **** */
+  12:store.c       **** 
+  13:store.c       **** /* [] END OF FILE */
+  14:store.c       **** #include <main.h>
+  15:store.c       **** NODE_TABLE_T nodeTable[MAX_NODE];
+  16:store.c       **** uint8 number_of_node = 0;
+  17:store.c       **** uint8 nodeIndex;
+  18:store.c       **** /*******************************************************************************
+  19:store.c       **** * Function Name: nodeInit
+  20:store.c       **** ********************************************************************************
+  21:store.c       **** * Summary:
+  22:store.c       **** *       This function initailzes the data node
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 2
+
+
+  23:store.c       **** *
+  24:store.c       **** * Parameters: 
+  25:store.c       **** *  uint8 index 
+  26:store.c       **** *
+  27:store.c       **** * Return:
+  28:store.c       **** *  null
+  29:store.c       **** *
+  30:store.c       **** *******************************************************************************/
+  31:store.c       **** void nodeInit(uint8 index){
+  36              		.loc 1 31 0
+  37              		.cfi_startproc
+  38              		@ args = 0, pretend = 0, frame = 8
+  39              		@ frame_needed = 1, uses_anonymous_args = 0
+  40 0000 80B5     		push	{r7, lr}
+  41              		.cfi_def_cfa_offset 8
+  42              		.cfi_offset 7, -8
+  43              		.cfi_offset 14, -4
+  44 0002 82B0     		sub	sp, sp, #8
+  45              		.cfi_def_cfa_offset 16
+  46 0004 00AF     		add	r7, sp, #0
+  47              		.cfi_def_cfa_register 7
+  48 0006 0200     		movs	r2, r0
+  49 0008 FB1D     		adds	r3, r7, #7
+  50 000a 1A70     		strb	r2, [r3]
+  32:store.c       ****     nodeTable[index].total = 0;
+  51              		.loc 1 32 0
+  52 000c FB1D     		adds	r3, r7, #7
+  53 000e 1B78     		ldrb	r3, [r3]
+  54 0010 0F4A     		ldr	r2, .L2
+  55 0012 CE21     		movs	r1, #206
+  56 0014 D420     		movs	r0, #212
+  57 0016 4343     		muls	r3, r0
+  58 0018 D318     		adds	r3, r2, r3
+  59 001a 5B18     		adds	r3, r3, r1
+  60 001c 0022     		movs	r2, #0
+  61 001e 1A80     		strh	r2, [r3]
+  33:store.c       ****     nodeTable[index].fistByteAvgData = 0;
+  62              		.loc 1 33 0
+  63 0020 FB1D     		adds	r3, r7, #7
+  64 0022 1B78     		ldrb	r3, [r3]
+  65 0024 0A4A     		ldr	r2, .L2
+  66 0026 CC21     		movs	r1, #204
+  67 0028 D420     		movs	r0, #212
+  68 002a 4343     		muls	r3, r0
+  69 002c D318     		adds	r3, r2, r3
+  70 002e 5B18     		adds	r3, r3, r1
+  71 0030 0022     		movs	r2, #0
+  72 0032 1A70     		strb	r2, [r3]
+  34:store.c       ****     nodeTable[index].secondByteAvgData = 0;
+  73              		.loc 1 34 0
+  74 0034 FB1D     		adds	r3, r7, #7
+  75 0036 1B78     		ldrb	r3, [r3]
+  76 0038 054A     		ldr	r2, .L2
+  77 003a CD21     		movs	r1, #205
+  78 003c D420     		movs	r0, #212
+  79 003e 4343     		muls	r3, r0
+  80 0040 D318     		adds	r3, r2, r3
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 3
+
+
+  81 0042 5B18     		adds	r3, r3, r1
+  82 0044 0022     		movs	r2, #0
+  83 0046 1A70     		strb	r2, [r3]
+  35:store.c       **** }
+  84              		.loc 1 35 0
+  85 0048 C046     		nop
+  86 004a BD46     		mov	sp, r7
+  87 004c 02B0     		add	sp, sp, #8
+  88              		@ sp needed
+  89 004e 80BD     		pop	{r7, pc}
+  90              	.L3:
+  91              		.align	2
+  92              	.L2:
+  93 0050 00000000 		.word	nodeTable
+  94              		.cfi_endproc
+  95              	.LFE36:
+  96              		.size	nodeInit, .-nodeInit
+  97              		.section	.text.updateNodeTable,"ax",%progbits
+  98              		.align	2
+  99              		.global	updateNodeTable
+ 100              		.code	16
+ 101              		.thumb_func
+ 102              		.type	updateNodeTable, %function
+ 103              	updateNodeTable:
+ 104              	.LFB37:
+  36:store.c       **** /*******************************************************************************
+  37:store.c       **** * Function Name: updateNodeTable
+  38:store.c       **** ********************************************************************************
+  39:store.c       **** * Summary:
+  40:store.c       **** *        After receving temperature data from each node, this function will 
+  41:store.c       **** * collect sensor data and store it as a table 
+  42:store.c       **** *        The maximum value to store temperature data of 1 node is 800. If it's  
+  43:store.c       **** * full, we need to clear all data
+  44:store.c       **** *
+  45:store.c       **** * Parameters:
+  46:store.c       **** *  uint16 nodeAddr 
+  47:store.c       **** *  uint8 advdata 
+  48:store.c       **** *  uint8 firstByteTemp
+  49:store.c       **** *  uint8 secondByteTemp
+  50:store.c       **** *  uint16 timestamp
+  51:store.c       **** *
+  52:store.c       **** * Return:
+  53:store.c       **** *  TRUE when update success, and FALSE vice versa
+  54:store.c       **** *
+  55:store.c       **** *******************************************************************************/
+  56:store.c       **** uint8 updateNodeTable(CYBLE_GAP_BD_ADDR_T* nodeAddr, uint8 advdata, uint8 firstByteTemp, uint8 seco
+ 105              		.loc 1 56 0
+ 106              		.cfi_startproc
+ 107              		@ args = 4, pretend = 0, frame = 24
+ 108              		@ frame_needed = 1, uses_anonymous_args = 0
+ 109 0000 90B5     		push	{r4, r7, lr}
+ 110              		.cfi_def_cfa_offset 12
+ 111              		.cfi_offset 4, -12
+ 112              		.cfi_offset 7, -8
+ 113              		.cfi_offset 14, -4
+ 114 0002 87B0     		sub	sp, sp, #28
+ 115              		.cfi_def_cfa_offset 40
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 4
+
+
+ 116 0004 00AF     		add	r7, sp, #0
+ 117              		.cfi_def_cfa_register 7
+ 118 0006 7860     		str	r0, [r7, #4]
+ 119 0008 0C00     		movs	r4, r1
+ 120 000a 1000     		movs	r0, r2
+ 121 000c 1900     		movs	r1, r3
+ 122 000e FB1C     		adds	r3, r7, #3
+ 123 0010 221C     		adds	r2, r4, #0
+ 124 0012 1A70     		strb	r2, [r3]
+ 125 0014 BB1C     		adds	r3, r7, #2
+ 126 0016 021C     		adds	r2, r0, #0
+ 127 0018 1A70     		strb	r2, [r3]
+ 128 001a 7B1C     		adds	r3, r7, #1
+ 129 001c 0A1C     		adds	r2, r1, #0
+ 130 001e 1A70     		strb	r2, [r3]
+  57:store.c       ****  
+  58:store.c       ****     if(number_of_node != 0){
+ 131              		.loc 1 58 0
+ 132 0020 874B     		ldr	r3, .L17
+ 133 0022 1B78     		ldrb	r3, [r3]
+ 134 0024 002B     		cmp	r3, #0
+ 135 0026 58D0     		beq	.L5
+ 136              	.LBB2:
+  59:store.c       ****         uint8 foundStoredNode = FALSE;
+ 137              		.loc 1 59 0
+ 138 0028 1723     		movs	r3, #23
+ 139 002a FB18     		adds	r3, r7, r3
+ 140 002c 0022     		movs	r2, #0
+ 141 002e 1A70     		strb	r2, [r3]
+  60:store.c       ****         uint8 count = 0;
+ 142              		.loc 1 60 0
+ 143 0030 1623     		movs	r3, #22
+ 144 0032 FB18     		adds	r3, r7, r3
+ 145 0034 0022     		movs	r2, #0
+ 146 0036 1A70     		strb	r2, [r3]
+ 147              	.LBB3:
+  61:store.c       ****         /** check if the node has already stored */
+  62:store.c       ****         for(int i= 0;i<MAX_NODE;i++){            
+ 148              		.loc 1 62 0
+ 149 0038 0023     		movs	r3, #0
+ 150 003a 3B61     		str	r3, [r7, #16]
+ 151 003c 35E0     		b	.L6
+ 152              	.L12:
+ 153              	.LBB4:
+  63:store.c       ****             for(int j= 0;j<6;j++){
+ 154              		.loc 1 63 0
+ 155 003e 0023     		movs	r3, #0
+ 156 0040 FB60     		str	r3, [r7, #12]
+ 157 0042 17E0     		b	.L7
+ 158              	.L9:
+  64:store.c       ****             if(nodeTable[i].nodeAddr->bdAddr[j] == nodeAddr->bdAddr[j])
+ 159              		.loc 1 64 0
+ 160 0044 7F4B     		ldr	r3, .L17+4
+ 161 0046 3A69     		ldr	r2, [r7, #16]
+ 162 0048 D421     		movs	r1, #212
+ 163 004a 4A43     		muls	r2, r1
+ 164 004c D258     		ldr	r2, [r2, r3]
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 5
+
+
+ 165 004e FB68     		ldr	r3, [r7, #12]
+ 166 0050 D318     		adds	r3, r2, r3
+ 167 0052 1A78     		ldrb	r2, [r3]
+ 168 0054 7968     		ldr	r1, [r7, #4]
+ 169 0056 FB68     		ldr	r3, [r7, #12]
+ 170 0058 CB18     		adds	r3, r1, r3
+ 171 005a 1B78     		ldrb	r3, [r3]
+ 172 005c 9A42     		cmp	r2, r3
+ 173 005e 06D1     		bne	.L8
+  65:store.c       ****                 count++;
+ 174              		.loc 1 65 0
+ 175 0060 1623     		movs	r3, #22
+ 176 0062 FB18     		adds	r3, r7, r3
+ 177 0064 1A78     		ldrb	r2, [r3]
+ 178 0066 1623     		movs	r3, #22
+ 179 0068 FB18     		adds	r3, r7, r3
+ 180 006a 0132     		adds	r2, r2, #1
+ 181 006c 1A70     		strb	r2, [r3]
+ 182              	.L8:
+  63:store.c       ****             for(int j= 0;j<6;j++){
+ 183              		.loc 1 63 0 discriminator 2
+ 184 006e FB68     		ldr	r3, [r7, #12]
+ 185 0070 0133     		adds	r3, r3, #1
+ 186 0072 FB60     		str	r3, [r7, #12]
+ 187              	.L7:
+  63:store.c       ****             for(int j= 0;j<6;j++){
+ 188              		.loc 1 63 0 is_stmt 0 discriminator 1
+ 189 0074 FB68     		ldr	r3, [r7, #12]
+ 190 0076 052B     		cmp	r3, #5
+ 191 0078 E4DD     		ble	.L9
+ 192              	.LBE4:
+  66:store.c       ****             }
+  67:store.c       ****            if(nodeTable[i].nodeAddr->bdAddr == nodeAddr->bdAddr){
+ 193              		.loc 1 67 0 is_stmt 1
+ 194 007a 724B     		ldr	r3, .L17+4
+ 195 007c 3A69     		ldr	r2, [r7, #16]
+ 196 007e D421     		movs	r1, #212
+ 197 0080 4A43     		muls	r2, r1
+ 198 0082 D258     		ldr	r2, [r2, r3]
+ 199 0084 7B68     		ldr	r3, [r7, #4]
+ 200 0086 9A42     		cmp	r2, r3
+ 201 0088 08D1     		bne	.L10
+  68:store.c       ****                 /** if found node address, get the old index */
+  69:store.c       ****                 nodeIndex = i;
+ 202              		.loc 1 69 0
+ 203 008a 3B69     		ldr	r3, [r7, #16]
+ 204 008c DAB2     		uxtb	r2, r3
+ 205 008e 6E4B     		ldr	r3, .L17+8
+ 206 0090 1A70     		strb	r2, [r3]
+  70:store.c       ****                 foundStoredNode = TRUE;
+ 207              		.loc 1 70 0
+ 208 0092 1723     		movs	r3, #23
+ 209 0094 FB18     		adds	r3, r7, r3
+ 210 0096 0122     		movs	r2, #1
+ 211 0098 1A70     		strb	r2, [r3]
+  71:store.c       ****                 break;
+ 212              		.loc 1 71 0
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 6
+
+
+ 213 009a 09E0     		b	.L11
+ 214              	.L10:
+  72:store.c       ****             }    
+  73:store.c       ****         count = 0;
+ 215              		.loc 1 73 0 discriminator 2
+ 216 009c 1623     		movs	r3, #22
+ 217 009e FB18     		adds	r3, r7, r3
+ 218 00a0 0022     		movs	r2, #0
+ 219 00a2 1A70     		strb	r2, [r3]
+  62:store.c       ****             for(int j= 0;j<6;j++){
+ 220              		.loc 1 62 0 discriminator 2
+ 221 00a4 3B69     		ldr	r3, [r7, #16]
+ 222 00a6 0133     		adds	r3, r3, #1
+ 223 00a8 3B61     		str	r3, [r7, #16]
+ 224              	.L6:
+  62:store.c       ****             for(int j= 0;j<6;j++){
+ 225              		.loc 1 62 0 is_stmt 0 discriminator 1
+ 226 00aa 3B69     		ldr	r3, [r7, #16]
+ 227 00ac 082B     		cmp	r3, #8
+ 228 00ae C6DD     		ble	.L12
+ 229              	.L11:
+ 230              	.LBE3:
+  74:store.c       ****         }
+  75:store.c       ****         
+  76:store.c       ****         if(!foundStoredNode){
+ 231              		.loc 1 76 0 is_stmt 1
+ 232 00b0 1723     		movs	r3, #23
+ 233 00b2 FB18     		adds	r3, r7, r3
+ 234 00b4 1B78     		ldrb	r3, [r3]
+ 235 00b6 002B     		cmp	r3, #0
+ 236 00b8 1DD1     		bne	.L14
+  77:store.c       ****                 /** update new node */
+  78:store.c       ****                 nodeIndex = number_of_node;
+ 237              		.loc 1 78 0
+ 238 00ba 614B     		ldr	r3, .L17
+ 239 00bc 1A78     		ldrb	r2, [r3]
+ 240 00be 624B     		ldr	r3, .L17+8
+ 241 00c0 1A70     		strb	r2, [r3]
+  79:store.c       ****                 number_of_node++;
+ 242              		.loc 1 79 0
+ 243 00c2 5F4B     		ldr	r3, .L17
+ 244 00c4 1B78     		ldrb	r3, [r3]
+ 245 00c6 0133     		adds	r3, r3, #1
+ 246 00c8 DAB2     		uxtb	r2, r3
+ 247 00ca 5D4B     		ldr	r3, .L17
+ 248 00cc 1A70     		strb	r2, [r3]
+  80:store.c       ****                 nodeInit(nodeIndex);
+ 249              		.loc 1 80 0
+ 250 00ce 5E4B     		ldr	r3, .L17+8
+ 251 00d0 1B78     		ldrb	r3, [r3]
+ 252 00d2 1800     		movs	r0, r3
+ 253 00d4 FFF7FEFF 		bl	nodeInit
+ 254 00d8 0DE0     		b	.L14
+ 255              	.L5:
+ 256              	.LBE2:
+  81:store.c       ****         }
+  82:store.c       ****     }else{
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 7
+
+
+  83:store.c       ****         /** first node update */
+  84:store.c       ****         nodeIndex = 0;
+ 257              		.loc 1 84 0
+ 258 00da 5B4B     		ldr	r3, .L17+8
+ 259 00dc 0022     		movs	r2, #0
+ 260 00de 1A70     		strb	r2, [r3]
+  85:store.c       ****         number_of_node++;
+ 261              		.loc 1 85 0
+ 262 00e0 574B     		ldr	r3, .L17
+ 263 00e2 1B78     		ldrb	r3, [r3]
+ 264 00e4 0133     		adds	r3, r3, #1
+ 265 00e6 DAB2     		uxtb	r2, r3
+ 266 00e8 554B     		ldr	r3, .L17
+ 267 00ea 1A70     		strb	r2, [r3]
+  86:store.c       ****         nodeInit(nodeIndex);
+ 268              		.loc 1 86 0
+ 269 00ec 564B     		ldr	r3, .L17+8
+ 270 00ee 1B78     		ldrb	r3, [r3]
+ 271 00f0 1800     		movs	r0, r3
+ 272 00f2 FFF7FEFF 		bl	nodeInit
+ 273              	.L14:
+  87:store.c       ****     }
+  88:store.c       ****     
+  89:store.c       ****     /** check if it doesn't reach the max data */
+  90:store.c       ****     if(nodeTable[nodeIndex].total < MAX_TEMP_DATA){      
+ 274              		.loc 1 90 0
+ 275 00f6 544B     		ldr	r3, .L17+8
+ 276 00f8 1B78     		ldrb	r3, [r3]
+ 277 00fa 1800     		movs	r0, r3
+ 278 00fc 514A     		ldr	r2, .L17+4
+ 279 00fe CE21     		movs	r1, #206
+ 280 0100 D423     		movs	r3, #212
+ 281 0102 4343     		muls	r3, r0
+ 282 0104 D318     		adds	r3, r2, r3
+ 283 0106 5B18     		adds	r3, r3, r1
+ 284 0108 1B88     		ldrh	r3, [r3]
+ 285 010a 312B     		cmp	r3, #49
+ 286 010c 00D9     		bls	.LCB231
+ 287 010e 92E0     		b	.L15	@long jump
+ 288              	.LCB231:
+  91:store.c       ****         nodeTable[nodeIndex].nodeAddr = nodeAddr;
+ 289              		.loc 1 91 0
+ 290 0110 4D4B     		ldr	r3, .L17+8
+ 291 0112 1B78     		ldrb	r3, [r3]
+ 292 0114 1900     		movs	r1, r3
+ 293 0116 4B4B     		ldr	r3, .L17+4
+ 294 0118 D422     		movs	r2, #212
+ 295 011a 4A43     		muls	r2, r1
+ 296 011c 7968     		ldr	r1, [r7, #4]
+ 297 011e D150     		str	r1, [r2, r3]
+  92:store.c       ****         nodeTable[nodeIndex].adv = advdata;
+ 298              		.loc 1 92 0
+ 299 0120 494B     		ldr	r3, .L17+8
+ 300 0122 1B78     		ldrb	r3, [r3]
+ 301 0124 1800     		movs	r0, r3
+ 302 0126 474A     		ldr	r2, .L17+4
+ 303 0128 D021     		movs	r1, #208
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 8
+
+
+ 304 012a D423     		movs	r3, #212
+ 305 012c 4343     		muls	r3, r0
+ 306 012e D318     		adds	r3, r2, r3
+ 307 0130 5B18     		adds	r3, r3, r1
+ 308 0132 FA1C     		adds	r2, r7, #3
+ 309 0134 1278     		ldrb	r2, [r2]
+ 310 0136 1A70     		strb	r2, [r3]
+  93:store.c       ****         nodeTable[nodeIndex].fistByteTempData[nodeTable[nodeIndex].total] = firstByteTemp;
+ 311              		.loc 1 93 0
+ 312 0138 434B     		ldr	r3, .L17+8
+ 313 013a 1B78     		ldrb	r3, [r3]
+ 314 013c 1800     		movs	r0, r3
+ 315 013e 424B     		ldr	r3, .L17+8
+ 316 0140 1B78     		ldrb	r3, [r3]
+ 317 0142 1C00     		movs	r4, r3
+ 318 0144 3F4A     		ldr	r2, .L17+4
+ 319 0146 CE21     		movs	r1, #206
+ 320 0148 D423     		movs	r3, #212
+ 321 014a 6343     		muls	r3, r4
+ 322 014c D318     		adds	r3, r2, r3
+ 323 014e 5B18     		adds	r3, r3, r1
+ 324 0150 1B88     		ldrh	r3, [r3]
+ 325 0152 1900     		movs	r1, r3
+ 326 0154 3B4A     		ldr	r2, .L17+4
+ 327 0156 D423     		movs	r3, #212
+ 328 0158 4343     		muls	r3, r0
+ 329 015a D318     		adds	r3, r2, r3
+ 330 015c 5B18     		adds	r3, r3, r1
+ 331 015e 0433     		adds	r3, r3, #4
+ 332 0160 BA1C     		adds	r2, r7, #2
+ 333 0162 1278     		ldrb	r2, [r2]
+ 334 0164 1A70     		strb	r2, [r3]
+  94:store.c       ****         nodeTable[nodeIndex].secondByteTempData[nodeTable[nodeIndex].total] = secondByteTemp;
+ 335              		.loc 1 94 0
+ 336 0166 384B     		ldr	r3, .L17+8
+ 337 0168 1B78     		ldrb	r3, [r3]
+ 338 016a 1C00     		movs	r4, r3
+ 339 016c 364B     		ldr	r3, .L17+8
+ 340 016e 1B78     		ldrb	r3, [r3]
+ 341 0170 1800     		movs	r0, r3
+ 342 0172 344A     		ldr	r2, .L17+4
+ 343 0174 CE21     		movs	r1, #206
+ 344 0176 D423     		movs	r3, #212
+ 345 0178 4343     		muls	r3, r0
+ 346 017a D318     		adds	r3, r2, r3
+ 347 017c 5B18     		adds	r3, r3, r1
+ 348 017e 1B88     		ldrh	r3, [r3]
+ 349 0180 1800     		movs	r0, r3
+ 350 0182 304A     		ldr	r2, .L17+4
+ 351 0184 3621     		movs	r1, #54
+ 352 0186 D423     		movs	r3, #212
+ 353 0188 6343     		muls	r3, r4
+ 354 018a D318     		adds	r3, r2, r3
+ 355 018c 1B18     		adds	r3, r3, r0
+ 356 018e 5B18     		adds	r3, r3, r1
+ 357 0190 7A1C     		adds	r2, r7, #1
+ 358 0192 1278     		ldrb	r2, [r2]
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 9
+
+
+ 359 0194 1A70     		strb	r2, [r3]
+  95:store.c       ****         nodeTable[nodeIndex].timestamp[nodeTable[nodeIndex].total] = timestamp;
+ 360              		.loc 1 95 0
+ 361 0196 2C4B     		ldr	r3, .L17+8
+ 362 0198 1B78     		ldrb	r3, [r3]
+ 363 019a 1800     		movs	r0, r3
+ 364 019c 2A4B     		ldr	r3, .L17+8
+ 365 019e 1B78     		ldrb	r3, [r3]
+ 366 01a0 1C00     		movs	r4, r3
+ 367 01a2 284A     		ldr	r2, .L17+4
+ 368 01a4 CE21     		movs	r1, #206
+ 369 01a6 D423     		movs	r3, #212
+ 370 01a8 6343     		muls	r3, r4
+ 371 01aa D318     		adds	r3, r2, r3
+ 372 01ac 5B18     		adds	r3, r3, r1
+ 373 01ae 1B88     		ldrh	r3, [r3]
+ 374 01b0 1900     		movs	r1, r3
+ 375 01b2 244B     		ldr	r3, .L17+4
+ 376 01b4 6A22     		movs	r2, #106
+ 377 01b6 4243     		muls	r2, r0
+ 378 01b8 5218     		adds	r2, r2, r1
+ 379 01ba 3432     		adds	r2, r2, #52
+ 380 01bc 5200     		lsls	r2, r2, #1
+ 381 01be 2821     		movs	r1, #40
+ 382 01c0 7918     		adds	r1, r7, r1
+ 383 01c2 0988     		ldrh	r1, [r1]
+ 384 01c4 D152     		strh	r1, [r2, r3]
+  96:store.c       ****         calAverage(nodeTable[nodeIndex].fistByteAvgData,nodeTable[nodeIndex].secondByteAvgData);
+ 385              		.loc 1 96 0
+ 386 01c6 204B     		ldr	r3, .L17+8
+ 387 01c8 1B78     		ldrb	r3, [r3]
+ 388 01ca 1800     		movs	r0, r3
+ 389 01cc 1D4A     		ldr	r2, .L17+4
+ 390 01ce CC21     		movs	r1, #204
+ 391 01d0 D423     		movs	r3, #212
+ 392 01d2 4343     		muls	r3, r0
+ 393 01d4 D318     		adds	r3, r2, r3
+ 394 01d6 5B18     		adds	r3, r3, r1
+ 395 01d8 1878     		ldrb	r0, [r3]
+ 396 01da 1B4B     		ldr	r3, .L17+8
+ 397 01dc 1B78     		ldrb	r3, [r3]
+ 398 01de 1C00     		movs	r4, r3
+ 399 01e0 184A     		ldr	r2, .L17+4
+ 400 01e2 CD21     		movs	r1, #205
+ 401 01e4 D423     		movs	r3, #212
+ 402 01e6 6343     		muls	r3, r4
+ 403 01e8 D318     		adds	r3, r2, r3
+ 404 01ea 5B18     		adds	r3, r3, r1
+ 405 01ec 1B78     		ldrb	r3, [r3]
+ 406 01ee 1900     		movs	r1, r3
+ 407 01f0 FFF7FEFF 		bl	calAverage
+  97:store.c       ****         nodeTable[nodeIndex].total++;
+ 408              		.loc 1 97 0
+ 409 01f4 144B     		ldr	r3, .L17+8
+ 410 01f6 1B78     		ldrb	r3, [r3]
+ 411 01f8 1249     		ldr	r1, .L17+4
+ 412 01fa CE20     		movs	r0, #206
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 10
+
+
+ 413 01fc D422     		movs	r2, #212
+ 414 01fe 5A43     		muls	r2, r3
+ 415 0200 8A18     		adds	r2, r1, r2
+ 416 0202 1218     		adds	r2, r2, r0
+ 417 0204 1288     		ldrh	r2, [r2]
+ 418 0206 0132     		adds	r2, r2, #1
+ 419 0208 94B2     		uxth	r4, r2
+ 420 020a 0E4A     		ldr	r2, .L17+4
+ 421 020c CE21     		movs	r1, #206
+ 422 020e D420     		movs	r0, #212
+ 423 0210 4343     		muls	r3, r0
+ 424 0212 D318     		adds	r3, r2, r3
+ 425 0214 5B18     		adds	r3, r3, r1
+ 426 0216 221C     		adds	r2, r4, #0
+ 427 0218 1A80     		strh	r2, [r3]
+  98:store.c       ****         nodeTable[nodeIndex].adv = advdata;
+ 428              		.loc 1 98 0
+ 429 021a 0B4B     		ldr	r3, .L17+8
+ 430 021c 1B78     		ldrb	r3, [r3]
+ 431 021e 1800     		movs	r0, r3
+ 432 0220 084A     		ldr	r2, .L17+4
+ 433 0222 D021     		movs	r1, #208
+ 434 0224 D423     		movs	r3, #212
+ 435 0226 4343     		muls	r3, r0
+ 436 0228 D318     		adds	r3, r2, r3
+ 437 022a 5B18     		adds	r3, r3, r1
+ 438 022c FA1C     		adds	r2, r7, #3
+ 439 022e 1278     		ldrb	r2, [r2]
+ 440 0230 1A70     		strb	r2, [r3]
+  99:store.c       ****         
+ 100:store.c       ****         return TRUE;
+ 441              		.loc 1 100 0
+ 442 0232 0123     		movs	r3, #1
+ 443 0234 00E0     		b	.L16
+ 444              	.L15:
+ 101:store.c       ****     }else{
+ 102:store.c       ****         /** node table reached the maximum data */
+ 103:store.c       ****         return FALSE;
+ 445              		.loc 1 103 0
+ 446 0236 0023     		movs	r3, #0
+ 447              	.L16:
+ 104:store.c       ****     }
+ 105:store.c       **** }
+ 448              		.loc 1 105 0
+ 449 0238 1800     		movs	r0, r3
+ 450 023a BD46     		mov	sp, r7
+ 451 023c 07B0     		add	sp, sp, #28
+ 452              		@ sp needed
+ 453 023e 90BD     		pop	{r4, r7, pc}
+ 454              	.L18:
+ 455              		.align	2
+ 456              	.L17:
+ 457 0240 00000000 		.word	number_of_node
+ 458 0244 00000000 		.word	nodeTable
+ 459 0248 00000000 		.word	nodeIndex
+ 460              		.cfi_endproc
+ 461              	.LFE37:
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 11
+
+
+ 462              		.size	updateNodeTable, .-updateNodeTable
+ 463              		.global	__aeabi_i2d
+ 464              		.global	__aeabi_ddiv
+ 465              		.global	__aeabi_d2f
+ 466              		.global	__aeabi_i2f
+ 467              		.global	__aeabi_fmul
+ 468              		.global	__aeabi_fadd
+ 469              		.global	__aeabi_fdiv
+ 470              		.section	.text.calAverage,"ax",%progbits
+ 471              		.align	2
+ 472              		.global	calAverage
+ 473              		.code	16
+ 474              		.thumb_func
+ 475              		.type	calAverage, %function
+ 476              	calAverage:
+ 477              	.LFB38:
+ 106:store.c       **** /*******************************************************************************
+ 107:store.c       **** * Function Name: calAverage
+ 108:store.c       **** ********************************************************************************
+ 109:store.c       **** * Summary:
+ 110:store.c       **** *       This function calculates the average temperature data
+ 111:store.c       **** *
+ 112:store.c       **** * Parameters: 
+ 113:store.c       **** *  uint8 firstByteTemp, uint8 secondByteTemp
+ 114:store.c       **** *
+ 115:store.c       **** * Return:
+ 116:store.c       **** *  null
+ 117:store.c       **** *
+ 118:store.c       **** *******************************************************************************/
+ 119:store.c       **** void calAverage(uint8 firstByteTemp, uint8 secondByteTemp){
+ 478              		.loc 1 119 0
+ 479              		.cfi_startproc
+ 480              		@ args = 0, pretend = 0, frame = 24
+ 481              		@ frame_needed = 1, uses_anonymous_args = 0
+ 482 0000 90B5     		push	{r4, r7, lr}
+ 483              		.cfi_def_cfa_offset 12
+ 484              		.cfi_offset 4, -12
+ 485              		.cfi_offset 7, -8
+ 486              		.cfi_offset 14, -4
+ 487 0002 87B0     		sub	sp, sp, #28
+ 488              		.cfi_def_cfa_offset 40
+ 489 0004 00AF     		add	r7, sp, #0
+ 490              		.cfi_def_cfa_register 7
+ 491 0006 0200     		movs	r2, r0
+ 492 0008 FB1D     		adds	r3, r7, #7
+ 493 000a 1A70     		strb	r2, [r3]
+ 494 000c BB1D     		adds	r3, r7, #6
+ 495 000e 0A1C     		adds	r2, r1, #0
+ 496 0010 1A70     		strb	r2, [r3]
+ 120:store.c       ****      /** if this ir the first data */
+ 121:store.c       ****      if(nodeTable[nodeIndex].fistByteAvgData == 0 && nodeTable[nodeIndex].secondByteAvgData == 0){
+ 497              		.loc 1 121 0
+ 498 0012 4D4B     		ldr	r3, .L22
+ 499 0014 1B78     		ldrb	r3, [r3]
+ 500 0016 1800     		movs	r0, r3
+ 501 0018 4C4A     		ldr	r2, .L22+4
+ 502 001a CC21     		movs	r1, #204
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 12
+
+
+ 503 001c D423     		movs	r3, #212
+ 504 001e 4343     		muls	r3, r0
+ 505 0020 D318     		adds	r3, r2, r3
+ 506 0022 5B18     		adds	r3, r3, r1
+ 507 0024 1B78     		ldrb	r3, [r3]
+ 508 0026 002B     		cmp	r3, #0
+ 509 0028 26D1     		bne	.L20
+ 510              		.loc 1 121 0 is_stmt 0 discriminator 1
+ 511 002a 474B     		ldr	r3, .L22
+ 512 002c 1B78     		ldrb	r3, [r3]
+ 513 002e 1800     		movs	r0, r3
+ 514 0030 464A     		ldr	r2, .L22+4
+ 515 0032 CD21     		movs	r1, #205
+ 516 0034 D423     		movs	r3, #212
+ 517 0036 4343     		muls	r3, r0
+ 518 0038 D318     		adds	r3, r2, r3
+ 519 003a 5B18     		adds	r3, r3, r1
+ 520 003c 1B78     		ldrb	r3, [r3]
+ 521 003e 002B     		cmp	r3, #0
+ 522 0040 1AD1     		bne	.L20
+ 122:store.c       ****         nodeTable[nodeIndex].fistByteAvgData = firstByteTemp;
+ 523              		.loc 1 122 0 is_stmt 1
+ 524 0042 414B     		ldr	r3, .L22
+ 525 0044 1B78     		ldrb	r3, [r3]
+ 526 0046 1C00     		movs	r4, r3
+ 527 0048 FB1D     		adds	r3, r7, #7
+ 528 004a 1878     		ldrb	r0, [r3]
+ 529 004c 3F4A     		ldr	r2, .L22+4
+ 530 004e CC21     		movs	r1, #204
+ 531 0050 D423     		movs	r3, #212
+ 532 0052 6343     		muls	r3, r4
+ 533 0054 D318     		adds	r3, r2, r3
+ 534 0056 5B18     		adds	r3, r3, r1
+ 535 0058 021C     		adds	r2, r0, #0
+ 536 005a 1A70     		strb	r2, [r3]
+ 123:store.c       ****         nodeTable[nodeIndex].secondByteAvgData = secondByteTemp;
+ 537              		.loc 1 123 0
+ 538 005c 3A4B     		ldr	r3, .L22
+ 539 005e 1B78     		ldrb	r3, [r3]
+ 540 0060 1C00     		movs	r4, r3
+ 541 0062 BB1D     		adds	r3, r7, #6
+ 542 0064 1878     		ldrb	r0, [r3]
+ 543 0066 394A     		ldr	r2, .L22+4
+ 544 0068 CD21     		movs	r1, #205
+ 545 006a D423     		movs	r3, #212
+ 546 006c 6343     		muls	r3, r4
+ 547 006e D318     		adds	r3, r2, r3
+ 548 0070 5B18     		adds	r3, r3, r1
+ 549 0072 021C     		adds	r2, r0, #0
+ 550 0074 1A70     		strb	r2, [r3]
+ 551 0076 63E0     		b	.L21
+ 552              	.L20:
+ 553              	.LBB5:
+ 124:store.c       ****      }
+ 125:store.c       ****      else{
+ 126:store.c       ****         float temp = Byte2Short(firstByteTemp,secondByteTemp)/100.0;
+ 554              		.loc 1 126 0
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 13
+
+
+ 555 0078 FB1D     		adds	r3, r7, #7
+ 556 007a 1A78     		ldrb	r2, [r3]
+ 557 007c BB1D     		adds	r3, r7, #6
+ 558 007e 1B78     		ldrb	r3, [r3]
+ 559 0080 1900     		movs	r1, r3
+ 560 0082 1000     		movs	r0, r2
+ 561 0084 FFF7FEFF 		bl	Byte2Short
+ 562 0088 0300     		movs	r3, r0
+ 563 008a 1800     		movs	r0, r3
+ 564 008c FFF7FEFF 		bl	__aeabi_i2d
+ 565 0090 0022     		movs	r2, #0
+ 566 0092 2F4B     		ldr	r3, .L22+8
+ 567 0094 FFF7FEFF 		bl	__aeabi_ddiv
+ 568 0098 0300     		movs	r3, r0
+ 569 009a 0C00     		movs	r4, r1
+ 570 009c 1800     		movs	r0, r3
+ 571 009e 2100     		movs	r1, r4
+ 572 00a0 FFF7FEFF 		bl	__aeabi_d2f
+ 573 00a4 031C     		adds	r3, r0, #0
+ 574 00a6 7B61     		str	r3, [r7, #20]
+ 127:store.c       ****         float avgTemp = Byte2Short(firstByteTemp,secondByteTemp)/100.0;
+ 575              		.loc 1 127 0
+ 576 00a8 FB1D     		adds	r3, r7, #7
+ 577 00aa 1A78     		ldrb	r2, [r3]
+ 578 00ac BB1D     		adds	r3, r7, #6
+ 579 00ae 1B78     		ldrb	r3, [r3]
+ 580 00b0 1900     		movs	r1, r3
+ 581 00b2 1000     		movs	r0, r2
+ 582 00b4 FFF7FEFF 		bl	Byte2Short
+ 583 00b8 0300     		movs	r3, r0
+ 584 00ba 1800     		movs	r0, r3
+ 585 00bc FFF7FEFF 		bl	__aeabi_i2d
+ 586 00c0 0022     		movs	r2, #0
+ 587 00c2 234B     		ldr	r3, .L22+8
+ 588 00c4 FFF7FEFF 		bl	__aeabi_ddiv
+ 589 00c8 0300     		movs	r3, r0
+ 590 00ca 0C00     		movs	r4, r1
+ 591 00cc 1800     		movs	r0, r3
+ 592 00ce 2100     		movs	r1, r4
+ 593 00d0 FFF7FEFF 		bl	__aeabi_d2f
+ 594 00d4 031C     		adds	r3, r0, #0
+ 595 00d6 3B61     		str	r3, [r7, #16]
+ 128:store.c       ****         float sum = (avgTemp*nodeTable[nodeIndex].total) + temp;
+ 596              		.loc 1 128 0
+ 597 00d8 1B4B     		ldr	r3, .L22
+ 598 00da 1B78     		ldrb	r3, [r3]
+ 599 00dc 1800     		movs	r0, r3
+ 600 00de 1B4A     		ldr	r2, .L22+4
+ 601 00e0 CE21     		movs	r1, #206
+ 602 00e2 D423     		movs	r3, #212
+ 603 00e4 4343     		muls	r3, r0
+ 604 00e6 D318     		adds	r3, r2, r3
+ 605 00e8 5B18     		adds	r3, r3, r1
+ 606 00ea 1B88     		ldrh	r3, [r3]
+ 607 00ec 1800     		movs	r0, r3
+ 608 00ee FFF7FEFF 		bl	__aeabi_i2f
+ 609 00f2 031C     		adds	r3, r0, #0
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 14
+
+
+ 610 00f4 3969     		ldr	r1, [r7, #16]
+ 611 00f6 181C     		adds	r0, r3, #0
+ 612 00f8 FFF7FEFF 		bl	__aeabi_fmul
+ 613 00fc 031C     		adds	r3, r0, #0
+ 614 00fe 7969     		ldr	r1, [r7, #20]
+ 615 0100 181C     		adds	r0, r3, #0
+ 616 0102 FFF7FEFF 		bl	__aeabi_fadd
+ 617 0106 031C     		adds	r3, r0, #0
+ 618 0108 FB60     		str	r3, [r7, #12]
+ 129:store.c       ****         float newAvgTemp = sum/(float)(nodeTable[nodeIndex].total+1);       
+ 619              		.loc 1 129 0
+ 620 010a 0F4B     		ldr	r3, .L22
+ 621 010c 1B78     		ldrb	r3, [r3]
+ 622 010e 1800     		movs	r0, r3
+ 623 0110 0E4A     		ldr	r2, .L22+4
+ 624 0112 CE21     		movs	r1, #206
+ 625 0114 D423     		movs	r3, #212
+ 626 0116 4343     		muls	r3, r0
+ 627 0118 D318     		adds	r3, r2, r3
+ 628 011a 5B18     		adds	r3, r3, r1
+ 629 011c 1B88     		ldrh	r3, [r3]
+ 630 011e 0133     		adds	r3, r3, #1
+ 631 0120 1800     		movs	r0, r3
+ 632 0122 FFF7FEFF 		bl	__aeabi_i2f
+ 633 0126 031C     		adds	r3, r0, #0
+ 634 0128 191C     		adds	r1, r3, #0
+ 635 012a F868     		ldr	r0, [r7, #12]
+ 636 012c FFF7FEFF 		bl	__aeabi_fdiv
+ 637 0130 031C     		adds	r3, r0, #0
+ 638 0132 BB60     		str	r3, [r7, #8]
+ 130:store.c       ****         float2Bytes(newAvgTemp,&firstByteTemp,&secondByteTemp);
+ 639              		.loc 1 130 0
+ 640 0134 BA1D     		adds	r2, r7, #6
+ 641 0136 F91D     		adds	r1, r7, #7
+ 642 0138 BB68     		ldr	r3, [r7, #8]
+ 643 013a 181C     		adds	r0, r3, #0
+ 644 013c FFF7FEFF 		bl	float2Bytes
+ 645              	.L21:
+ 646              	.LBE5:
+ 131:store.c       ****     }
+ 132:store.c       **** }
+ 647              		.loc 1 132 0
+ 648 0140 C046     		nop
+ 649 0142 BD46     		mov	sp, r7
+ 650 0144 07B0     		add	sp, sp, #28
+ 651              		@ sp needed
+ 652 0146 90BD     		pop	{r4, r7, pc}
+ 653              	.L23:
+ 654              		.align	2
+ 655              	.L22:
+ 656 0148 00000000 		.word	nodeIndex
+ 657 014c 00000000 		.word	nodeTable
+ 658 0150 00005940 		.word	1079574528
+ 659              		.cfi_endproc
+ 660              	.LFE38:
+ 661              		.size	calAverage, .-calAverage
+ 662              		.section	.rodata
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 15
+
+
+ 663              		.align	2
+ 664              	.LC6:
+ 665 0000 2A2A2A2A 		.ascii	"*************** convert test *************** \000"
+ 665      2A2A2A2A 
+ 665      2A2A2A2A 
+ 665      2A2A2A20 
+ 665      636F6E76 
+ 666 002e 0000     		.align	2
+ 667              	.LC8:
+ 668 0030 666C6F61 		.ascii	"float value: \000"
+ 668      74207661 
+ 668      6C75653A 
+ 668      2000
+ 669 003e 0000     		.align	2
+ 670              	.LC10:
+ 671 0040 636F6E76 		.ascii	"convert to Byte: \000"
+ 671      65727420 
+ 671      746F2042 
+ 671      7974653A 
+ 671      2000
+ 672 0052 0000     		.align	2
+ 673              	.LC12:
+ 674 0054 666C6F61 		.ascii	"float after convert value: \000"
+ 674      74206166 
+ 674      74657220 
+ 674      636F6E76 
+ 674      65727420 
+ 675              		.section	.text.float2Bytes,"ax",%progbits
+ 676              		.align	2
+ 677              		.global	float2Bytes
+ 678              		.code	16
+ 679              		.thumb_func
+ 680              		.type	float2Bytes, %function
+ 681              	float2Bytes:
+ 682              	.LFB39:
+ 133:store.c       **** /*******************************************************************************
+ 134:store.c       **** * Function Name: float2Bytes
+ 135:store.c       **** ********************************************************************************
+ 136:store.c       **** * Summary:
+ 137:store.c       **** *       This function converts float value to byte value
+ 138:store.c       **** *
+ 139:store.c       **** * Parameters: 
+ 140:store.c       **** *  float value, uint8* fistByte, uint8* secondByte
+ 141:store.c       **** *
+ 142:store.c       **** * Return:
+ 143:store.c       **** *  null
+ 144:store.c       **** *
+ 145:store.c       **** *******************************************************************************/
+ 146:store.c       **** void float2Bytes(float value, uint8* fistByte, uint8* secondByte){
+ 683              		.loc 1 146 0
+ 684              		.cfi_startproc
+ 685              		@ args = 0, pretend = 0, frame = 32
+ 686              		@ frame_needed = 1, uses_anonymous_args = 0
+ 687 0000 90B5     		push	{r4, r7, lr}
+ 688              		.cfi_def_cfa_offset 12
+ 689              		.cfi_offset 4, -12
+ 690              		.cfi_offset 7, -8
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 16
+
+
+ 691              		.cfi_offset 14, -4
+ 692 0002 89B0     		sub	sp, sp, #36
+ 693              		.cfi_def_cfa_offset 48
+ 694 0004 00AF     		add	r7, sp, #0
+ 695              		.cfi_def_cfa_register 7
+ 696 0006 F860     		str	r0, [r7, #12]
+ 697 0008 B960     		str	r1, [r7, #8]
+ 698 000a 7A60     		str	r2, [r7, #4]
+ 147:store.c       ****  
+ 148:store.c       ****   union {
+ 149:store.c       ****     float a;
+ 150:store.c       ****     uint8 bytes[2];
+ 151:store.c       ****   } thing;
+ 152:store.c       ****   thing.a = value;
+ 699              		.loc 1 152 0
+ 700 000c FB68     		ldr	r3, [r7, #12]
+ 701 000e 3B61     		str	r3, [r7, #16]
+ 153:store.c       ****   *fistByte = thing.bytes[0];
+ 702              		.loc 1 153 0
+ 703 0010 1023     		movs	r3, #16
+ 704 0012 FB18     		adds	r3, r7, r3
+ 705 0014 1A78     		ldrb	r2, [r3]
+ 706 0016 BB68     		ldr	r3, [r7, #8]
+ 707 0018 1A70     		strb	r2, [r3]
+ 154:store.c       ****   *secondByte = thing.bytes[1];
+ 708              		.loc 1 154 0
+ 709 001a 1023     		movs	r3, #16
+ 710 001c FB18     		adds	r3, r7, r3
+ 711 001e 5A78     		ldrb	r2, [r3, #1]
+ 712 0020 7B68     		ldr	r3, [r7, #4]
+ 713 0022 1A70     		strb	r2, [r3]
+ 155:store.c       **** 
+ 156:store.c       ****     #if (DEBUG_ENABLED == 1)
+ 157:store.c       ****                 UART_UartPutString("*************** convert test *************** ");
+ 714              		.loc 1 157 0
+ 715 0024 294B     		ldr	r3, .L25
+ 716 0026 1800     		movs	r0, r3
+ 717 0028 FFF7FEFF 		bl	UART_UartPutString
+ 158:store.c       ****                 char* varBefore = ftoa(value);
+ 718              		.loc 1 158 0
+ 719 002c FB68     		ldr	r3, [r7, #12]
+ 720 002e 181C     		adds	r0, r3, #0
+ 721 0030 FFF7FEFF 		bl	ftoa
+ 722 0034 0300     		movs	r3, r0
+ 723 0036 FB61     		str	r3, [r7, #28]
+ 159:store.c       ****                 UART_UartPutString("float value: ");
+ 724              		.loc 1 159 0
+ 725 0038 254B     		ldr	r3, .L25+4
+ 726 003a 1800     		movs	r0, r3
+ 727 003c FFF7FEFF 		bl	UART_UartPutString
+ 160:store.c       ****                 UART_UartPutString(varBefore);
+ 728              		.loc 1 160 0
+ 729 0040 FB69     		ldr	r3, [r7, #28]
+ 730 0042 1800     		movs	r0, r3
+ 731 0044 FFF7FEFF 		bl	UART_UartPutString
+ 161:store.c       ****                 UART_UartPutCRLF(' ');
+ 732              		.loc 1 161 0
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 17
+
+
+ 733 0048 2020     		movs	r0, #32
+ 734 004a FFF7FEFF 		bl	UART_UartPutCRLF
+ 162:store.c       **** 				UART_UartPutString("convert to Byte: ");
+ 735              		.loc 1 162 0
+ 736 004e 214B     		ldr	r3, .L25+8
+ 737 0050 1800     		movs	r0, r3
+ 738 0052 FFF7FEFF 		bl	UART_UartPutString
+ 163:store.c       **** 				PrintHex(*fistByte);
+ 739              		.loc 1 163 0
+ 740 0056 BB68     		ldr	r3, [r7, #8]
+ 741 0058 1B78     		ldrb	r3, [r3]
+ 742 005a 1800     		movs	r0, r3
+ 743 005c FFF7FEFF 		bl	PrintHex
+ 164:store.c       ****                 PrintHex(*secondByte);
+ 744              		.loc 1 164 0
+ 745 0060 7B68     		ldr	r3, [r7, #4]
+ 746 0062 1B78     		ldrb	r3, [r3]
+ 747 0064 1800     		movs	r0, r3
+ 748 0066 FFF7FEFF 		bl	PrintHex
+ 165:store.c       **** 				UART_UartPutCRLF(' ');
+ 749              		.loc 1 165 0
+ 750 006a 2020     		movs	r0, #32
+ 751 006c FFF7FEFF 		bl	UART_UartPutCRLF
+ 166:store.c       ****                 float tempAf = Byte2Short(*fistByte,*secondByte)/100.0;
+ 752              		.loc 1 166 0
+ 753 0070 BB68     		ldr	r3, [r7, #8]
+ 754 0072 1A78     		ldrb	r2, [r3]
+ 755 0074 7B68     		ldr	r3, [r7, #4]
+ 756 0076 1B78     		ldrb	r3, [r3]
+ 757 0078 1900     		movs	r1, r3
+ 758 007a 1000     		movs	r0, r2
+ 759 007c FFF7FEFF 		bl	Byte2Short
+ 760 0080 0300     		movs	r3, r0
+ 761 0082 1800     		movs	r0, r3
+ 762 0084 FFF7FEFF 		bl	__aeabi_i2d
+ 763 0088 0022     		movs	r2, #0
+ 764 008a 134B     		ldr	r3, .L25+12
+ 765 008c FFF7FEFF 		bl	__aeabi_ddiv
+ 766 0090 0300     		movs	r3, r0
+ 767 0092 0C00     		movs	r4, r1
+ 768 0094 1800     		movs	r0, r3
+ 769 0096 2100     		movs	r1, r4
+ 770 0098 FFF7FEFF 		bl	__aeabi_d2f
+ 771 009c 031C     		adds	r3, r0, #0
+ 772 009e BB61     		str	r3, [r7, #24]
+ 167:store.c       ****                 char* varAfter = ftoa(tempAf);
+ 773              		.loc 1 167 0
+ 774 00a0 BB69     		ldr	r3, [r7, #24]
+ 775 00a2 181C     		adds	r0, r3, #0
+ 776 00a4 FFF7FEFF 		bl	ftoa
+ 777 00a8 0300     		movs	r3, r0
+ 778 00aa 7B61     		str	r3, [r7, #20]
+ 168:store.c       ****                 UART_UartPutString("float after convert value: ");
+ 779              		.loc 1 168 0
+ 780 00ac 0B4B     		ldr	r3, .L25+16
+ 781 00ae 1800     		movs	r0, r3
+ 782 00b0 FFF7FEFF 		bl	UART_UartPutString
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 18
+
+
+ 169:store.c       ****                 UART_UartPutString(varAfter);
+ 783              		.loc 1 169 0
+ 784 00b4 7B69     		ldr	r3, [r7, #20]
+ 785 00b6 1800     		movs	r0, r3
+ 786 00b8 FFF7FEFF 		bl	UART_UartPutString
+ 170:store.c       ****                 UART_UartPutCRLF(' ');
+ 787              		.loc 1 170 0
+ 788 00bc 2020     		movs	r0, #32
+ 789 00be FFF7FEFF 		bl	UART_UartPutCRLF
+ 171:store.c       **** 
+ 172:store.c       **** 	#endif
+ 173:store.c       **** }
+ 790              		.loc 1 173 0
+ 791 00c2 C046     		nop
+ 792 00c4 BD46     		mov	sp, r7
+ 793 00c6 09B0     		add	sp, sp, #36
+ 794              		@ sp needed
+ 795 00c8 90BD     		pop	{r4, r7, pc}
+ 796              	.L26:
+ 797 00ca C046     		.align	2
+ 798              	.L25:
+ 799 00cc 00000000 		.word	.LC6
+ 800 00d0 30000000 		.word	.LC8
+ 801 00d4 40000000 		.word	.LC10
+ 802 00d8 00005940 		.word	1079574528
+ 803 00dc 54000000 		.word	.LC12
+ 804              		.cfi_endproc
+ 805              	.LFE39:
+ 806              		.size	float2Bytes, .-float2Bytes
+ 807              		.section	.text.getNodeFromTable,"ax",%progbits
+ 808              		.align	2
+ 809              		.global	getNodeFromTable
+ 810              		.code	16
+ 811              		.thumb_func
+ 812              		.type	getNodeFromTable, %function
+ 813              	getNodeFromTable:
+ 814              	.LFB40:
+ 174:store.c       **** /*******************************************************************************
+ 175:store.c       **** * Function Name: getNodeFromTable
+ 176:store.c       **** ********************************************************************************
+ 177:store.c       **** * Summary:
+ 178:store.c       **** *       This function will return node data that stored in a node table
+ 179:store.c       **** *
+ 180:store.c       **** * Parameters: 
+ 181:store.c       **** *  uint16 nodeAddr
+ 182:store.c       **** *
+ 183:store.c       **** * Return:
+ 184:store.c       **** *  NODE_TABLE_T node
+ 185:store.c       **** *
+ 186:store.c       **** *******************************************************************************/
+ 187:store.c       **** uint8 getNodeFromTable(uint8 nodeAddr[6u],NODE_TABLE_T* node){
+ 815              		.loc 1 187 0
+ 816              		.cfi_startproc
+ 817              		@ args = 0, pretend = 0, frame = 24
+ 818              		@ frame_needed = 1, uses_anonymous_args = 0
+ 819 0000 80B5     		push	{r7, lr}
+ 820              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 19
+
+
+ 821              		.cfi_offset 7, -8
+ 822              		.cfi_offset 14, -4
+ 823 0002 86B0     		sub	sp, sp, #24
+ 824              		.cfi_def_cfa_offset 32
+ 825 0004 00AF     		add	r7, sp, #0
+ 826              		.cfi_def_cfa_register 7
+ 827 0006 7860     		str	r0, [r7, #4]
+ 828 0008 3960     		str	r1, [r7]
+ 188:store.c       ****     uint8 found = FALSE;
+ 829              		.loc 1 188 0
+ 830 000a 1723     		movs	r3, #23
+ 831 000c FB18     		adds	r3, r7, r3
+ 832 000e 0022     		movs	r2, #0
+ 833 0010 1A70     		strb	r2, [r3]
+ 189:store.c       ****     uint8 count = 0;
+ 834              		.loc 1 189 0
+ 835 0012 1623     		movs	r3, #22
+ 836 0014 FB18     		adds	r3, r7, r3
+ 837 0016 0022     		movs	r2, #0
+ 838 0018 1A70     		strb	r2, [r3]
+ 839              	.LBB6:
+ 190:store.c       ****     for(int i= 0;i<MAX_NODE;i++){
+ 840              		.loc 1 190 0
+ 841 001a 0023     		movs	r3, #0
+ 842 001c 3B61     		str	r3, [r7, #16]
+ 843 001e 38E0     		b	.L28
+ 844              	.L34:
+ 845              	.LBB7:
+ 191:store.c       ****         for(int j= 0;j<6;j++){
+ 846              		.loc 1 191 0
+ 847 0020 0023     		movs	r3, #0
+ 848 0022 FB60     		str	r3, [r7, #12]
+ 849 0024 17E0     		b	.L29
+ 850              	.L31:
+ 192:store.c       ****             if(nodeTable[i].nodeAddr->bdAddr[j] == nodeAddr[j])
+ 851              		.loc 1 192 0
+ 852 0026 204B     		ldr	r3, .L36
+ 853 0028 3A69     		ldr	r2, [r7, #16]
+ 854 002a D421     		movs	r1, #212
+ 855 002c 4A43     		muls	r2, r1
+ 856 002e D258     		ldr	r2, [r2, r3]
+ 857 0030 FB68     		ldr	r3, [r7, #12]
+ 858 0032 D318     		adds	r3, r2, r3
+ 859 0034 1A78     		ldrb	r2, [r3]
+ 860 0036 FB68     		ldr	r3, [r7, #12]
+ 861 0038 7968     		ldr	r1, [r7, #4]
+ 862 003a CB18     		adds	r3, r1, r3
+ 863 003c 1B78     		ldrb	r3, [r3]
+ 864 003e 9A42     		cmp	r2, r3
+ 865 0040 06D1     		bne	.L30
+ 193:store.c       ****                 count++;
+ 866              		.loc 1 193 0
+ 867 0042 1623     		movs	r3, #22
+ 868 0044 FB18     		adds	r3, r7, r3
+ 869 0046 1A78     		ldrb	r2, [r3]
+ 870 0048 1623     		movs	r3, #22
+ 871 004a FB18     		adds	r3, r7, r3
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 20
+
+
+ 872 004c 0132     		adds	r2, r2, #1
+ 873 004e 1A70     		strb	r2, [r3]
+ 874              	.L30:
+ 191:store.c       ****         for(int j= 0;j<6;j++){
+ 875              		.loc 1 191 0 discriminator 2
+ 876 0050 FB68     		ldr	r3, [r7, #12]
+ 877 0052 0133     		adds	r3, r3, #1
+ 878 0054 FB60     		str	r3, [r7, #12]
+ 879              	.L29:
+ 191:store.c       ****         for(int j= 0;j<6;j++){
+ 880              		.loc 1 191 0 is_stmt 0 discriminator 1
+ 881 0056 FB68     		ldr	r3, [r7, #12]
+ 882 0058 052B     		cmp	r3, #5
+ 883 005a E4DD     		ble	.L31
+ 884              	.LBE7:
+ 194:store.c       ****         }
+ 195:store.c       ****            if(count == 6){
+ 885              		.loc 1 195 0 is_stmt 1
+ 886 005c 1623     		movs	r3, #22
+ 887 005e FB18     		adds	r3, r7, r3
+ 888 0060 1B78     		ldrb	r3, [r3]
+ 889 0062 062B     		cmp	r3, #6
+ 890 0064 0ED1     		bne	.L32
+ 196:store.c       ****                 /** if found node address, get the old index */
+ 197:store.c       ****                 *node = nodeTable[i];
+ 891              		.loc 1 197 0
+ 892 0066 3868     		ldr	r0, [r7]
+ 893 0068 0F4A     		ldr	r2, .L36
+ 894 006a 3B69     		ldr	r3, [r7, #16]
+ 895 006c D421     		movs	r1, #212
+ 896 006e 4B43     		muls	r3, r1
+ 897 0070 D318     		adds	r3, r2, r3
+ 898 0072 D422     		movs	r2, #212
+ 899 0074 1900     		movs	r1, r3
+ 900 0076 FFF7FEFF 		bl	memcpy
+ 198:store.c       ****                 found = TRUE;
+ 901              		.loc 1 198 0
+ 902 007a 1723     		movs	r3, #23
+ 903 007c FB18     		adds	r3, r7, r3
+ 904 007e 0122     		movs	r2, #1
+ 905 0080 1A70     		strb	r2, [r3]
+ 199:store.c       ****                 break;
+ 906              		.loc 1 199 0
+ 907 0082 09E0     		b	.L33
+ 908              	.L32:
+ 200:store.c       ****             } 
+ 201:store.c       ****         count = 0;
+ 909              		.loc 1 201 0 discriminator 2
+ 910 0084 1623     		movs	r3, #22
+ 911 0086 FB18     		adds	r3, r7, r3
+ 912 0088 0022     		movs	r2, #0
+ 913 008a 1A70     		strb	r2, [r3]
+ 190:store.c       ****         for(int j= 0;j<6;j++){
+ 914              		.loc 1 190 0 discriminator 2
+ 915 008c 3B69     		ldr	r3, [r7, #16]
+ 916 008e 0133     		adds	r3, r3, #1
+ 917 0090 3B61     		str	r3, [r7, #16]
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 21
+
+
+ 918              	.L28:
+ 190:store.c       ****         for(int j= 0;j<6;j++){
+ 919              		.loc 1 190 0 is_stmt 0 discriminator 1
+ 920 0092 3B69     		ldr	r3, [r7, #16]
+ 921 0094 082B     		cmp	r3, #8
+ 922 0096 C3DD     		ble	.L34
+ 923              	.L33:
+ 924              	.LBE6:
+ 202:store.c       ****         }   
+ 203:store.c       ****     
+ 204:store.c       ****     return found;
+ 925              		.loc 1 204 0 is_stmt 1
+ 926 0098 1723     		movs	r3, #23
+ 927 009a FB18     		adds	r3, r7, r3
+ 928 009c 1B78     		ldrb	r3, [r3]
+ 205:store.c       **** }
+ 929              		.loc 1 205 0
+ 930 009e 1800     		movs	r0, r3
+ 931 00a0 BD46     		mov	sp, r7
+ 932 00a2 06B0     		add	sp, sp, #24
+ 933              		@ sp needed
+ 934 00a4 80BD     		pop	{r7, pc}
+ 935              	.L37:
+ 936 00a6 C046     		.align	2
+ 937              	.L36:
+ 938 00a8 00000000 		.word	nodeTable
+ 939              		.cfi_endproc
+ 940              	.LFE40:
+ 941              		.size	getNodeFromTable, .-getNodeFromTable
+ 942              		.text
+ 943              	.Letext0:
+ 944              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 945              		.file 3 "Generated_Source\\PSoC4/BLE_Stack.h"
+ 946              		.file 4 "Generated_Source\\PSoC4/BLE_eventHandler.h"
+ 947              		.file 5 "./store.h"
+ 948              		.section	.debug_info,"",%progbits
+ 949              	.Ldebug_info0:
+ 950 0000 29060000 		.4byte	0x629
+ 951 0004 0400     		.2byte	0x4
+ 952 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 953 000a 04       		.byte	0x4
+ 954 000b 01       		.uleb128 0x1
+ 955 000c CF0B0000 		.4byte	.LASF131
+ 956 0010 0C       		.byte	0xc
+ 957 0011 29080000 		.4byte	.LASF132
+ 958 0015 84020000 		.4byte	.LASF133
+ 959 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 960 001d 00000000 		.4byte	0
+ 961 0021 00000000 		.4byte	.Ldebug_line0
+ 962 0025 02       		.uleb128 0x2
+ 963 0026 01       		.byte	0x1
+ 964 0027 06       		.byte	0x6
+ 965 0028 EF010000 		.4byte	.LASF0
+ 966 002c 02       		.uleb128 0x2
+ 967 002d 01       		.byte	0x1
+ 968 002e 08       		.byte	0x8
+ 969 002f F7070000 		.4byte	.LASF1
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 22
+
+
+ 970 0033 02       		.uleb128 0x2
+ 971 0034 02       		.byte	0x2
+ 972 0035 05       		.byte	0x5
+ 973 0036 9E050000 		.4byte	.LASF2
+ 974 003a 02       		.uleb128 0x2
+ 975 003b 02       		.byte	0x2
+ 976 003c 07       		.byte	0x7
+ 977 003d D2040000 		.4byte	.LASF3
+ 978 0041 02       		.uleb128 0x2
+ 979 0042 04       		.byte	0x4
+ 980 0043 05       		.byte	0x5
+ 981 0044 0F010000 		.4byte	.LASF4
+ 982 0048 02       		.uleb128 0x2
+ 983 0049 04       		.byte	0x4
+ 984 004a 07       		.byte	0x7
+ 985 004b 13040000 		.4byte	.LASF5
+ 986 004f 02       		.uleb128 0x2
+ 987 0050 08       		.byte	0x8
+ 988 0051 05       		.byte	0x5
+ 989 0052 E1010000 		.4byte	.LASF6
+ 990 0056 02       		.uleb128 0x2
+ 991 0057 08       		.byte	0x8
+ 992 0058 07       		.byte	0x7
+ 993 0059 18010000 		.4byte	.LASF7
+ 994 005d 03       		.uleb128 0x3
+ 995 005e 04       		.byte	0x4
+ 996 005f 05       		.byte	0x5
+ 997 0060 696E7400 		.ascii	"int\000"
+ 998 0064 02       		.uleb128 0x2
+ 999 0065 04       		.byte	0x4
+ 1000 0066 07       		.byte	0x7
+ 1001 0067 E7030000 		.4byte	.LASF8
+ 1002 006b 04       		.uleb128 0x4
+ 1003 006c 06030000 		.4byte	.LASF9
+ 1004 0070 02       		.byte	0x2
+ 1005 0071 E401     		.2byte	0x1e4
+ 1006 0073 2C000000 		.4byte	0x2c
+ 1007 0077 04       		.uleb128 0x4
+ 1008 0078 24000000 		.4byte	.LASF10
+ 1009 007c 02       		.byte	0x2
+ 1010 007d E501     		.2byte	0x1e5
+ 1011 007f 3A000000 		.4byte	0x3a
+ 1012 0083 02       		.uleb128 0x2
+ 1013 0084 04       		.byte	0x4
+ 1014 0085 04       		.byte	0x4
+ 1015 0086 B1070000 		.4byte	.LASF11
+ 1016 008a 02       		.uleb128 0x2
+ 1017 008b 08       		.byte	0x8
+ 1018 008c 04       		.byte	0x4
+ 1019 008d 2B030000 		.4byte	.LASF12
+ 1020 0091 02       		.uleb128 0x2
+ 1021 0092 01       		.byte	0x1
+ 1022 0093 08       		.byte	0x8
+ 1023 0094 6B090000 		.4byte	.LASF13
+ 1024 0098 02       		.uleb128 0x2
+ 1025 0099 08       		.byte	0x8
+ 1026 009a 04       		.byte	0x4
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 23
+
+
+ 1027 009b 5F090000 		.4byte	.LASF14
+ 1028 009f 02       		.uleb128 0x2
+ 1029 00a0 04       		.byte	0x4
+ 1030 00a1 07       		.byte	0x7
+ 1031 00a2 87060000 		.4byte	.LASF15
+ 1032 00a6 05       		.uleb128 0x5
+ 1033 00a7 04       		.byte	0x4
+ 1034 00a8 91000000 		.4byte	0x91
+ 1035 00ac 06       		.uleb128 0x6
+ 1036 00ad 01       		.byte	0x1
+ 1037 00ae 2C000000 		.4byte	0x2c
+ 1038 00b2 03       		.byte	0x3
+ 1039 00b3 3501     		.2byte	0x135
+ 1040 00b5 6A020000 		.4byte	0x26a
+ 1041 00b9 07       		.uleb128 0x7
+ 1042 00ba E5040000 		.4byte	.LASF16
+ 1043 00be 00       		.byte	0
+ 1044 00bf 07       		.uleb128 0x7
+ 1045 00c0 FB010000 		.4byte	.LASF17
+ 1046 00c4 01       		.byte	0x1
+ 1047 00c5 07       		.uleb128 0x7
+ 1048 00c6 FD000000 		.4byte	.LASF18
+ 1049 00ca 02       		.byte	0x2
+ 1050 00cb 07       		.uleb128 0x7
+ 1051 00cc 5C0A0000 		.4byte	.LASF19
+ 1052 00d0 03       		.byte	0x3
+ 1053 00d1 07       		.uleb128 0x7
+ 1054 00d2 2F010000 		.4byte	.LASF20
+ 1055 00d6 04       		.byte	0x4
+ 1056 00d7 07       		.uleb128 0x7
+ 1057 00d8 BD000000 		.4byte	.LASF21
+ 1058 00dc 05       		.byte	0x5
+ 1059 00dd 07       		.uleb128 0x7
+ 1060 00de 1A050000 		.4byte	.LASF22
+ 1061 00e2 06       		.byte	0x6
+ 1062 00e3 07       		.uleb128 0x7
+ 1063 00e4 EF050000 		.4byte	.LASF23
+ 1064 00e8 20       		.byte	0x20
+ 1065 00e9 07       		.uleb128 0x7
+ 1066 00ea 36020000 		.4byte	.LASF24
+ 1067 00ee 21       		.byte	0x21
+ 1068 00ef 07       		.uleb128 0x7
+ 1069 00f0 3A050000 		.4byte	.LASF25
+ 1070 00f4 22       		.byte	0x22
+ 1071 00f5 07       		.uleb128 0x7
+ 1072 00f6 360A0000 		.4byte	.LASF26
+ 1073 00fa 23       		.byte	0x23
+ 1074 00fb 07       		.uleb128 0x7
+ 1075 00fc 11070000 		.4byte	.LASF27
+ 1076 0100 24       		.byte	0x24
+ 1077 0101 07       		.uleb128 0x7
+ 1078 0102 90060000 		.4byte	.LASF28
+ 1079 0106 25       		.byte	0x25
+ 1080 0107 07       		.uleb128 0x7
+ 1081 0108 DE020000 		.4byte	.LASF29
+ 1082 010c 26       		.byte	0x26
+ 1083 010d 07       		.uleb128 0x7
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 24
+
+
+ 1084 010e 5E050000 		.4byte	.LASF30
+ 1085 0112 27       		.byte	0x27
+ 1086 0113 07       		.uleb128 0x7
+ 1087 0114 8F090000 		.4byte	.LASF31
+ 1088 0118 28       		.byte	0x28
+ 1089 0119 07       		.uleb128 0x7
+ 1090 011a AD010000 		.4byte	.LASF32
+ 1091 011e 29       		.byte	0x29
+ 1092 011f 07       		.uleb128 0x7
+ 1093 0120 4A000000 		.4byte	.LASF33
+ 1094 0124 2A       		.byte	0x2a
+ 1095 0125 07       		.uleb128 0x7
+ 1096 0126 17020000 		.4byte	.LASF34
+ 1097 012a 2B       		.byte	0x2b
+ 1098 012b 07       		.uleb128 0x7
+ 1099 012c 100B0000 		.4byte	.LASF35
+ 1100 0130 2C       		.byte	0x2c
+ 1101 0131 07       		.uleb128 0x7
+ 1102 0132 61080000 		.4byte	.LASF36
+ 1103 0136 2D       		.byte	0x2d
+ 1104 0137 07       		.uleb128 0x7
+ 1105 0138 05080000 		.4byte	.LASF37
+ 1106 013c 2E       		.byte	0x2e
+ 1107 013d 07       		.uleb128 0x7
+ 1108 013e 94000000 		.4byte	.LASF38
+ 1109 0142 2F       		.byte	0x2f
+ 1110 0143 07       		.uleb128 0x7
+ 1111 0144 F0060000 		.4byte	.LASF39
+ 1112 0148 30       		.byte	0x30
+ 1113 0149 07       		.uleb128 0x7
+ 1114 014a 8A0B0000 		.4byte	.LASF40
+ 1115 014e 31       		.byte	0x31
+ 1116 014f 07       		.uleb128 0x7
+ 1117 0150 CF060000 		.4byte	.LASF41
+ 1118 0154 32       		.byte	0x32
+ 1119 0155 07       		.uleb128 0x7
+ 1120 0156 07090000 		.4byte	.LASF42
+ 1121 015a 33       		.byte	0x33
+ 1122 015b 07       		.uleb128 0x7
+ 1123 015c 25040000 		.4byte	.LASF43
+ 1124 0160 34       		.byte	0x34
+ 1125 0161 07       		.uleb128 0x7
+ 1126 0162 A3030000 		.4byte	.LASF44
+ 1127 0166 35       		.byte	0x35
+ 1128 0167 07       		.uleb128 0x7
+ 1129 0168 7D050000 		.4byte	.LASF45
+ 1130 016c 36       		.byte	0x36
+ 1131 016d 07       		.uleb128 0x7
+ 1132 016e 13060000 		.4byte	.LASF46
+ 1133 0172 37       		.byte	0x37
+ 1134 0173 07       		.uleb128 0x7
+ 1135 0174 ED080000 		.4byte	.LASF47
+ 1136 0178 40       		.byte	0x40
+ 1137 0179 07       		.uleb128 0x7
+ 1138 017a AE050000 		.4byte	.LASF48
+ 1139 017e 41       		.byte	0x41
+ 1140 017f 07       		.uleb128 0x7
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 25
+
+
+ 1141 0180 D9070000 		.4byte	.LASF49
+ 1142 0184 42       		.byte	0x42
+ 1143 0185 07       		.uleb128 0x7
+ 1144 0186 840A0000 		.4byte	.LASF50
+ 1145 018a 43       		.byte	0x43
+ 1146 018b 07       		.uleb128 0x7
+ 1147 018c 63040000 		.4byte	.LASF51
+ 1148 0190 44       		.byte	0x44
+ 1149 0191 07       		.uleb128 0x7
+ 1150 0192 8A070000 		.4byte	.LASF52
+ 1151 0196 45       		.byte	0x45
+ 1152 0197 07       		.uleb128 0x7
+ 1153 0198 66060000 		.4byte	.LASF53
+ 1154 019c 46       		.byte	0x46
+ 1155 019d 07       		.uleb128 0x7
+ 1156 019e FC040000 		.4byte	.LASF54
+ 1157 01a2 47       		.byte	0x47
+ 1158 01a3 07       		.uleb128 0x7
+ 1159 01a4 E90A0000 		.4byte	.LASF55
+ 1160 01a8 48       		.byte	0x48
+ 1161 01a9 07       		.uleb128 0x7
+ 1162 01aa 4D020000 		.4byte	.LASF56
+ 1163 01ae 49       		.byte	0x49
+ 1164 01af 07       		.uleb128 0x7
+ 1165 01b0 00000000 		.4byte	.LASF57
+ 1166 01b4 4A       		.byte	0x4a
+ 1167 01b5 07       		.uleb128 0x7
+ 1168 01b6 70090000 		.4byte	.LASF58
+ 1169 01ba 4B       		.byte	0x4b
+ 1170 01bb 07       		.uleb128 0x7
+ 1171 01bc 49040000 		.4byte	.LASF59
+ 1172 01c0 4C       		.byte	0x4c
+ 1173 01c1 07       		.uleb128 0x7
+ 1174 01c2 AA060000 		.4byte	.LASF60
+ 1175 01c6 4D       		.byte	0x4d
+ 1176 01c7 07       		.uleb128 0x7
+ 1177 01c8 66020000 		.4byte	.LASF61
+ 1178 01cc 4E       		.byte	0x4e
+ 1179 01cd 07       		.uleb128 0x7
+ 1180 01ce 9C080000 		.4byte	.LASF62
+ 1181 01d2 4F       		.byte	0x4f
+ 1182 01d3 07       		.uleb128 0x7
+ 1183 01d4 D9000000 		.4byte	.LASF63
+ 1184 01d8 50       		.byte	0x50
+ 1185 01d9 07       		.uleb128 0x7
+ 1186 01da 0C030000 		.4byte	.LASF64
+ 1187 01de 51       		.byte	0x51
+ 1188 01df 07       		.uleb128 0x7
+ 1189 01e0 2D070000 		.4byte	.LASF65
+ 1190 01e4 52       		.byte	0x52
+ 1191 01e5 07       		.uleb128 0x7
+ 1192 01e6 40080000 		.4byte	.LASF66
+ 1193 01ea 53       		.byte	0x53
+ 1194 01eb 07       		.uleb128 0x7
+ 1195 01ec CC080000 		.4byte	.LASF67
+ 1196 01f0 54       		.byte	0x54
+ 1197 01f1 07       		.uleb128 0x7
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 26
+
+
+ 1198 01f2 81040000 		.4byte	.LASF68
+ 1199 01f6 55       		.byte	0x55
+ 1200 01f7 07       		.uleb128 0x7
+ 1201 01f8 C5030000 		.4byte	.LASF69
+ 1202 01fc 56       		.byte	0x56
+ 1203 01fd 07       		.uleb128 0x7
+ 1204 01fe C1090000 		.4byte	.LASF70
+ 1205 0202 57       		.byte	0x57
+ 1206 0203 07       		.uleb128 0x7
+ 1207 0204 AF040000 		.4byte	.LASF71
+ 1208 0208 58       		.byte	0x58
+ 1209 0209 07       		.uleb128 0x7
+ 1210 020a 7D010000 		.4byte	.LASF72
+ 1211 020e 70       		.byte	0x70
+ 1212 020f 07       		.uleb128 0x7
+ 1213 0210 550B0000 		.4byte	.LASF73
+ 1214 0214 71       		.byte	0x71
+ 1215 0215 07       		.uleb128 0x7
+ 1216 0216 D3050000 		.4byte	.LASF74
+ 1217 021a 72       		.byte	0x72
+ 1218 021b 07       		.uleb128 0x7
+ 1219 021c 48060000 		.4byte	.LASF75
+ 1220 0220 73       		.byte	0x73
+ 1221 0221 07       		.uleb128 0x7
+ 1222 0222 6C070000 		.4byte	.LASF76
+ 1223 0226 74       		.byte	0x74
+ 1224 0227 07       		.uleb128 0x7
+ 1225 0228 340B0000 		.4byte	.LASF77
+ 1226 022c 75       		.byte	0x75
+ 1227 022d 07       		.uleb128 0x7
+ 1228 022e 73000000 		.4byte	.LASF78
+ 1229 0232 76       		.byte	0x76
+ 1230 0233 07       		.uleb128 0x7
+ 1231 0234 2B000000 		.4byte	.LASF79
+ 1232 0238 77       		.byte	0x77
+ 1233 0239 07       		.uleb128 0x7
+ 1234 023a F0090000 		.4byte	.LASF80
+ 1235 023e 78       		.byte	0x78
+ 1236 023f 07       		.uleb128 0x7
+ 1237 0240 130A0000 		.4byte	.LASF81
+ 1238 0244 79       		.byte	0x79
+ 1239 0245 07       		.uleb128 0x7
+ 1240 0246 7F030000 		.4byte	.LASF82
+ 1241 024a 7A       		.byte	0x7a
+ 1242 024b 07       		.uleb128 0x7
+ 1243 024c 4B010000 		.4byte	.LASF83
+ 1244 0250 FA       		.byte	0xfa
+ 1245 0251 07       		.uleb128 0x7
+ 1246 0252 F4030000 		.4byte	.LASF84
+ 1247 0256 FB       		.byte	0xfb
+ 1248 0257 07       		.uleb128 0x7
+ 1249 0258 8A080000 		.4byte	.LASF85
+ 1250 025c FC       		.byte	0xfc
+ 1251 025d 07       		.uleb128 0x7
+ 1252 025e B70B0000 		.4byte	.LASF86
+ 1253 0262 FD       		.byte	0xfd
+ 1254 0263 07       		.uleb128 0x7
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 27
+
+
+ 1255 0264 71030000 		.4byte	.LASF87
+ 1256 0268 FF       		.byte	0xff
+ 1257 0269 00       		.byte	0
+ 1258 026a 08       		.uleb128 0x8
+ 1259 026b 07       		.byte	0x7
+ 1260 026c 03       		.byte	0x3
+ 1261 026d 2A05     		.2byte	0x52a
+ 1262 026f 8E020000 		.4byte	0x28e
+ 1263 0273 09       		.uleb128 0x9
+ 1264 0274 33050000 		.4byte	.LASF88
+ 1265 0278 03       		.byte	0x3
+ 1266 0279 2D05     		.2byte	0x52d
+ 1267 027b 8E020000 		.4byte	0x28e
+ 1268 027f 00       		.byte	0
+ 1269 0280 09       		.uleb128 0x9
+ 1270 0281 F8000000 		.4byte	.LASF89
+ 1271 0285 03       		.byte	0x3
+ 1272 0286 2F05     		.2byte	0x52f
+ 1273 0288 6B000000 		.4byte	0x6b
+ 1274 028c 06       		.byte	0x6
+ 1275 028d 00       		.byte	0
+ 1276 028e 0A       		.uleb128 0xa
+ 1277 028f 6B000000 		.4byte	0x6b
+ 1278 0293 9E020000 		.4byte	0x29e
+ 1279 0297 0B       		.uleb128 0xb
+ 1280 0298 9F000000 		.4byte	0x9f
+ 1281 029c 05       		.byte	0x5
+ 1282 029d 00       		.byte	0
+ 1283 029e 04       		.uleb128 0x4
+ 1284 029f 69010000 		.4byte	.LASF90
+ 1285 02a3 03       		.byte	0x3
+ 1286 02a4 3005     		.2byte	0x530
+ 1287 02a6 6A020000 		.4byte	0x26a
+ 1288 02aa 05       		.uleb128 0x5
+ 1289 02ab 04       		.byte	0x4
+ 1290 02ac 6B000000 		.4byte	0x6b
+ 1291 02b0 06       		.uleb128 0x6
+ 1292 02b1 01       		.byte	0x1
+ 1293 02b2 2C000000 		.4byte	0x2c
+ 1294 02b6 04       		.byte	0x4
+ 1295 02b7 9D08     		.2byte	0x89d
+ 1296 02b9 DC020000 		.4byte	0x2dc
+ 1297 02bd 07       		.uleb128 0x7
+ 1298 02be 3F090000 		.4byte	.LASF91
+ 1299 02c2 00       		.byte	0
+ 1300 02c3 07       		.uleb128 0x7
+ 1301 02c4 B1090000 		.4byte	.LASF92
+ 1302 02c8 01       		.byte	0x1
+ 1303 02c9 07       		.uleb128 0x7
+ 1304 02ca 4E070000 		.4byte	.LASF93
+ 1305 02ce 02       		.byte	0x2
+ 1306 02cf 07       		.uleb128 0x7
+ 1307 02d0 32030000 		.4byte	.LASF94
+ 1308 02d4 03       		.byte	0x3
+ 1309 02d5 07       		.uleb128 0x7
+ 1310 02d6 2E090000 		.4byte	.LASF95
+ 1311 02da 04       		.byte	0x4
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 28
+
+
+ 1312 02db 00       		.byte	0
+ 1313 02dc 0C       		.uleb128 0xc
+ 1314 02dd D4       		.byte	0xd4
+ 1315 02de 05       		.byte	0x5
+ 1316 02df 19       		.byte	0x19
+ 1317 02e0 45030000 		.4byte	0x345
+ 1318 02e4 0D       		.uleb128 0xd
+ 1319 02e5 0E020000 		.4byte	.LASF96
+ 1320 02e9 05       		.byte	0x5
+ 1321 02ea 1D       		.byte	0x1d
+ 1322 02eb 45030000 		.4byte	0x345
+ 1323 02ef 00       		.byte	0
+ 1324 02f0 0D       		.uleb128 0xd
+ 1325 02f1 D80A0000 		.4byte	.LASF97
+ 1326 02f5 05       		.byte	0x5
+ 1327 02f6 20       		.byte	0x20
+ 1328 02f7 4B030000 		.4byte	0x34b
+ 1329 02fb 04       		.byte	0x4
+ 1330 02fc 0D       		.uleb128 0xd
+ 1331 02fd C6070000 		.4byte	.LASF98
+ 1332 0301 05       		.byte	0x5
+ 1333 0302 22       		.byte	0x22
+ 1334 0303 4B030000 		.4byte	0x34b
+ 1335 0307 36       		.byte	0x36
+ 1336 0308 0D       		.uleb128 0xd
+ 1337 0309 A3010000 		.4byte	.LASF99
+ 1338 030d 05       		.byte	0x5
+ 1339 030e 25       		.byte	0x25
+ 1340 030f 5B030000 		.4byte	0x35b
+ 1341 0313 68       		.byte	0x68
+ 1342 0314 0D       		.uleb128 0xd
+ 1343 0315 A20A0000 		.4byte	.LASF100
+ 1344 0319 05       		.byte	0x5
+ 1345 031a 28       		.byte	0x28
+ 1346 031b 6B000000 		.4byte	0x6b
+ 1347 031f CC       		.byte	0xcc
+ 1348 0320 0D       		.uleb128 0xd
+ 1349 0321 49030000 		.4byte	.LASF101
+ 1350 0325 05       		.byte	0x5
+ 1351 0326 2A       		.byte	0x2a
+ 1352 0327 6B000000 		.4byte	0x6b
+ 1353 032b CD       		.byte	0xcd
+ 1354 032c 0D       		.uleb128 0xd
+ 1355 032d A8050000 		.4byte	.LASF102
+ 1356 0331 05       		.byte	0x5
+ 1357 0332 2D       		.byte	0x2d
+ 1358 0333 77000000 		.4byte	0x77
+ 1359 0337 CE       		.byte	0xce
+ 1360 0338 0E       		.uleb128 0xe
+ 1361 0339 61647600 		.ascii	"adv\000"
+ 1362 033d 05       		.byte	0x5
+ 1363 033e 30       		.byte	0x30
+ 1364 033f 6B000000 		.4byte	0x6b
+ 1365 0343 D0       		.byte	0xd0
+ 1366 0344 00       		.byte	0
+ 1367 0345 05       		.uleb128 0x5
+ 1368 0346 04       		.byte	0x4
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 29
+
+
+ 1369 0347 9E020000 		.4byte	0x29e
+ 1370 034b 0A       		.uleb128 0xa
+ 1371 034c 6B000000 		.4byte	0x6b
+ 1372 0350 5B030000 		.4byte	0x35b
+ 1373 0354 0B       		.uleb128 0xb
+ 1374 0355 9F000000 		.4byte	0x9f
+ 1375 0359 31       		.byte	0x31
+ 1376 035a 00       		.byte	0
+ 1377 035b 0A       		.uleb128 0xa
+ 1378 035c 77000000 		.4byte	0x77
+ 1379 0360 6B030000 		.4byte	0x36b
+ 1380 0364 0B       		.uleb128 0xb
+ 1381 0365 9F000000 		.4byte	0x9f
+ 1382 0369 31       		.byte	0x31
+ 1383 036a 00       		.byte	0
+ 1384 036b 0F       		.uleb128 0xf
+ 1385 036c D1020000 		.4byte	.LASF103
+ 1386 0370 05       		.byte	0x5
+ 1387 0371 31       		.byte	0x31
+ 1388 0372 DC020000 		.4byte	0x2dc
+ 1389 0376 10       		.uleb128 0x10
+ 1390 0377 D8010000 		.4byte	.LASF110
+ 1391 037b 01       		.byte	0x1
+ 1392 037c 1F       		.byte	0x1f
+ 1393 037d 00000000 		.4byte	.LFB36
+ 1394 0381 54000000 		.4byte	.LFE36-.LFB36
+ 1395 0385 01       		.uleb128 0x1
+ 1396 0386 9C       		.byte	0x9c
+ 1397 0387 9A030000 		.4byte	0x39a
+ 1398 038b 11       		.uleb128 0x11
+ 1399 038c EA090000 		.4byte	.LASF104
+ 1400 0390 01       		.byte	0x1
+ 1401 0391 1F       		.byte	0x1f
+ 1402 0392 6B000000 		.4byte	0x6b
+ 1403 0396 02       		.uleb128 0x2
+ 1404 0397 91       		.byte	0x91
+ 1405 0398 77       		.sleb128 -9
+ 1406 0399 00       		.byte	0
+ 1407 039a 12       		.uleb128 0x12
+ 1408 039b 5B030000 		.4byte	.LASF124
+ 1409 039f 01       		.byte	0x1
+ 1410 03a0 38       		.byte	0x38
+ 1411 03a1 6B000000 		.4byte	0x6b
+ 1412 03a5 00000000 		.4byte	.LFB37
+ 1413 03a9 4C020000 		.4byte	.LFE37-.LFB37
+ 1414 03ad 01       		.uleb128 0x1
+ 1415 03ae 9C       		.byte	0x9c
+ 1416 03af 4C040000 		.4byte	0x44c
+ 1417 03b3 11       		.uleb128 0x11
+ 1418 03b4 0E020000 		.4byte	.LASF96
+ 1419 03b8 01       		.byte	0x1
+ 1420 03b9 38       		.byte	0x38
+ 1421 03ba 45030000 		.4byte	0x345
+ 1422 03be 02       		.uleb128 0x2
+ 1423 03bf 91       		.byte	0x91
+ 1424 03c0 5C       		.sleb128 -36
+ 1425 03c1 11       		.uleb128 0x11
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 30
+
+
+ 1426 03c2 B20A0000 		.4byte	.LASF105
+ 1427 03c6 01       		.byte	0x1
+ 1428 03c7 38       		.byte	0x38
+ 1429 03c8 6B000000 		.4byte	0x6b
+ 1430 03cc 02       		.uleb128 0x2
+ 1431 03cd 91       		.byte	0x91
+ 1432 03ce 5B       		.sleb128 -37
+ 1433 03cf 11       		.uleb128 0x11
+ 1434 03d0 CA010000 		.4byte	.LASF106
+ 1435 03d4 01       		.byte	0x1
+ 1436 03d5 38       		.byte	0x38
+ 1437 03d6 6B000000 		.4byte	0x6b
+ 1438 03da 02       		.uleb128 0x2
+ 1439 03db 91       		.byte	0x91
+ 1440 03dc 5A       		.sleb128 -38
+ 1441 03dd 11       		.uleb128 0x11
+ 1442 03de B7070000 		.4byte	.LASF107
+ 1443 03e2 01       		.byte	0x1
+ 1444 03e3 38       		.byte	0x38
+ 1445 03e4 6B000000 		.4byte	0x6b
+ 1446 03e8 02       		.uleb128 0x2
+ 1447 03e9 91       		.byte	0x91
+ 1448 03ea 59       		.sleb128 -39
+ 1449 03eb 11       		.uleb128 0x11
+ 1450 03ec A3010000 		.4byte	.LASF99
+ 1451 03f0 01       		.byte	0x1
+ 1452 03f1 38       		.byte	0x38
+ 1453 03f2 77000000 		.4byte	0x77
+ 1454 03f6 02       		.uleb128 0x2
+ 1455 03f7 91       		.byte	0x91
+ 1456 03f8 00       		.sleb128 0
+ 1457 03f9 13       		.uleb128 0x13
+ 1458 03fa 28000000 		.4byte	.LBB2
+ 1459 03fe B2000000 		.4byte	.LBE2-.LBB2
+ 1460 0402 14       		.uleb128 0x14
+ 1461 0403 BA0A0000 		.4byte	.LASF108
+ 1462 0407 01       		.byte	0x1
+ 1463 0408 3B       		.byte	0x3b
+ 1464 0409 6B000000 		.4byte	0x6b
+ 1465 040d 02       		.uleb128 0x2
+ 1466 040e 91       		.byte	0x91
+ 1467 040f 6F       		.sleb128 -17
+ 1468 0410 14       		.uleb128 0x14
+ 1469 0411 1E000000 		.4byte	.LASF109
+ 1470 0415 01       		.byte	0x1
+ 1471 0416 3C       		.byte	0x3c
+ 1472 0417 6B000000 		.4byte	0x6b
+ 1473 041b 02       		.uleb128 0x2
+ 1474 041c 91       		.byte	0x91
+ 1475 041d 6E       		.sleb128 -18
+ 1476 041e 13       		.uleb128 0x13
+ 1477 041f 38000000 		.4byte	.LBB3
+ 1478 0423 78000000 		.4byte	.LBE3-.LBB3
+ 1479 0427 15       		.uleb128 0x15
+ 1480 0428 6900     		.ascii	"i\000"
+ 1481 042a 01       		.byte	0x1
+ 1482 042b 3E       		.byte	0x3e
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 31
+
+
+ 1483 042c 5D000000 		.4byte	0x5d
+ 1484 0430 02       		.uleb128 0x2
+ 1485 0431 91       		.byte	0x91
+ 1486 0432 68       		.sleb128 -24
+ 1487 0433 13       		.uleb128 0x13
+ 1488 0434 3E000000 		.4byte	.LBB4
+ 1489 0438 3C000000 		.4byte	.LBE4-.LBB4
+ 1490 043c 15       		.uleb128 0x15
+ 1491 043d 6A00     		.ascii	"j\000"
+ 1492 043f 01       		.byte	0x1
+ 1493 0440 3F       		.byte	0x3f
+ 1494 0441 5D000000 		.4byte	0x5d
+ 1495 0445 02       		.uleb128 0x2
+ 1496 0446 91       		.byte	0x91
+ 1497 0447 64       		.sleb128 -28
+ 1498 0448 00       		.byte	0
+ 1499 0449 00       		.byte	0
+ 1500 044a 00       		.byte	0
+ 1501 044b 00       		.byte	0
+ 1502 044c 16       		.uleb128 0x16
+ 1503 044d 61070000 		.4byte	.LASF111
+ 1504 0451 01       		.byte	0x1
+ 1505 0452 77       		.byte	0x77
+ 1506 0453 00000000 		.4byte	.LFB38
+ 1507 0457 54010000 		.4byte	.LFE38-.LFB38
+ 1508 045b 01       		.uleb128 0x1
+ 1509 045c 9C       		.byte	0x9c
+ 1510 045d C0040000 		.4byte	0x4c0
+ 1511 0461 11       		.uleb128 0x11
+ 1512 0462 CA010000 		.4byte	.LASF106
+ 1513 0466 01       		.byte	0x1
+ 1514 0467 77       		.byte	0x77
+ 1515 0468 6B000000 		.4byte	0x6b
+ 1516 046c 02       		.uleb128 0x2
+ 1517 046d 91       		.byte	0x91
+ 1518 046e 5F       		.sleb128 -33
+ 1519 046f 11       		.uleb128 0x11
+ 1520 0470 B7070000 		.4byte	.LASF107
+ 1521 0474 01       		.byte	0x1
+ 1522 0475 77       		.byte	0x77
+ 1523 0476 6B000000 		.4byte	0x6b
+ 1524 047a 02       		.uleb128 0x2
+ 1525 047b 91       		.byte	0x91
+ 1526 047c 5E       		.sleb128 -34
+ 1527 047d 13       		.uleb128 0x13
+ 1528 047e 78000000 		.4byte	.LBB5
+ 1529 0482 C8000000 		.4byte	.LBE5-.LBB5
+ 1530 0486 14       		.uleb128 0x14
+ 1531 0487 C0030000 		.4byte	.LASF112
+ 1532 048b 01       		.byte	0x1
+ 1533 048c 7E       		.byte	0x7e
+ 1534 048d 83000000 		.4byte	0x83
+ 1535 0491 02       		.uleb128 0x2
+ 1536 0492 91       		.byte	0x91
+ 1537 0493 6C       		.sleb128 -20
+ 1538 0494 14       		.uleb128 0x14
+ 1539 0495 D00A0000 		.4byte	.LASF113
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 32
+
+
+ 1540 0499 01       		.byte	0x1
+ 1541 049a 7F       		.byte	0x7f
+ 1542 049b 83000000 		.4byte	0x83
+ 1543 049f 02       		.uleb128 0x2
+ 1544 04a0 91       		.byte	0x91
+ 1545 04a1 68       		.sleb128 -24
+ 1546 04a2 15       		.uleb128 0x15
+ 1547 04a3 73756D00 		.ascii	"sum\000"
+ 1548 04a7 01       		.byte	0x1
+ 1549 04a8 80       		.byte	0x80
+ 1550 04a9 83000000 		.4byte	0x83
+ 1551 04ad 02       		.uleb128 0x2
+ 1552 04ae 91       		.byte	0x91
+ 1553 04af 64       		.sleb128 -28
+ 1554 04b0 14       		.uleb128 0x14
+ 1555 04b1 C4060000 		.4byte	.LASF114
+ 1556 04b5 01       		.byte	0x1
+ 1557 04b6 81       		.byte	0x81
+ 1558 04b7 83000000 		.4byte	0x83
+ 1559 04bb 02       		.uleb128 0x2
+ 1560 04bc 91       		.byte	0x91
+ 1561 04bd 60       		.sleb128 -32
+ 1562 04be 00       		.byte	0
+ 1563 04bf 00       		.byte	0
+ 1564 04c0 16       		.uleb128 0x16
+ 1565 04c1 3D040000 		.4byte	.LASF115
+ 1566 04c5 01       		.byte	0x1
+ 1567 04c6 92       		.byte	0x92
+ 1568 04c7 00000000 		.4byte	.LFB39
+ 1569 04cb E0000000 		.4byte	.LFE39-.LFB39
+ 1570 04cf 01       		.uleb128 0x1
+ 1571 04d0 9C       		.byte	0x9c
+ 1572 04d1 55050000 		.4byte	0x555
+ 1573 04d5 11       		.uleb128 0x11
+ 1574 04d6 BB080000 		.4byte	.LASF116
+ 1575 04da 01       		.byte	0x1
+ 1576 04db 92       		.byte	0x92
+ 1577 04dc 83000000 		.4byte	0x83
+ 1578 04e0 02       		.uleb128 0x2
+ 1579 04e1 91       		.byte	0x91
+ 1580 04e2 5C       		.sleb128 -36
+ 1581 04e3 11       		.uleb128 0x11
+ 1582 04e4 750A0000 		.4byte	.LASF117
+ 1583 04e8 01       		.byte	0x1
+ 1584 04e9 92       		.byte	0x92
+ 1585 04ea AA020000 		.4byte	0x2aa
+ 1586 04ee 02       		.uleb128 0x2
+ 1587 04ef 91       		.byte	0x91
+ 1588 04f0 58       		.sleb128 -40
+ 1589 04f1 11       		.uleb128 0x11
+ 1590 04f2 C1080000 		.4byte	.LASF118
+ 1591 04f6 01       		.byte	0x1
+ 1592 04f7 92       		.byte	0x92
+ 1593 04f8 AA020000 		.4byte	0x2aa
+ 1594 04fc 02       		.uleb128 0x2
+ 1595 04fd 91       		.byte	0x91
+ 1596 04fe 54       		.sleb128 -44
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 33
+
+
+ 1597 04ff 17       		.uleb128 0x17
+ 1598 0500 04       		.byte	0x4
+ 1599 0501 01       		.byte	0x1
+ 1600 0502 94       		.byte	0x94
+ 1601 0503 1C050000 		.4byte	0x51c
+ 1602 0507 18       		.uleb128 0x18
+ 1603 0508 6100     		.ascii	"a\000"
+ 1604 050a 01       		.byte	0x1
+ 1605 050b 95       		.byte	0x95
+ 1606 050c 83000000 		.4byte	0x83
+ 1607 0510 19       		.uleb128 0x19
+ 1608 0511 6B030000 		.4byte	.LASF119
+ 1609 0515 01       		.byte	0x1
+ 1610 0516 96       		.byte	0x96
+ 1611 0517 55050000 		.4byte	0x555
+ 1612 051b 00       		.byte	0
+ 1613 051c 14       		.uleb128 0x14
+ 1614 051d CA0A0000 		.4byte	.LASF120
+ 1615 0521 01       		.byte	0x1
+ 1616 0522 97       		.byte	0x97
+ 1617 0523 FF040000 		.4byte	0x4ff
+ 1618 0527 02       		.uleb128 0x2
+ 1619 0528 91       		.byte	0x91
+ 1620 0529 60       		.sleb128 -32
+ 1621 052a 14       		.uleb128 0x14
+ 1622 052b A5040000 		.4byte	.LASF121
+ 1623 052f 01       		.byte	0x1
+ 1624 0530 9E       		.byte	0x9e
+ 1625 0531 A6000000 		.4byte	0xa6
+ 1626 0535 02       		.uleb128 0x2
+ 1627 0536 91       		.byte	0x91
+ 1628 0537 6C       		.sleb128 -20
+ 1629 0538 14       		.uleb128 0x14
+ 1630 0539 44010000 		.4byte	.LASF122
+ 1631 053d 01       		.byte	0x1
+ 1632 053e A6       		.byte	0xa6
+ 1633 053f 83000000 		.4byte	0x83
+ 1634 0543 02       		.uleb128 0x2
+ 1635 0544 91       		.byte	0x91
+ 1636 0545 68       		.sleb128 -24
+ 1637 0546 14       		.uleb128 0x14
+ 1638 0547 AE0B0000 		.4byte	.LASF123
+ 1639 054b 01       		.byte	0x1
+ 1640 054c A7       		.byte	0xa7
+ 1641 054d A6000000 		.4byte	0xa6
+ 1642 0551 02       		.uleb128 0x2
+ 1643 0552 91       		.byte	0x91
+ 1644 0553 64       		.sleb128 -28
+ 1645 0554 00       		.byte	0
+ 1646 0555 0A       		.uleb128 0xa
+ 1647 0556 6B000000 		.4byte	0x6b
+ 1648 055a 65050000 		.4byte	0x565
+ 1649 055e 0B       		.uleb128 0xb
+ 1650 055f 9F000000 		.4byte	0x9f
+ 1651 0563 01       		.byte	0x1
+ 1652 0564 00       		.byte	0
+ 1653 0565 12       		.uleb128 0x12
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 34
+
+
+ 1654 0566 4E090000 		.4byte	.LASF125
+ 1655 056a 01       		.byte	0x1
+ 1656 056b BB       		.byte	0xbb
+ 1657 056c 6B000000 		.4byte	0x6b
+ 1658 0570 00000000 		.4byte	.LFB40
+ 1659 0574 AC000000 		.4byte	.LFE40-.LFB40
+ 1660 0578 01       		.uleb128 0x1
+ 1661 0579 9C       		.byte	0x9c
+ 1662 057a E3050000 		.4byte	0x5e3
+ 1663 057e 11       		.uleb128 0x11
+ 1664 057f 0E020000 		.4byte	.LASF96
+ 1665 0583 01       		.byte	0x1
+ 1666 0584 BB       		.byte	0xbb
+ 1667 0585 AA020000 		.4byte	0x2aa
+ 1668 0589 02       		.uleb128 0x2
+ 1669 058a 91       		.byte	0x91
+ 1670 058b 64       		.sleb128 -28
+ 1671 058c 11       		.uleb128 0x11
+ 1672 058d 31080000 		.4byte	.LASF126
+ 1673 0591 01       		.byte	0x1
+ 1674 0592 BB       		.byte	0xbb
+ 1675 0593 E3050000 		.4byte	0x5e3
+ 1676 0597 02       		.uleb128 0x2
+ 1677 0598 91       		.byte	0x91
+ 1678 0599 60       		.sleb128 -32
+ 1679 059a 14       		.uleb128 0x14
+ 1680 059b 7E0A0000 		.4byte	.LASF127
+ 1681 059f 01       		.byte	0x1
+ 1682 05a0 BC       		.byte	0xbc
+ 1683 05a1 6B000000 		.4byte	0x6b
+ 1684 05a5 02       		.uleb128 0x2
+ 1685 05a6 91       		.byte	0x91
+ 1686 05a7 77       		.sleb128 -9
+ 1687 05a8 14       		.uleb128 0x14
+ 1688 05a9 1E000000 		.4byte	.LASF109
+ 1689 05ad 01       		.byte	0x1
+ 1690 05ae BD       		.byte	0xbd
+ 1691 05af 6B000000 		.4byte	0x6b
+ 1692 05b3 02       		.uleb128 0x2
+ 1693 05b4 91       		.byte	0x91
+ 1694 05b5 76       		.sleb128 -10
+ 1695 05b6 13       		.uleb128 0x13
+ 1696 05b7 1A000000 		.4byte	.LBB6
+ 1697 05bb 7E000000 		.4byte	.LBE6-.LBB6
+ 1698 05bf 15       		.uleb128 0x15
+ 1699 05c0 6900     		.ascii	"i\000"
+ 1700 05c2 01       		.byte	0x1
+ 1701 05c3 BE       		.byte	0xbe
+ 1702 05c4 5D000000 		.4byte	0x5d
+ 1703 05c8 02       		.uleb128 0x2
+ 1704 05c9 91       		.byte	0x91
+ 1705 05ca 70       		.sleb128 -16
+ 1706 05cb 13       		.uleb128 0x13
+ 1707 05cc 20000000 		.4byte	.LBB7
+ 1708 05d0 3C000000 		.4byte	.LBE7-.LBB7
+ 1709 05d4 15       		.uleb128 0x15
+ 1710 05d5 6A00     		.ascii	"j\000"
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 35
+
+
+ 1711 05d7 01       		.byte	0x1
+ 1712 05d8 BF       		.byte	0xbf
+ 1713 05d9 5D000000 		.4byte	0x5d
+ 1714 05dd 02       		.uleb128 0x2
+ 1715 05de 91       		.byte	0x91
+ 1716 05df 6C       		.sleb128 -20
+ 1717 05e0 00       		.byte	0
+ 1718 05e1 00       		.byte	0
+ 1719 05e2 00       		.byte	0
+ 1720 05e3 05       		.uleb128 0x5
+ 1721 05e4 04       		.byte	0x4
+ 1722 05e5 6B030000 		.4byte	0x36b
+ 1723 05e9 0A       		.uleb128 0xa
+ 1724 05ea 6B030000 		.4byte	0x36b
+ 1725 05ee F9050000 		.4byte	0x5f9
+ 1726 05f2 0B       		.uleb128 0xb
+ 1727 05f3 9F000000 		.4byte	0x9f
+ 1728 05f7 08       		.byte	0x8
+ 1729 05f8 00       		.byte	0
+ 1730 05f9 1A       		.uleb128 0x1a
+ 1731 05fa 36080000 		.4byte	.LASF128
+ 1732 05fe 01       		.byte	0x1
+ 1733 05ff 0F       		.byte	0xf
+ 1734 0600 E9050000 		.4byte	0x5e9
+ 1735 0604 05       		.uleb128 0x5
+ 1736 0605 03       		.byte	0x3
+ 1737 0606 00000000 		.4byte	nodeTable
+ 1738 060a 1A       		.uleb128 0x1a
+ 1739 060b 7B0B0000 		.4byte	.LASF129
+ 1740 060f 01       		.byte	0x1
+ 1741 0610 10       		.byte	0x10
+ 1742 0611 6B000000 		.4byte	0x6b
+ 1743 0615 05       		.uleb128 0x5
+ 1744 0616 03       		.byte	0x3
+ 1745 0617 00000000 		.4byte	number_of_node
+ 1746 061b 1A       		.uleb128 0x1a
+ 1747 061c C9050000 		.4byte	.LASF130
+ 1748 0620 01       		.byte	0x1
+ 1749 0621 11       		.byte	0x11
+ 1750 0622 6B000000 		.4byte	0x6b
+ 1751 0626 05       		.uleb128 0x5
+ 1752 0627 03       		.byte	0x3
+ 1753 0628 00000000 		.4byte	nodeIndex
+ 1754 062c 00       		.byte	0
+ 1755              		.section	.debug_abbrev,"",%progbits
+ 1756              	.Ldebug_abbrev0:
+ 1757 0000 01       		.uleb128 0x1
+ 1758 0001 11       		.uleb128 0x11
+ 1759 0002 01       		.byte	0x1
+ 1760 0003 25       		.uleb128 0x25
+ 1761 0004 0E       		.uleb128 0xe
+ 1762 0005 13       		.uleb128 0x13
+ 1763 0006 0B       		.uleb128 0xb
+ 1764 0007 03       		.uleb128 0x3
+ 1765 0008 0E       		.uleb128 0xe
+ 1766 0009 1B       		.uleb128 0x1b
+ 1767 000a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 36
+
+
+ 1768 000b 55       		.uleb128 0x55
+ 1769 000c 17       		.uleb128 0x17
+ 1770 000d 11       		.uleb128 0x11
+ 1771 000e 01       		.uleb128 0x1
+ 1772 000f 10       		.uleb128 0x10
+ 1773 0010 17       		.uleb128 0x17
+ 1774 0011 00       		.byte	0
+ 1775 0012 00       		.byte	0
+ 1776 0013 02       		.uleb128 0x2
+ 1777 0014 24       		.uleb128 0x24
+ 1778 0015 00       		.byte	0
+ 1779 0016 0B       		.uleb128 0xb
+ 1780 0017 0B       		.uleb128 0xb
+ 1781 0018 3E       		.uleb128 0x3e
+ 1782 0019 0B       		.uleb128 0xb
+ 1783 001a 03       		.uleb128 0x3
+ 1784 001b 0E       		.uleb128 0xe
+ 1785 001c 00       		.byte	0
+ 1786 001d 00       		.byte	0
+ 1787 001e 03       		.uleb128 0x3
+ 1788 001f 24       		.uleb128 0x24
+ 1789 0020 00       		.byte	0
+ 1790 0021 0B       		.uleb128 0xb
+ 1791 0022 0B       		.uleb128 0xb
+ 1792 0023 3E       		.uleb128 0x3e
+ 1793 0024 0B       		.uleb128 0xb
+ 1794 0025 03       		.uleb128 0x3
+ 1795 0026 08       		.uleb128 0x8
+ 1796 0027 00       		.byte	0
+ 1797 0028 00       		.byte	0
+ 1798 0029 04       		.uleb128 0x4
+ 1799 002a 16       		.uleb128 0x16
+ 1800 002b 00       		.byte	0
+ 1801 002c 03       		.uleb128 0x3
+ 1802 002d 0E       		.uleb128 0xe
+ 1803 002e 3A       		.uleb128 0x3a
+ 1804 002f 0B       		.uleb128 0xb
+ 1805 0030 3B       		.uleb128 0x3b
+ 1806 0031 05       		.uleb128 0x5
+ 1807 0032 49       		.uleb128 0x49
+ 1808 0033 13       		.uleb128 0x13
+ 1809 0034 00       		.byte	0
+ 1810 0035 00       		.byte	0
+ 1811 0036 05       		.uleb128 0x5
+ 1812 0037 0F       		.uleb128 0xf
+ 1813 0038 00       		.byte	0
+ 1814 0039 0B       		.uleb128 0xb
+ 1815 003a 0B       		.uleb128 0xb
+ 1816 003b 49       		.uleb128 0x49
+ 1817 003c 13       		.uleb128 0x13
+ 1818 003d 00       		.byte	0
+ 1819 003e 00       		.byte	0
+ 1820 003f 06       		.uleb128 0x6
+ 1821 0040 04       		.uleb128 0x4
+ 1822 0041 01       		.byte	0x1
+ 1823 0042 0B       		.uleb128 0xb
+ 1824 0043 0B       		.uleb128 0xb
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 37
+
+
+ 1825 0044 49       		.uleb128 0x49
+ 1826 0045 13       		.uleb128 0x13
+ 1827 0046 3A       		.uleb128 0x3a
+ 1828 0047 0B       		.uleb128 0xb
+ 1829 0048 3B       		.uleb128 0x3b
+ 1830 0049 05       		.uleb128 0x5
+ 1831 004a 01       		.uleb128 0x1
+ 1832 004b 13       		.uleb128 0x13
+ 1833 004c 00       		.byte	0
+ 1834 004d 00       		.byte	0
+ 1835 004e 07       		.uleb128 0x7
+ 1836 004f 28       		.uleb128 0x28
+ 1837 0050 00       		.byte	0
+ 1838 0051 03       		.uleb128 0x3
+ 1839 0052 0E       		.uleb128 0xe
+ 1840 0053 1C       		.uleb128 0x1c
+ 1841 0054 0B       		.uleb128 0xb
+ 1842 0055 00       		.byte	0
+ 1843 0056 00       		.byte	0
+ 1844 0057 08       		.uleb128 0x8
+ 1845 0058 13       		.uleb128 0x13
+ 1846 0059 01       		.byte	0x1
+ 1847 005a 0B       		.uleb128 0xb
+ 1848 005b 0B       		.uleb128 0xb
+ 1849 005c 3A       		.uleb128 0x3a
+ 1850 005d 0B       		.uleb128 0xb
+ 1851 005e 3B       		.uleb128 0x3b
+ 1852 005f 05       		.uleb128 0x5
+ 1853 0060 01       		.uleb128 0x1
+ 1854 0061 13       		.uleb128 0x13
+ 1855 0062 00       		.byte	0
+ 1856 0063 00       		.byte	0
+ 1857 0064 09       		.uleb128 0x9
+ 1858 0065 0D       		.uleb128 0xd
+ 1859 0066 00       		.byte	0
+ 1860 0067 03       		.uleb128 0x3
+ 1861 0068 0E       		.uleb128 0xe
+ 1862 0069 3A       		.uleb128 0x3a
+ 1863 006a 0B       		.uleb128 0xb
+ 1864 006b 3B       		.uleb128 0x3b
+ 1865 006c 05       		.uleb128 0x5
+ 1866 006d 49       		.uleb128 0x49
+ 1867 006e 13       		.uleb128 0x13
+ 1868 006f 38       		.uleb128 0x38
+ 1869 0070 0B       		.uleb128 0xb
+ 1870 0071 00       		.byte	0
+ 1871 0072 00       		.byte	0
+ 1872 0073 0A       		.uleb128 0xa
+ 1873 0074 01       		.uleb128 0x1
+ 1874 0075 01       		.byte	0x1
+ 1875 0076 49       		.uleb128 0x49
+ 1876 0077 13       		.uleb128 0x13
+ 1877 0078 01       		.uleb128 0x1
+ 1878 0079 13       		.uleb128 0x13
+ 1879 007a 00       		.byte	0
+ 1880 007b 00       		.byte	0
+ 1881 007c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 38
+
+
+ 1882 007d 21       		.uleb128 0x21
+ 1883 007e 00       		.byte	0
+ 1884 007f 49       		.uleb128 0x49
+ 1885 0080 13       		.uleb128 0x13
+ 1886 0081 2F       		.uleb128 0x2f
+ 1887 0082 0B       		.uleb128 0xb
+ 1888 0083 00       		.byte	0
+ 1889 0084 00       		.byte	0
+ 1890 0085 0C       		.uleb128 0xc
+ 1891 0086 13       		.uleb128 0x13
+ 1892 0087 01       		.byte	0x1
+ 1893 0088 0B       		.uleb128 0xb
+ 1894 0089 0B       		.uleb128 0xb
+ 1895 008a 3A       		.uleb128 0x3a
+ 1896 008b 0B       		.uleb128 0xb
+ 1897 008c 3B       		.uleb128 0x3b
+ 1898 008d 0B       		.uleb128 0xb
+ 1899 008e 01       		.uleb128 0x1
+ 1900 008f 13       		.uleb128 0x13
+ 1901 0090 00       		.byte	0
+ 1902 0091 00       		.byte	0
+ 1903 0092 0D       		.uleb128 0xd
+ 1904 0093 0D       		.uleb128 0xd
+ 1905 0094 00       		.byte	0
+ 1906 0095 03       		.uleb128 0x3
+ 1907 0096 0E       		.uleb128 0xe
+ 1908 0097 3A       		.uleb128 0x3a
+ 1909 0098 0B       		.uleb128 0xb
+ 1910 0099 3B       		.uleb128 0x3b
+ 1911 009a 0B       		.uleb128 0xb
+ 1912 009b 49       		.uleb128 0x49
+ 1913 009c 13       		.uleb128 0x13
+ 1914 009d 38       		.uleb128 0x38
+ 1915 009e 0B       		.uleb128 0xb
+ 1916 009f 00       		.byte	0
+ 1917 00a0 00       		.byte	0
+ 1918 00a1 0E       		.uleb128 0xe
+ 1919 00a2 0D       		.uleb128 0xd
+ 1920 00a3 00       		.byte	0
+ 1921 00a4 03       		.uleb128 0x3
+ 1922 00a5 08       		.uleb128 0x8
+ 1923 00a6 3A       		.uleb128 0x3a
+ 1924 00a7 0B       		.uleb128 0xb
+ 1925 00a8 3B       		.uleb128 0x3b
+ 1926 00a9 0B       		.uleb128 0xb
+ 1927 00aa 49       		.uleb128 0x49
+ 1928 00ab 13       		.uleb128 0x13
+ 1929 00ac 38       		.uleb128 0x38
+ 1930 00ad 0B       		.uleb128 0xb
+ 1931 00ae 00       		.byte	0
+ 1932 00af 00       		.byte	0
+ 1933 00b0 0F       		.uleb128 0xf
+ 1934 00b1 16       		.uleb128 0x16
+ 1935 00b2 00       		.byte	0
+ 1936 00b3 03       		.uleb128 0x3
+ 1937 00b4 0E       		.uleb128 0xe
+ 1938 00b5 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 39
+
+
+ 1939 00b6 0B       		.uleb128 0xb
+ 1940 00b7 3B       		.uleb128 0x3b
+ 1941 00b8 0B       		.uleb128 0xb
+ 1942 00b9 49       		.uleb128 0x49
+ 1943 00ba 13       		.uleb128 0x13
+ 1944 00bb 00       		.byte	0
+ 1945 00bc 00       		.byte	0
+ 1946 00bd 10       		.uleb128 0x10
+ 1947 00be 2E       		.uleb128 0x2e
+ 1948 00bf 01       		.byte	0x1
+ 1949 00c0 3F       		.uleb128 0x3f
+ 1950 00c1 19       		.uleb128 0x19
+ 1951 00c2 03       		.uleb128 0x3
+ 1952 00c3 0E       		.uleb128 0xe
+ 1953 00c4 3A       		.uleb128 0x3a
+ 1954 00c5 0B       		.uleb128 0xb
+ 1955 00c6 3B       		.uleb128 0x3b
+ 1956 00c7 0B       		.uleb128 0xb
+ 1957 00c8 27       		.uleb128 0x27
+ 1958 00c9 19       		.uleb128 0x19
+ 1959 00ca 11       		.uleb128 0x11
+ 1960 00cb 01       		.uleb128 0x1
+ 1961 00cc 12       		.uleb128 0x12
+ 1962 00cd 06       		.uleb128 0x6
+ 1963 00ce 40       		.uleb128 0x40
+ 1964 00cf 18       		.uleb128 0x18
+ 1965 00d0 9742     		.uleb128 0x2117
+ 1966 00d2 19       		.uleb128 0x19
+ 1967 00d3 01       		.uleb128 0x1
+ 1968 00d4 13       		.uleb128 0x13
+ 1969 00d5 00       		.byte	0
+ 1970 00d6 00       		.byte	0
+ 1971 00d7 11       		.uleb128 0x11
+ 1972 00d8 05       		.uleb128 0x5
+ 1973 00d9 00       		.byte	0
+ 1974 00da 03       		.uleb128 0x3
+ 1975 00db 0E       		.uleb128 0xe
+ 1976 00dc 3A       		.uleb128 0x3a
+ 1977 00dd 0B       		.uleb128 0xb
+ 1978 00de 3B       		.uleb128 0x3b
+ 1979 00df 0B       		.uleb128 0xb
+ 1980 00e0 49       		.uleb128 0x49
+ 1981 00e1 13       		.uleb128 0x13
+ 1982 00e2 02       		.uleb128 0x2
+ 1983 00e3 18       		.uleb128 0x18
+ 1984 00e4 00       		.byte	0
+ 1985 00e5 00       		.byte	0
+ 1986 00e6 12       		.uleb128 0x12
+ 1987 00e7 2E       		.uleb128 0x2e
+ 1988 00e8 01       		.byte	0x1
+ 1989 00e9 3F       		.uleb128 0x3f
+ 1990 00ea 19       		.uleb128 0x19
+ 1991 00eb 03       		.uleb128 0x3
+ 1992 00ec 0E       		.uleb128 0xe
+ 1993 00ed 3A       		.uleb128 0x3a
+ 1994 00ee 0B       		.uleb128 0xb
+ 1995 00ef 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 40
+
+
+ 1996 00f0 0B       		.uleb128 0xb
+ 1997 00f1 27       		.uleb128 0x27
+ 1998 00f2 19       		.uleb128 0x19
+ 1999 00f3 49       		.uleb128 0x49
+ 2000 00f4 13       		.uleb128 0x13
+ 2001 00f5 11       		.uleb128 0x11
+ 2002 00f6 01       		.uleb128 0x1
+ 2003 00f7 12       		.uleb128 0x12
+ 2004 00f8 06       		.uleb128 0x6
+ 2005 00f9 40       		.uleb128 0x40
+ 2006 00fa 18       		.uleb128 0x18
+ 2007 00fb 9642     		.uleb128 0x2116
+ 2008 00fd 19       		.uleb128 0x19
+ 2009 00fe 01       		.uleb128 0x1
+ 2010 00ff 13       		.uleb128 0x13
+ 2011 0100 00       		.byte	0
+ 2012 0101 00       		.byte	0
+ 2013 0102 13       		.uleb128 0x13
+ 2014 0103 0B       		.uleb128 0xb
+ 2015 0104 01       		.byte	0x1
+ 2016 0105 11       		.uleb128 0x11
+ 2017 0106 01       		.uleb128 0x1
+ 2018 0107 12       		.uleb128 0x12
+ 2019 0108 06       		.uleb128 0x6
+ 2020 0109 00       		.byte	0
+ 2021 010a 00       		.byte	0
+ 2022 010b 14       		.uleb128 0x14
+ 2023 010c 34       		.uleb128 0x34
+ 2024 010d 00       		.byte	0
+ 2025 010e 03       		.uleb128 0x3
+ 2026 010f 0E       		.uleb128 0xe
+ 2027 0110 3A       		.uleb128 0x3a
+ 2028 0111 0B       		.uleb128 0xb
+ 2029 0112 3B       		.uleb128 0x3b
+ 2030 0113 0B       		.uleb128 0xb
+ 2031 0114 49       		.uleb128 0x49
+ 2032 0115 13       		.uleb128 0x13
+ 2033 0116 02       		.uleb128 0x2
+ 2034 0117 18       		.uleb128 0x18
+ 2035 0118 00       		.byte	0
+ 2036 0119 00       		.byte	0
+ 2037 011a 15       		.uleb128 0x15
+ 2038 011b 34       		.uleb128 0x34
+ 2039 011c 00       		.byte	0
+ 2040 011d 03       		.uleb128 0x3
+ 2041 011e 08       		.uleb128 0x8
+ 2042 011f 3A       		.uleb128 0x3a
+ 2043 0120 0B       		.uleb128 0xb
+ 2044 0121 3B       		.uleb128 0x3b
+ 2045 0122 0B       		.uleb128 0xb
+ 2046 0123 49       		.uleb128 0x49
+ 2047 0124 13       		.uleb128 0x13
+ 2048 0125 02       		.uleb128 0x2
+ 2049 0126 18       		.uleb128 0x18
+ 2050 0127 00       		.byte	0
+ 2051 0128 00       		.byte	0
+ 2052 0129 16       		.uleb128 0x16
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 41
+
+
+ 2053 012a 2E       		.uleb128 0x2e
+ 2054 012b 01       		.byte	0x1
+ 2055 012c 3F       		.uleb128 0x3f
+ 2056 012d 19       		.uleb128 0x19
+ 2057 012e 03       		.uleb128 0x3
+ 2058 012f 0E       		.uleb128 0xe
+ 2059 0130 3A       		.uleb128 0x3a
+ 2060 0131 0B       		.uleb128 0xb
+ 2061 0132 3B       		.uleb128 0x3b
+ 2062 0133 0B       		.uleb128 0xb
+ 2063 0134 27       		.uleb128 0x27
+ 2064 0135 19       		.uleb128 0x19
+ 2065 0136 11       		.uleb128 0x11
+ 2066 0137 01       		.uleb128 0x1
+ 2067 0138 12       		.uleb128 0x12
+ 2068 0139 06       		.uleb128 0x6
+ 2069 013a 40       		.uleb128 0x40
+ 2070 013b 18       		.uleb128 0x18
+ 2071 013c 9642     		.uleb128 0x2116
+ 2072 013e 19       		.uleb128 0x19
+ 2073 013f 01       		.uleb128 0x1
+ 2074 0140 13       		.uleb128 0x13
+ 2075 0141 00       		.byte	0
+ 2076 0142 00       		.byte	0
+ 2077 0143 17       		.uleb128 0x17
+ 2078 0144 17       		.uleb128 0x17
+ 2079 0145 01       		.byte	0x1
+ 2080 0146 0B       		.uleb128 0xb
+ 2081 0147 0B       		.uleb128 0xb
+ 2082 0148 3A       		.uleb128 0x3a
+ 2083 0149 0B       		.uleb128 0xb
+ 2084 014a 3B       		.uleb128 0x3b
+ 2085 014b 0B       		.uleb128 0xb
+ 2086 014c 01       		.uleb128 0x1
+ 2087 014d 13       		.uleb128 0x13
+ 2088 014e 00       		.byte	0
+ 2089 014f 00       		.byte	0
+ 2090 0150 18       		.uleb128 0x18
+ 2091 0151 0D       		.uleb128 0xd
+ 2092 0152 00       		.byte	0
+ 2093 0153 03       		.uleb128 0x3
+ 2094 0154 08       		.uleb128 0x8
+ 2095 0155 3A       		.uleb128 0x3a
+ 2096 0156 0B       		.uleb128 0xb
+ 2097 0157 3B       		.uleb128 0x3b
+ 2098 0158 0B       		.uleb128 0xb
+ 2099 0159 49       		.uleb128 0x49
+ 2100 015a 13       		.uleb128 0x13
+ 2101 015b 00       		.byte	0
+ 2102 015c 00       		.byte	0
+ 2103 015d 19       		.uleb128 0x19
+ 2104 015e 0D       		.uleb128 0xd
+ 2105 015f 00       		.byte	0
+ 2106 0160 03       		.uleb128 0x3
+ 2107 0161 0E       		.uleb128 0xe
+ 2108 0162 3A       		.uleb128 0x3a
+ 2109 0163 0B       		.uleb128 0xb
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 42
+
+
+ 2110 0164 3B       		.uleb128 0x3b
+ 2111 0165 0B       		.uleb128 0xb
+ 2112 0166 49       		.uleb128 0x49
+ 2113 0167 13       		.uleb128 0x13
+ 2114 0168 00       		.byte	0
+ 2115 0169 00       		.byte	0
+ 2116 016a 1A       		.uleb128 0x1a
+ 2117 016b 34       		.uleb128 0x34
+ 2118 016c 00       		.byte	0
+ 2119 016d 03       		.uleb128 0x3
+ 2120 016e 0E       		.uleb128 0xe
+ 2121 016f 3A       		.uleb128 0x3a
+ 2122 0170 0B       		.uleb128 0xb
+ 2123 0171 3B       		.uleb128 0x3b
+ 2124 0172 0B       		.uleb128 0xb
+ 2125 0173 49       		.uleb128 0x49
+ 2126 0174 13       		.uleb128 0x13
+ 2127 0175 3F       		.uleb128 0x3f
+ 2128 0176 19       		.uleb128 0x19
+ 2129 0177 02       		.uleb128 0x2
+ 2130 0178 18       		.uleb128 0x18
+ 2131 0179 00       		.byte	0
+ 2132 017a 00       		.byte	0
+ 2133 017b 00       		.byte	0
+ 2134              		.section	.debug_aranges,"",%progbits
+ 2135 0000 3C000000 		.4byte	0x3c
+ 2136 0004 0200     		.2byte	0x2
+ 2137 0006 00000000 		.4byte	.Ldebug_info0
+ 2138 000a 04       		.byte	0x4
+ 2139 000b 00       		.byte	0
+ 2140 000c 0000     		.2byte	0
+ 2141 000e 0000     		.2byte	0
+ 2142 0010 00000000 		.4byte	.LFB36
+ 2143 0014 54000000 		.4byte	.LFE36-.LFB36
+ 2144 0018 00000000 		.4byte	.LFB37
+ 2145 001c 4C020000 		.4byte	.LFE37-.LFB37
+ 2146 0020 00000000 		.4byte	.LFB38
+ 2147 0024 54010000 		.4byte	.LFE38-.LFB38
+ 2148 0028 00000000 		.4byte	.LFB39
+ 2149 002c E0000000 		.4byte	.LFE39-.LFB39
+ 2150 0030 00000000 		.4byte	.LFB40
+ 2151 0034 AC000000 		.4byte	.LFE40-.LFB40
+ 2152 0038 00000000 		.4byte	0
+ 2153 003c 00000000 		.4byte	0
+ 2154              		.section	.debug_ranges,"",%progbits
+ 2155              	.Ldebug_ranges0:
+ 2156 0000 00000000 		.4byte	.LFB36
+ 2157 0004 54000000 		.4byte	.LFE36
+ 2158 0008 00000000 		.4byte	.LFB37
+ 2159 000c 4C020000 		.4byte	.LFE37
+ 2160 0010 00000000 		.4byte	.LFB38
+ 2161 0014 54010000 		.4byte	.LFE38
+ 2162 0018 00000000 		.4byte	.LFB39
+ 2163 001c E0000000 		.4byte	.LFE39
+ 2164 0020 00000000 		.4byte	.LFB40
+ 2165 0024 AC000000 		.4byte	.LFE40
+ 2166 0028 00000000 		.4byte	0
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 43
+
+
+ 2167 002c 00000000 		.4byte	0
+ 2168              		.section	.debug_line,"",%progbits
+ 2169              	.Ldebug_line0:
+ 2170 0000 64010000 		.section	.debug_str,"MS",%progbits,1
+ 2170      02007400 
+ 2170      00000201 
+ 2170      FB0E0D00 
+ 2170      01010101 
+ 2171              	.LASF57:
+ 2172 0000 4359424C 		.ascii	"CYBLE_EVT_GATTC_READ_BLOB_RSP\000"
+ 2172      455F4556 
+ 2172      545F4741 
+ 2172      5454435F 
+ 2172      52454144 
+ 2173              	.LASF109:
+ 2174 001e 636F756E 		.ascii	"count\000"
+ 2174      7400
+ 2175              	.LASF10:
+ 2176 0024 75696E74 		.ascii	"uint16\000"
+ 2176      313600
+ 2177              	.LASF79:
+ 2178 002b 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_DATA_READ\000"
+ 2178      455F4556 
+ 2178      545F4C32 
+ 2178      4341505F 
+ 2178      43424643 
+ 2179              	.LASF33:
+ 2180 004a 4359424C 		.ascii	"CYBLE_EVT_GAP_CONNECTION_UPDATE_COMPLETE\000"
+ 2180      455F4556 
+ 2180      545F4741 
+ 2180      505F434F 
+ 2180      4E4E4543 
+ 2181              	.LASF78:
+ 2182 0073 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_DISCONN_CNF\000"
+ 2182      455F4556 
+ 2182      545F4C32 
+ 2182      4341505F 
+ 2182      43424643 
+ 2183              	.LASF38:
+ 2184 0094 4359424C 		.ascii	"CYBLE_EVT_GAP_OOB_GENERATED_NOTIFICATION\000"
+ 2184      455F4556 
+ 2184      545F4741 
+ 2184      505F4F4F 
+ 2184      425F4745 
+ 2185              	.LASF21:
+ 2186 00bd 4359424C 		.ascii	"CYBLE_EVT_STACK_BUSY_STATUS\000"
+ 2186      455F4556 
+ 2186      545F5354 
+ 2186      41434B5F 
+ 2186      42555359 
+ 2187              	.LASF63:
+ 2188 00d9 4359424C 		.ascii	"CYBLE_EVT_GATTS_EXEC_WRITE_REQ\000"
+ 2188      455F4556 
+ 2188      545F4741 
+ 2188      5454535F 
+ 2188      45584543 
+ 2189              	.LASF89:
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 44
+
+
+ 2190 00f8 74797065 		.ascii	"type\000"
+ 2190      00
+ 2191              	.LASF18:
+ 2192 00fd 4359424C 		.ascii	"CYBLE_EVT_TIMEOUT\000"
+ 2192      455F4556 
+ 2192      545F5449 
+ 2192      4D454F55 
+ 2192      5400
+ 2193              	.LASF4:
+ 2194 010f 6C6F6E67 		.ascii	"long int\000"
+ 2194      20696E74 
+ 2194      00
+ 2195              	.LASF7:
+ 2196 0118 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2196      206C6F6E 
+ 2196      6720756E 
+ 2196      7369676E 
+ 2196      65642069 
+ 2197              	.LASF20:
+ 2198 012f 4359424C 		.ascii	"CYBLE_EVT_HCI_STATUS\000"
+ 2198      455F4556 
+ 2198      545F4843 
+ 2198      495F5354 
+ 2198      41545553 
+ 2199              	.LASF122:
+ 2200 0144 74656D70 		.ascii	"tempAf\000"
+ 2200      416600
+ 2201              	.LASF83:
+ 2202 014b 4359424C 		.ascii	"CYBLE_EVT_PENDING_FLASH_WRITE\000"
+ 2202      455F4556 
+ 2202      545F5045 
+ 2202      4E44494E 
+ 2202      475F464C 
+ 2203              	.LASF90:
+ 2204 0169 4359424C 		.ascii	"CYBLE_GAP_BD_ADDR_T\000"
+ 2204      455F4741 
+ 2204      505F4244 
+ 2204      5F414444 
+ 2204      525F5400 
+ 2205              	.LASF72:
+ 2206 017d 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CONN_PARAM_UPDATE_REQ\000"
+ 2206      455F4556 
+ 2206      545F4C32 
+ 2206      4341505F 
+ 2206      434F4E4E 
+ 2207              	.LASF99:
+ 2208 01a3 74696D65 		.ascii	"timestamp\000"
+ 2208      7374616D 
+ 2208      7000
+ 2209              	.LASF32:
+ 2210 01ad 4359424C 		.ascii	"CYBLE_EVT_GAP_ENCRYPT_CHANGE\000"
+ 2210      455F4556 
+ 2210      545F4741 
+ 2210      505F454E 
+ 2210      43525950 
+ 2211              	.LASF106:
+ 2212 01ca 66697273 		.ascii	"firstByteTemp\000"
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 45
+
+
+ 2212      74427974 
+ 2212      6554656D 
+ 2212      7000
+ 2213              	.LASF110:
+ 2214 01d8 6E6F6465 		.ascii	"nodeInit\000"
+ 2214      496E6974 
+ 2214      00
+ 2215              	.LASF6:
+ 2216 01e1 6C6F6E67 		.ascii	"long long int\000"
+ 2216      206C6F6E 
+ 2216      6720696E 
+ 2216      7400
+ 2217              	.LASF0:
+ 2218 01ef 7369676E 		.ascii	"signed char\000"
+ 2218      65642063 
+ 2218      68617200 
+ 2219              	.LASF17:
+ 2220 01fb 4359424C 		.ascii	"CYBLE_EVT_STACK_ON\000"
+ 2220      455F4556 
+ 2220      545F5354 
+ 2220      41434B5F 
+ 2220      4F4E00
+ 2221              	.LASF96:
+ 2222 020e 6E6F6465 		.ascii	"nodeAddr\000"
+ 2222      41646472 
+ 2222      00
+ 2223              	.LASF34:
+ 2224 0217 4359424C 		.ascii	"CYBLE_EVT_GAPC_SCAN_START_STOP\000"
+ 2224      455F4556 
+ 2224      545F4741 
+ 2224      50435F53 
+ 2224      43414E5F 
+ 2225              	.LASF24:
+ 2226 0236 4359424C 		.ascii	"CYBLE_EVT_GAP_AUTH_REQ\000"
+ 2226      455F4556 
+ 2226      545F4741 
+ 2226      505F4155 
+ 2226      54485F52 
+ 2227              	.LASF56:
+ 2228 024d 4359424C 		.ascii	"CYBLE_EVT_GATTC_READ_RSP\000"
+ 2228      455F4556 
+ 2228      545F4741 
+ 2228      5454435F 
+ 2228      52454144 
+ 2229              	.LASF61:
+ 2230 0266 4359424C 		.ascii	"CYBLE_EVT_GATTS_WRITE_CMD_REQ\000"
+ 2230      455F4556 
+ 2230      545F4741 
+ 2230      5454535F 
+ 2230      57524954 
+ 2231              	.LASF133:
+ 2232 0284 433A5C55 		.ascii	"C:\\Users\\run1009\\Documents\\Mesh_Flood_DIR_Senso"
+ 2232      73657273 
+ 2232      5C72756E 
+ 2232      31303039 
+ 2232      5C446F63 
+ 2233 02b3 725C4D65 		.ascii	"r\\Mesh_Flood_DIR_Sensor.cydsn\000"
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 46
+
+
+ 2233      73685F46 
+ 2233      6C6F6F64 
+ 2233      5F444952 
+ 2233      5F53656E 
+ 2234              	.LASF103:
+ 2235 02d1 4E4F4445 		.ascii	"NODE_TABLE_T\000"
+ 2235      5F544142 
+ 2235      4C455F54 
+ 2235      00
+ 2236              	.LASF29:
+ 2237 02de 4359424C 		.ascii	"CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP\000"
+ 2237      455F4556 
+ 2237      545F4741 
+ 2237      50505F41 
+ 2237      44564552 
+ 2238              	.LASF9:
+ 2239 0306 75696E74 		.ascii	"uint8\000"
+ 2239      3800
+ 2240              	.LASF64:
+ 2241 030c 4359424C 		.ascii	"CYBLE_EVT_GATTC_EXEC_WRITE_RSP\000"
+ 2241      455F4556 
+ 2241      545F4741 
+ 2241      5454435F 
+ 2241      45584543 
+ 2242              	.LASF12:
+ 2243 032b 646F7562 		.ascii	"double\000"
+ 2243      6C6500
+ 2244              	.LASF94:
+ 2245 0332 4359424C 		.ascii	"CYBLE_SRVI_CUSTOMS_END\000"
+ 2245      455F5352 
+ 2245      56495F43 
+ 2245      5553544F 
+ 2245      4D535F45 
+ 2246              	.LASF101:
+ 2247 0349 7365636F 		.ascii	"secondByteAvgData\000"
+ 2247      6E644279 
+ 2247      74654176 
+ 2247      67446174 
+ 2247      6100
+ 2248              	.LASF124:
+ 2249 035b 75706461 		.ascii	"updateNodeTable\000"
+ 2249      74654E6F 
+ 2249      64655461 
+ 2249      626C6500 
+ 2250              	.LASF119:
+ 2251 036b 62797465 		.ascii	"bytes\000"
+ 2251      7300
+ 2252              	.LASF87:
+ 2253 0371 4359424C 		.ascii	"CYBLE_EVT_MAX\000"
+ 2253      455F4556 
+ 2253      545F4D41 
+ 2253      5800
+ 2254              	.LASF82:
+ 2255 037f 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_DATA_WRITE_IND\000"
+ 2255      455F4556 
+ 2255      545F4C32 
+ 2255      4341505F 
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 47
+
+
+ 2255      43424643 
+ 2256              	.LASF44:
+ 2257 03a3 4359424C 		.ascii	"CYBLE_EVT_GAP_SCAN_REQ_RECVD\000"
+ 2257      455F4556 
+ 2257      545F4741 
+ 2257      505F5343 
+ 2257      414E5F52 
+ 2258              	.LASF112:
+ 2259 03c0 74656D70 		.ascii	"temp\000"
+ 2259      00
+ 2260              	.LASF69:
+ 2261 03c5 4359424C 		.ascii	"CYBLE_EVT_GATTC_STOP_CMD_COMPLETE\000"
+ 2261      455F4556 
+ 2261      545F4741 
+ 2261      5454435F 
+ 2261      53544F50 
+ 2262              	.LASF8:
+ 2263 03e7 756E7369 		.ascii	"unsigned int\000"
+ 2263      676E6564 
+ 2263      20696E74 
+ 2263      00
+ 2264              	.LASF84:
+ 2265 03f4 4359424C 		.ascii	"CYBLE_EVT_LE_PING_AUTH_TIMEOUT\000"
+ 2265      455F4556 
+ 2265      545F4C45 
+ 2265      5F50494E 
+ 2265      475F4155 
+ 2266              	.LASF5:
+ 2267 0413 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2267      20756E73 
+ 2267      69676E65 
+ 2267      6420696E 
+ 2267      7400
+ 2268              	.LASF43:
+ 2269 0425 4359424C 		.ascii	"CYBLE_EVT_GAP_CONN_ESTB\000"
+ 2269      455F4556 
+ 2269      545F4741 
+ 2269      505F434F 
+ 2269      4E4E5F45 
+ 2270              	.LASF115:
+ 2271 043d 666C6F61 		.ascii	"float2Bytes\000"
+ 2271      74324279 
+ 2271      74657300 
+ 2272              	.LASF59:
+ 2273 0449 4359424C 		.ascii	"CYBLE_EVT_GATTS_WRITE_REQ\000"
+ 2273      455F4556 
+ 2273      545F4741 
+ 2273      5454535F 
+ 2273      57524954 
+ 2274              	.LASF51:
+ 2275 0463 4359424C 		.ascii	"CYBLE_EVT_GATTC_XCHNG_MTU_RSP\000"
+ 2275      455F4556 
+ 2275      545F4741 
+ 2275      5454435F 
+ 2275      5843484E 
+ 2276              	.LASF68:
+ 2277 0481 4359424C 		.ascii	"CYBLE_EVT_GATTS_DATA_SIGNED_CMD_REQ\000"
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 48
+
+
+ 2277      455F4556 
+ 2277      545F4741 
+ 2277      5454535F 
+ 2277      44415441 
+ 2278              	.LASF121:
+ 2279 04a5 76617242 		.ascii	"varBefore\000"
+ 2279      65666F72 
+ 2279      6500
+ 2280              	.LASF71:
+ 2281 04af 4359424C 		.ascii	"CYBLE_EVT_GATTC_LONG_PROCEDURE_END\000"
+ 2281      455F4556 
+ 2281      545F4741 
+ 2281      5454435F 
+ 2281      4C4F4E47 
+ 2282              	.LASF3:
+ 2283 04d2 73686F72 		.ascii	"short unsigned int\000"
+ 2283      7420756E 
+ 2283      7369676E 
+ 2283      65642069 
+ 2283      6E7400
+ 2284              	.LASF16:
+ 2285 04e5 4359424C 		.ascii	"CYBLE_EVT_HOST_INVALID\000"
+ 2285      455F4556 
+ 2285      545F484F 
+ 2285      53545F49 
+ 2285      4E56414C 
+ 2286              	.LASF54:
+ 2287 04fc 4359424C 		.ascii	"CYBLE_EVT_GATTC_FIND_INFO_RSP\000"
+ 2287      455F4556 
+ 2287      545F4741 
+ 2287      5454435F 
+ 2287      46494E44 
+ 2288              	.LASF22:
+ 2289 051a 4359424C 		.ascii	"CYBLE_EVT_MEMORY_REQUEST\000"
+ 2289      455F4556 
+ 2289      545F4D45 
+ 2289      4D4F5259 
+ 2289      5F524551 
+ 2290              	.LASF88:
+ 2291 0533 62644164 		.ascii	"bdAddr\000"
+ 2291      647200
+ 2292              	.LASF25:
+ 2293 053a 4359424C 		.ascii	"CYBLE_EVT_GAP_PASSKEY_ENTRY_REQUEST\000"
+ 2293      455F4556 
+ 2293      545F4741 
+ 2293      505F5041 
+ 2293      53534B45 
+ 2294              	.LASF30:
+ 2295 055e 4359424C 		.ascii	"CYBLE_EVT_GAP_DEVICE_CONNECTED\000"
+ 2295      455F4556 
+ 2295      545F4741 
+ 2295      505F4445 
+ 2295      56494345 
+ 2296              	.LASF45:
+ 2297 057d 4359424C 		.ascii	"CYBLE_EVT_GAP_AUTH_REQ_REPLY_ERR\000"
+ 2297      455F4556 
+ 2297      545F4741 
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 49
+
+
+ 2297      505F4155 
+ 2297      54485F52 
+ 2298              	.LASF2:
+ 2299 059e 73686F72 		.ascii	"short int\000"
+ 2299      7420696E 
+ 2299      7400
+ 2300              	.LASF102:
+ 2301 05a8 746F7461 		.ascii	"total\000"
+ 2301      6C00
+ 2302              	.LASF48:
+ 2303 05ae 4359424C 		.ascii	"CYBLE_EVT_GATT_CONNECT_IND\000"
+ 2303      455F4556 
+ 2303      545F4741 
+ 2303      54545F43 
+ 2303      4F4E4E45 
+ 2304              	.LASF130:
+ 2305 05c9 6E6F6465 		.ascii	"nodeIndex\000"
+ 2305      496E6465 
+ 2305      7800
+ 2306              	.LASF74:
+ 2307 05d3 4359424C 		.ascii	"CYBLE_EVT_L2CAP_COMMAND_REJ\000"
+ 2307      455F4556 
+ 2307      545F4C32 
+ 2307      4341505F 
+ 2307      434F4D4D 
+ 2308              	.LASF23:
+ 2309 05ef 4359424C 		.ascii	"CYBLE_EVT_GAPC_SCAN_PROGRESS_RESULT\000"
+ 2309      455F4556 
+ 2309      545F4741 
+ 2309      50435F53 
+ 2309      43414E5F 
+ 2310              	.LASF46:
+ 2311 0613 4359424C 		.ascii	"CYBLE_EVT_GAP_SMP_LOC_P256_KEYS_GEN_AND_SET_COMPLET"
+ 2311      455F4556 
+ 2311      545F4741 
+ 2311      505F534D 
+ 2311      505F4C4F 
+ 2312 0646 4500     		.ascii	"E\000"
+ 2313              	.LASF75:
+ 2314 0648 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_CONN_IND\000"
+ 2314      455F4556 
+ 2314      545F4C32 
+ 2314      4341505F 
+ 2314      43424643 
+ 2315              	.LASF53:
+ 2316 0666 4359424C 		.ascii	"CYBLE_EVT_GATTC_READ_BY_TYPE_RSP\000"
+ 2316      455F4556 
+ 2316      545F4741 
+ 2316      5454435F 
+ 2316      52454144 
+ 2317              	.LASF15:
+ 2318 0687 73697A65 		.ascii	"sizetype\000"
+ 2318      74797065 
+ 2318      00
+ 2319              	.LASF28:
+ 2320 0690 4359424C 		.ascii	"CYBLE_EVT_GAP_AUTH_FAILED\000"
+ 2320      455F4556 
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 50
+
+
+ 2320      545F4741 
+ 2320      505F4155 
+ 2320      54485F46 
+ 2321              	.LASF60:
+ 2322 06aa 4359424C 		.ascii	"CYBLE_EVT_GATTC_WRITE_RSP\000"
+ 2322      455F4556 
+ 2322      545F4741 
+ 2322      5454435F 
+ 2322      57524954 
+ 2323              	.LASF114:
+ 2324 06c4 6E657741 		.ascii	"newAvgTemp\000"
+ 2324      76675465 
+ 2324      6D7000
+ 2325              	.LASF41:
+ 2326 06cf 4359424C 		.ascii	"CYBLE_EVT_GAPC_DIRECT_ADV_REPORT\000"
+ 2326      455F4556 
+ 2326      545F4741 
+ 2326      50435F44 
+ 2326      49524543 
+ 2327              	.LASF39:
+ 2328 06f0 4359424C 		.ascii	"CYBLE_EVT_GAP_DATA_LENGTH_CHANGE\000"
+ 2328      455F4556 
+ 2328      545F4741 
+ 2328      505F4441 
+ 2328      54415F4C 
+ 2329              	.LASF27:
+ 2330 0711 4359424C 		.ascii	"CYBLE_EVT_GAP_AUTH_COMPLETE\000"
+ 2330      455F4556 
+ 2330      545F4741 
+ 2330      505F4155 
+ 2330      54485F43 
+ 2331              	.LASF65:
+ 2332 072d 4359424C 		.ascii	"CYBLE_EVT_GATTC_HANDLE_VALUE_NTF\000"
+ 2332      455F4556 
+ 2332      545F4741 
+ 2332      5454435F 
+ 2332      48414E44 
+ 2333              	.LASF93:
+ 2334 074e 4359424C 		.ascii	"CYBLE_SRVI_CUSTOMS\000"
+ 2334      455F5352 
+ 2334      56495F43 
+ 2334      5553544F 
+ 2334      4D5300
+ 2335              	.LASF111:
+ 2336 0761 63616C41 		.ascii	"calAverage\000"
+ 2336      76657261 
+ 2336      676500
+ 2337              	.LASF76:
+ 2338 076c 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_CONN_CNF\000"
+ 2338      455F4556 
+ 2338      545F4C32 
+ 2338      4341505F 
+ 2338      43424643 
+ 2339              	.LASF52:
+ 2340 078a 4359424C 		.ascii	"CYBLE_EVT_GATTC_READ_BY_GROUP_TYPE_RSP\000"
+ 2340      455F4556 
+ 2340      545F4741 
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 51
+
+
+ 2340      5454435F 
+ 2340      52454144 
+ 2341              	.LASF11:
+ 2342 07b1 666C6F61 		.ascii	"float\000"
+ 2342      7400
+ 2343              	.LASF107:
+ 2344 07b7 7365636F 		.ascii	"secondByteTemp\000"
+ 2344      6E644279 
+ 2344      74655465 
+ 2344      6D7000
+ 2345              	.LASF98:
+ 2346 07c6 7365636F 		.ascii	"secondByteTempData\000"
+ 2346      6E644279 
+ 2346      74655465 
+ 2346      6D704461 
+ 2346      746100
+ 2347              	.LASF49:
+ 2348 07d9 4359424C 		.ascii	"CYBLE_EVT_GATT_DISCONNECT_IND\000"
+ 2348      455F4556 
+ 2348      545F4741 
+ 2348      54545F44 
+ 2348      4953434F 
+ 2349              	.LASF1:
+ 2350 07f7 756E7369 		.ascii	"unsigned char\000"
+ 2350      676E6564 
+ 2350      20636861 
+ 2350      7200
+ 2351              	.LASF37:
+ 2352 0805 4359424C 		.ascii	"CYBLE_EVT_GAP_KEYPRESS_NOTIFICATION\000"
+ 2352      455F4556 
+ 2352      545F4741 
+ 2352      505F4B45 
+ 2352      59505245 
+ 2353              	.LASF132:
+ 2354 0829 73746F72 		.ascii	"store.c\000"
+ 2354      652E6300 
+ 2355              	.LASF126:
+ 2356 0831 6E6F6465 		.ascii	"node\000"
+ 2356      00
+ 2357              	.LASF128:
+ 2358 0836 6E6F6465 		.ascii	"nodeTable\000"
+ 2358      5461626C 
+ 2358      6500
+ 2359              	.LASF66:
+ 2360 0840 4359424C 		.ascii	"CYBLE_EVT_GATTC_HANDLE_VALUE_IND\000"
+ 2360      455F4556 
+ 2360      545F4741 
+ 2360      5454435F 
+ 2360      48414E44 
+ 2361              	.LASF36:
+ 2362 0861 4359424C 		.ascii	"CYBLE_EVT_GAP_NUMERIC_COMPARISON_REQUEST\000"
+ 2362      455F4556 
+ 2362      545F4741 
+ 2362      505F4E55 
+ 2362      4D455249 
+ 2363              	.LASF85:
+ 2364 088a 4359424C 		.ascii	"CYBLE_EVT_HCI_PKT\000"
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 52
+
+
+ 2364      455F4556 
+ 2364      545F4843 
+ 2364      495F504B 
+ 2364      5400
+ 2365              	.LASF62:
+ 2366 089c 4359424C 		.ascii	"CYBLE_EVT_GATTS_PREP_WRITE_REQ\000"
+ 2366      455F4556 
+ 2366      545F4741 
+ 2366      5454535F 
+ 2366      50524550 
+ 2367              	.LASF116:
+ 2368 08bb 76616C75 		.ascii	"value\000"
+ 2368      6500
+ 2369              	.LASF118:
+ 2370 08c1 7365636F 		.ascii	"secondByte\000"
+ 2370      6E644279 
+ 2370      746500
+ 2371              	.LASF67:
+ 2372 08cc 4359424C 		.ascii	"CYBLE_EVT_GATTS_HANDLE_VALUE_CNF\000"
+ 2372      455F4556 
+ 2372      545F4741 
+ 2372      5454535F 
+ 2372      48414E44 
+ 2373              	.LASF47:
+ 2374 08ed 4359424C 		.ascii	"CYBLE_EVT_GATTC_ERROR_RSP\000"
+ 2374      455F4556 
+ 2374      545F4741 
+ 2374      5454435F 
+ 2374      4552524F 
+ 2375              	.LASF42:
+ 2376 0907 4359424C 		.ascii	"CYBLE_EVT_GAP_SMP_NEGOTIATED_AUTH_INFO\000"
+ 2376      455F4556 
+ 2376      545F4741 
+ 2376      505F534D 
+ 2376      505F4E45 
+ 2377              	.LASF95:
+ 2378 092e 4359424C 		.ascii	"CYBLE_SRVI_COUNT\000"
+ 2378      455F5352 
+ 2378      56495F43 
+ 2378      4F554E54 
+ 2378      00
+ 2379              	.LASF91:
+ 2380 093f 4359424C 		.ascii	"CYBLE_SRVI_GAP\000"
+ 2380      455F5352 
+ 2380      56495F47 
+ 2380      415000
+ 2381              	.LASF125:
+ 2382 094e 6765744E 		.ascii	"getNodeFromTable\000"
+ 2382      6F646546 
+ 2382      726F6D54 
+ 2382      61626C65 
+ 2382      00
+ 2383              	.LASF14:
+ 2384 095f 6C6F6E67 		.ascii	"long double\000"
+ 2384      20646F75 
+ 2384      626C6500 
+ 2385              	.LASF13:
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 53
+
+
+ 2386 096b 63686172 		.ascii	"char\000"
+ 2386      00
+ 2387              	.LASF58:
+ 2388 0970 4359424C 		.ascii	"CYBLE_EVT_GATTC_READ_MULTI_RSP\000"
+ 2388      455F4556 
+ 2388      545F4741 
+ 2388      5454435F 
+ 2388      52454144 
+ 2389              	.LASF31:
+ 2390 098f 4359424C 		.ascii	"CYBLE_EVT_GAP_DEVICE_DISCONNECTED\000"
+ 2390      455F4556 
+ 2390      545F4741 
+ 2390      505F4445 
+ 2390      56494345 
+ 2391              	.LASF92:
+ 2392 09b1 4359424C 		.ascii	"CYBLE_SRVI_GATT\000"
+ 2392      455F5352 
+ 2392      56495F47 
+ 2392      41545400 
+ 2393              	.LASF70:
+ 2394 09c1 4359424C 		.ascii	"CYBLE_EVT_GATTS_READ_CHAR_VAL_ACCESS_REQ\000"
+ 2394      455F4556 
+ 2394      545F4741 
+ 2394      5454535F 
+ 2394      52454144 
+ 2395              	.LASF104:
+ 2396 09ea 696E6465 		.ascii	"index\000"
+ 2396      7800
+ 2397              	.LASF80:
+ 2398 09f0 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_RX_CREDIT_IND\000"
+ 2398      455F4556 
+ 2398      545F4C32 
+ 2398      4341505F 
+ 2398      43424643 
+ 2399              	.LASF81:
+ 2400 0a13 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_TX_CREDIT_IND\000"
+ 2400      455F4556 
+ 2400      545F4C32 
+ 2400      4341505F 
+ 2400      43424643 
+ 2401              	.LASF26:
+ 2402 0a36 4359424C 		.ascii	"CYBLE_EVT_GAP_PASSKEY_DISPLAY_REQUEST\000"
+ 2402      455F4556 
+ 2402      545F4741 
+ 2402      505F5041 
+ 2402      53534B45 
+ 2403              	.LASF19:
+ 2404 0a5c 4359424C 		.ascii	"CYBLE_EVT_HARDWARE_ERROR\000"
+ 2404      455F4556 
+ 2404      545F4841 
+ 2404      52445741 
+ 2404      52455F45 
+ 2405              	.LASF117:
+ 2406 0a75 66697374 		.ascii	"fistByte\000"
+ 2406      42797465 
+ 2406      00
+ 2407              	.LASF127:
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 54
+
+
+ 2408 0a7e 666F756E 		.ascii	"found\000"
+ 2408      6400
+ 2409              	.LASF50:
+ 2410 0a84 4359424C 		.ascii	"CYBLE_EVT_GATTS_XCNHG_MTU_REQ\000"
+ 2410      455F4556 
+ 2410      545F4741 
+ 2410      5454535F 
+ 2410      58434E48 
+ 2411              	.LASF100:
+ 2412 0aa2 66697374 		.ascii	"fistByteAvgData\000"
+ 2412      42797465 
+ 2412      41766744 
+ 2412      61746100 
+ 2413              	.LASF105:
+ 2414 0ab2 61647664 		.ascii	"advdata\000"
+ 2414      61746100 
+ 2415              	.LASF108:
+ 2416 0aba 666F756E 		.ascii	"foundStoredNode\000"
+ 2416      6453746F 
+ 2416      7265644E 
+ 2416      6F646500 
+ 2417              	.LASF120:
+ 2418 0aca 7468696E 		.ascii	"thing\000"
+ 2418      6700
+ 2419              	.LASF113:
+ 2420 0ad0 61766754 		.ascii	"avgTemp\000"
+ 2420      656D7000 
+ 2421              	.LASF97:
+ 2422 0ad8 66697374 		.ascii	"fistByteTempData\000"
+ 2422      42797465 
+ 2422      54656D70 
+ 2422      44617461 
+ 2422      00
+ 2423              	.LASF55:
+ 2424 0ae9 4359424C 		.ascii	"CYBLE_EVT_GATTC_FIND_BY_TYPE_VALUE_RSP\000"
+ 2424      455F4556 
+ 2424      545F4741 
+ 2424      5454435F 
+ 2424      46494E44 
+ 2425              	.LASF35:
+ 2426 0b10 4359424C 		.ascii	"CYBLE_EVT_GAP_KEYINFO_EXCHNGE_CMPLT\000"
+ 2426      455F4556 
+ 2426      545F4741 
+ 2426      505F4B45 
+ 2426      59494E46 
+ 2427              	.LASF77:
+ 2428 0b34 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CBFC_DISCONN_IND\000"
+ 2428      455F4556 
+ 2428      545F4C32 
+ 2428      4341505F 
+ 2428      43424643 
+ 2429              	.LASF73:
+ 2430 0b55 4359424C 		.ascii	"CYBLE_EVT_L2CAP_CONN_PARAM_UPDATE_RSP\000"
+ 2430      455F4556 
+ 2430      545F4C32 
+ 2430      4341505F 
+ 2430      434F4E4E 
+ARM GAS  C:\Users\run1009\AppData\Local\Temp\ccMb2OKh.s 			page 55
+
+
+ 2431              	.LASF129:
+ 2432 0b7b 6E756D62 		.ascii	"number_of_node\000"
+ 2432      65725F6F 
+ 2432      665F6E6F 
+ 2432      646500
+ 2433              	.LASF40:
+ 2434 0b8a 4359424C 		.ascii	"CYBLE_EVT_GAP_ENHANCE_CONN_COMPLETE\000"
+ 2434      455F4556 
+ 2434      545F4741 
+ 2434      505F454E 
+ 2434      48414E43 
+ 2435              	.LASF123:
+ 2436 0bae 76617241 		.ascii	"varAfter\000"
+ 2436      66746572 
+ 2436      00
+ 2437              	.LASF86:
+ 2438 0bb7 4359424C 		.ascii	"CYBLE_EVT_FLASH_CORRUPT\000"
+ 2438      455F4556 
+ 2438      545F464C 
+ 2438      4153485F 
+ 2438      434F5252 
+ 2439              	.LASF131:
+ 2440 0bcf 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2440      43313120 
+ 2440      352E342E 
+ 2440      31203230 
+ 2440      31363036 
+ 2441 0c02 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 2441      20726576 
+ 2441      6973696F 
+ 2441      6E203233 
+ 2441      37373135 
+ 2442 0c35 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2442      66756E63 
+ 2442      74696F6E 
+ 2442      2D736563 
+ 2442      74696F6E 
+ 2443              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

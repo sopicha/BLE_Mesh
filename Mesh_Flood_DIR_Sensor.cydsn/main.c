@@ -47,6 +47,7 @@ extern uint8 deviceConnected;
 extern uint8 restartScanning;
 
 extern uint8 dataADVCounter;
+extern uint8 dataADVCounterFromAnotherNode;
 
 #ifdef ENABLE_ADV_DATA_COUNTER
 extern CYBLE_GAPP_DISC_DATA_T  new_advData;
@@ -57,9 +58,9 @@ extern uint8 potential_node_bdAddrType;
 
 extern volatile uint8 clientConnectToDevice;
 extern CYBLE_GAP_BD_ADDR_T				peripAddr;
-extern uint8 shut_down_led;
 extern uint16 node_address;
 volatile uint16 sensorReceiveStartedTime = 0;
+extern uint8 getSensorTime;
 uint8 receiveFirstData = TRUE;
 #ifdef RESTART_BLE_STACK
 uint8 stackRestartIssued = FALSE;
@@ -86,8 +87,7 @@ int main()
 	
 	/* Initialize system */	
 InitializeSystem();
-//sensorReceiveStartedTime = WatchDog_CurrentCount();
-	
+
     for(;;)
     {       
 		/* Process BLE Events. This function generates the respective 
@@ -114,11 +114,12 @@ InitializeSystem();
 		* using mesh network. CUrrently, the sensor data is the new RGB data selected on 
 		* each button press. The content in the API can be changed to collect and data 
 		* and forward it to the mesh network. */
-
-        if(receiveFirstData || WatchDog_CurrentCount()-sensorReceiveStartedTime > SENSOR_RECEIVE_TIME){
-		   CheckSensorStatus();
-           receiveFirstData = FALSE;
-        }
+         if(receiveFirstData || WatchDog_CurrentCount()-sensorReceiveStartedTime > SENSOR_RECEIVE_TIME){
+          getSensorTime = TRUE;
+		  receiveFirstData = FALSE;                    
+         }
+		 CheckSensorStatus();            
+        
 		#endif
 		
 		#ifdef RESTART_BLE_STACK
@@ -182,28 +183,9 @@ void InitializeSystem(void)
 	
 	/* Start BLE component and Register the generic Event callback function */
 	CyBle_Start(GenericEventHandler);
-
-	/* Start the PrISM component and configure drive mode of LED pins to be
-	* initially OFF*/
-	PrISM_1_Start();
-	PrISM_2_Start();
-	
-	PrISM_1_WritePulse0(255);
-	PrISM_1_WritePulse1(255);
-	PrISM_2_WritePulse0(255);
-	
-	RED_SetDriveMode(RED_DM_STRONG);
-	GREEN_SetDriveMode(GREEN_DM_STRONG);
-	BLUE_SetDriveMode(BLUE_DM_STRONG);
 	
 	/* Configure the Watchdog (WDT) timer for 100 millisecond timing */
 	InitializeWatchdog(WATCHDOG_COUNT_VAL);
-	
-	/* Provide a color pusle on RGB LED to indicate startup */
-	PrISM_2_WritePulse0(128);
-	CyDelay(20);
-	PrISM_2_WritePulse0(255);
-
 	
 	#ifdef ENABLE_ADV_DATA_COUNTER
 	new_advData = *cyBle_discoveryModeInfo.advData;
@@ -213,8 +195,17 @@ void InitializeSystem(void)
 		/* Initialize the DataCounter data in advertisement packet. This is custom data in 
 		* ADV packet and used to track whether the RGB LED data is latest or not */
 		new_advData.advData[cyBle_discoveryModeInfo.advData->advDataLen] = CUSTOM_ADV_DATA_MARKER;	//length of next packet
+        
+        #ifdef NODE1
 		new_advData.advData[cyBle_discoveryModeInfo.advData->advDataLen+1] = dataADVCounter;
-		new_advData.advDataLen = cyBle_discoveryModeInfo.advData->advDataLen+2;
+        new_advData.advData[cyBle_discoveryModeInfo.advData->advDataLen+2] = dataADVCounterFromAnotherNode;
+        #endif
+        
+        #ifdef NODE2
+		new_advData.advData[cyBle_discoveryModeInfo.advData->advDataLen+1] = dataADVCounterFromAnotherNode;
+        new_advData.advData[cyBle_discoveryModeInfo.advData->advDataLen+2] = dataADVCounter;
+        #endif
+		new_advData.advDataLen = cyBle_discoveryModeInfo.advData->advDataLen+3;
 	}
 	
 	/* Assign the new ADV data to stack */
@@ -265,62 +256,4 @@ void InitializeSystem(void)
 		UART_UartPutCRLF(' ');
 	#endif
 }
-
-/*******************************************************************************
-* Function Name: UpdateRGBled
-********************************************************************************
-* Summary:
-*        Update the RGB LED color by reconfiguring PrISM component. This function 
-* is valid for PSoC 4 BLE parts and not PROC BLE, as PRoC BLE does not have UDBs
-* that makes up the PrISM component. To replace this with software PrISM, refer to
-* CY8CKIT-042-BLE Pioneer Kit example project, PRoC_BLE_CapSense_Slider_LED, from
-* http://www.cypress.com/CY8CKIT-042-BLE
-*
-* Parameters:
-*  rgb_led_data: array storing the RGB and Intensity vlaue
-*  len: length of the array.
-*
-* Return:
-*  void
-*
-*******************************************************************************/
-void UpdateRGBled(uint8 * rgb_led_data, uint8 len)
-{
-	uint8 calc_red, calc_green, calc_blue;
-	
-	if(len == RGB_PAYLOAD_LEN)
-	{
-		/* If a valid length packet has been sent, calculate the intensity of each of
-		* R, G and B color and update the PrISM module */
-		calc_red = (uint8)(((uint16)rgb_led_data[TEMP_FIRST_INDEX]*rgb_led_data[TEMP_FORTH_INDEX])/RGB_LED_MAX_VAL);
-		calc_green = (uint8)(((uint16)rgb_led_data[TEMP_SECOND_INDEX]*rgb_led_data[TEMP_FORTH_INDEX])/RGB_LED_MAX_VAL);
-		calc_blue = (uint8)(((uint16)rgb_led_data[TEMP_THIRD_INDEX]*rgb_led_data[TEMP_FORTH_INDEX])/RGB_LED_MAX_VAL);
-		
-		PrISM_1_WritePulse0(RGB_LED_MAX_VAL - calc_red);
-		PrISM_1_WritePulse1(RGB_LED_MAX_VAL - calc_green);
-		PrISM_2_WritePulse0(RGB_LED_MAX_VAL - calc_blue);
-		
-		#ifdef ENABLE_LOW_POWER_MODE
-			/* Depending on whether there is color or not, set the shut_down_led flag
-			* to allow the system to go to deep sleep. Else, reset the flag to 0 to 
-			* allow the system to go to sleep only, as PrISM is active */
-			if((calc_red<RGB_OFF_THRESHOLD) 
-				&& (calc_green<RGB_OFF_THRESHOLD)
-				&& (calc_blue<RGB_OFF_THRESHOLD))
-			{
-				shut_down_led = TRUE;
-			}
-			else
-			{
-				shut_down_led = FALSE;	
-			}
-		#endif
-		
-		#if (DEBUG_ENABLED == 1)
-			UART_UartPutString("PrISM Updated ");
-			UART_UartPutCRLF(' ');
-		#endif
-	}
-}
-
 /* [] END OF FILE */

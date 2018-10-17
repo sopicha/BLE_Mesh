@@ -17,21 +17,30 @@
 #include <main.h>
 
 uint8 RGBData[4];
+uint8 advData[2];
 uint8 tempData[4];
 uint8 recvTempData[4];
-uint8 dataADVCounter = 1;
+uint8 dataADVCounter = 0;
+uint8 dataADVCounterFromAnotherNode = 0;
 uint8 switch_Role = FALSE;
 uint8 scan_for_titan = FALSE;
 extern uint8 time_to_get_sensordata;
 uint16 node_address = 0;
 extern uint16 sensorReceiveStartedTime;
-
+extern CYBLE_GAP_BD_ADDR_T cyBle_deviceAddress;
+extern NODE_TABLE_T nodeTable[MAX_NODE];
+extern uint8 number_of_node;
+uint8 getSensorTime = FALSE;
 #ifdef ENABLE_ADV_DATA_COUNTER
 CYBLE_GAPP_DISC_DATA_T  new_advData;
 uint8 potential_node_found = 0;
 uint8 potential_node_bdAddr[6];
 uint8 potential_node_bdAddrType = 0;
 #endif
+
+uint16 ADVstartedTime =0;
+uint16 connectingTime =0;
+uint16 writeReqTime =0;
 
 /* DO NOT CHANGE: This tag allows system to filter the correct nodes and resemble to 
 * value set in BLE component Scan Response Packet settings */
@@ -47,8 +56,14 @@ uint8 deviceConnected = FALSE;
 uint8 restartScanning = FALSE;
 volatile uint16 centralStartedTime = 0;
 char val[31];
+#ifdef NODE1
 uint8 bt_addr[6] = {0x04,0x27,0xA8,0x1B,0x00,0xC4};
-//uint8 bt_addr[6] = {0x1C,0x87,0x6A,0x4A,0x11,0xFA};
+#endif
+
+#ifdef  NODE2
+uint8 bt_addr[6] = {0x1C,0x87,0x6A,0x4A,0x11,0xFA};
+#endif
+
 ENV_SENSOR_T                    result;
 #ifdef RESTART_BLE_STACK
 extern uint8 stackRestartIssued;
@@ -78,9 +93,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 	CYBLE_GATTS_WRITE_CMD_REQ_PARAM_T	writeCmdData;
 	CYBLE_API_RESULT_T					apiResult;
 	CYBLE_GATTC_WRITE_REQ_T 			writeRGBdata;
-    CYBLE_GATTC_READ_BLOB_REQ_T         readBlobdata;
 	static uint16 						received_node_addr ;
-	static uint8 						received_node_addr_type ;
 
 	
 	#if (DEBUG_ENABLED == 1)
@@ -101,7 +114,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			#endif
 				/* At the start of the BLE stack, start advertisement */
 				apiResult = CyBle_GappStartAdvertisement(CYBLE_ADVERTISING_FAST);
-				
+				ADVstartedTime = WatchDog_CurrentCount();
 				if(CYBLE_ERROR_OK == apiResult)
 				{
 					/* Set the BLE gap state flag */
@@ -113,7 +126,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			else
 			{
 				apiResult = CyBle_GapcStartScan(CYBLE_SCANNING_FAST);
-					
+		
 				if(CYBLE_ERROR_OK == apiResult)
 				{
 					#if (DEBUG_ENABLED == 1)
@@ -310,7 +323,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						/* Extract the node address and its type sent as part of the RGB LED control data.  
 						* The first byte is node address type (piconet addressing or not).
 						* The third and fourth bytes of the received data has the desired node address */
-						received_node_addr_type = writeReqData.handleValPair.value.val[DATA_NODE_ADDR_TYPE_INDEX];
+						//received_node_addr_type = writeReqData.handleValPair.value.val[DATA_NODE_ADDR_TYPE_INDEX];
 						received_node_addr = (uint16)(((uint16)writeReqData.handleValPair.value.val[DATA_NODE_ADDR_MSB_INDEX] << 8)
 													| writeReqData.handleValPair.value.val[DATA_NODE_ADDR_LSB_INDEX]);
 						
@@ -368,15 +381,20 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						#ifdef ENABLE_ADV_DATA_COUNTER
 						/* Increment the ADV data counter so that scanning Central device knows
 						* if this device has updated RGB LED data or not */
-						dataADVCounter++;
+						dataADVCounterFromAnotherNode++;
 						#endif
 						
 						#if (DEBUG_ENABLED == 1)
 						UART_UartPutString("incremented dataADVCounter value in CYBLE_EVT_GATTS_WRITE_REQ= ");
-						PrintNum(dataADVCounter);
+						PrintNum(dataADVCounterFromAnotherNode);
 						UART_UartPutCRLF(' ');
                         
 						#endif
+                        if(*temperture > 0.00){
+                        /** update data to node table */
+                        updateNodeTable(&peripAddr,dataADVCounterFromAnotherNode,recvTempData[TEMP_FIRST_INDEX],recvTempData[TEMP_SECOND_INDEX],
+                        centralStartedTime);
+                        }
 						
 						/* After receiveing the color value, set the switch role flag to allow the system
 						* to switch role to Central role */
@@ -430,10 +448,10 @@ void GenericEventHandler(uint32 event, void * eventParam)
 					if(writeCmdData.handleValPair.value.len == 1)
 					{
 						/* Extract and save the set ADV data counter value */
-						dataADVCounter = *(writeCmdData.handleValPair.value.val);
+						dataADVCounterFromAnotherNode = *(writeCmdData.handleValPair.value.val);
 						
 						/* This increment is done to balance the ++ done as part of CYBLE_EVT_GATTS_WRITE_REQ */
-						dataADVCounter--;
+						dataADVCounterFromAnotherNode--;
 						
 						/* Update the ADV data counter characteristic in GATT DB  to allow
 						* Client to read the latest ADV data counter value */
@@ -444,7 +462,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 						
 						#if (DEBUG_ENABLED == 1)
 						UART_UartPutString("dataADVCounter from CYBLE_EVT_GATTS_WRITE_CMD_REQ = ");
-						PrintNum(dataADVCounter);
+						PrintNum(dataADVCounterFromAnotherNode);
 						UART_UartPutCRLF(' ');
 						#endif
 					} /* if(writeCmdData.handleValPair.value.len == 1) */
@@ -483,55 +501,96 @@ void GenericEventHandler(uint32 event, void * eventParam)
 					if(scan_report.dataLen == new_advData.advDataLen)
 					{
 						/* If the second last value of the advertising data matches the custom 
-						* marker, then the peripheral is a node of the network */
-						if(scan_report.data[scan_report.dataLen-2] == CUSTOM_ADV_DATA_MARKER)
+						* marker, then the peripheral is a node of the network 
+                        UART_UartPutString("scan_report.dataLen:  ");
+                                PrintNum(scan_report.dataLen);
+                                UART_UartPutCRLF(' ');
+                                for(int i=0;i<scan_report.dataLen;i++){
+                                    char tm[1];
+                                    sprintf(tm, "%d", i);
+                                    UART_UartPutString("scan_report.data ");
+                                    UART_UartPutString(tm);
+                                    UART_UartPutString(" : ");
+                                    PrintNum(scan_report.data[i]);
+                                UART_UartPutCRLF(' ');
+                                }*/
+						if(scan_report.data[scan_report.dataLen-3] == CUSTOM_ADV_DATA_MARKER)
 						{
-							/* If the ADV counter data in Advertising data is less than that of
-							* the value in this scanning device, then the node is a potential node 
-							* whose color has to be updated. */
-							if((scan_report.data[scan_report.dataLen-1] < dataADVCounter) ||
-							((scan_report.data[scan_report.dataLen-1] == 255) && (dataADVCounter == 0)))
-							{
-								/* Potential node found*/
-								potential_node_found = TRUE;
-								/* Save the advertising peripheral address and type*/
-								memcpy(potential_node_bdAddr, scan_report.peerBdAddr, 6);
-								potential_node_bdAddrType = scan_report.peerAddrType;
-								
-								#if (DEBUG_ENABLED == 1)
-								UART_UartPutString("potential_node_found ");
-								UART_UartPutCRLF(' ');
-								#endif
-							}
-							else
-							{
-								/* If the ADV data counter is equal or more than the data counter
-								* in this scanning device, then the node has latest RGB LED data
-								* and does not need to be connected to. Reset the potential node 
-								* address */
-								potential_node_found = FALSE;
-								
-								potential_node_bdAddrType = 0;
-								
-								potential_node_bdAddr[0] = 0x00;
-								potential_node_bdAddr[1] = 0x00;
-								potential_node_bdAddr[2] = 0x00;
-								potential_node_bdAddr[3] = 0x00;
-								potential_node_bdAddr[4] = 0x00;
-								potential_node_bdAddr[5] = 0x00;
-							}
+                            NODE_TABLE_T tempNode;
+                            uint8 addrTemp [6u];
+                            memcpy(addrTemp, scan_report.peerBdAddr, 6);
+                            
+                            /** Check if this node address have ever stored in this node */
+                            
+                            if(getNodeFromTable(addrTemp, &tempNode)){
+    							/* If the ADV counter data in Advertising data is less than that of
+    							* the value in this scanning device, then the node is a potential node 
+    							* whose color has to be updated. */  
+                                UART_UartPutString("scan_report.data[scan_report.dataLen-1]:  ");
+                                PrintNum(scan_report.data[scan_report.dataLen-1]);
+                                UART_UartPutCRLF(' ');
+                                #ifdef NODE1
+    							if(scan_report.data[scan_report.dataLen-2] < dataADVCounter && scan_report.data[scan_report.dataLen-2] >0)
+                                #endif                               
+                                #ifdef NODE2
+    							if(scan_report.data[scan_report.dataLen-1] < dataADVCounter && scan_report.data[scan_report.dataLen-1] >0)
+                                #endif
+    							{
+    								/* Potential node found*/
+    								potential_node_found = TRUE;
+    								/* Save the advertising peripheral address and type*/
+    								memcpy(potential_node_bdAddr, scan_report.peerBdAddr, 6);
+    								potential_node_bdAddrType = scan_report.peerAddrType;
+    								
+    								#if (DEBUG_ENABLED == 1)
+    								UART_UartPutString("potential_node_found ");
+    								UART_UartPutCRLF(' ');
+    								#endif
+    							}
+    							else
+    							{
+    								/* If the ADV data counter is equal or more than the data counter
+    								* in this scanning device, then the node has latest RGB LED data
+    								* and does not need to be connected to. Reset the potential node 
+    								* address */
+    								potential_node_found = FALSE;
+    								
+    								potential_node_bdAddrType = 0;
+    								
+    								potential_node_bdAddr[0] = 0x00;
+    								potential_node_bdAddr[1] = 0x00;
+    								potential_node_bdAddr[2] = 0x00;
+    								potential_node_bdAddr[3] = 0x00;
+    								potential_node_bdAddr[4] = 0x00;
+    								potential_node_bdAddr[5] = 0x00;
+    							}
+                            }else if(dataADVCounterFromAnotherNode == 0) {
+                                    /** that means this node address have never stored in this node before
+                                        ,so allow it as a potential node */
+                                
+                                    /* Potential node found*/
+    								potential_node_found = TRUE;
+    								/* Save the advertising peripheral address and type*/
+    								memcpy(potential_node_bdAddr, scan_report.peerBdAddr, 6);
+    								potential_node_bdAddrType = scan_report.peerAddrType;
+    								
+    								#if (DEBUG_ENABLED == 1)
+    								UART_UartPutString("potential_node_found ");
+    								UART_UartPutCRLF(' ');
+    								#endif
+                            }
 						}
                         
                     }
-                    else{
-                    int check = 0;                   
-                    if(scan_for_titan == FALSE || time_to_get_sensordata){
+                    else  {
+                    int check = 0; 
+                        
+                    if(getSensorTime){
                         for(uint8 i=0u;i<6u;i++){
                             if(scan_report.peerBdAddr[i] == bt_addr[i]){
                                 check++;   
                             }
-                        }
-                        time_to_get_sensordata = FALSE;
+                        }                             
                     }
                     if(check == 6){
                         /* Stop existing scan */
@@ -541,7 +600,9 @@ void GenericEventHandler(uint32 event, void * eventParam)
     					UART_UartPutString("Stop Scan called ");
     					UART_UartPutCRLF(' ');
                         UART_UartPutCRLF(' ');
-               
+                        
+                        uint16 scanDelayStartedTime = WatchDog_CurrentCount();
+                        
                         UART_UartPutString("EVENType: ");
                         char eventType[1];
                         sprintf(eventType, "%d", scan_report.eventType);
@@ -566,8 +627,6 @@ void GenericEventHandler(uint32 event, void * eventParam)
     					
                         UART_UartPutString("****************Device Found***************\r\n");
 
-                        int index = 0;
-
                         for(int i=0;i<scan_report.dataLen;i++){
                             val[i] = (uint8_t) scan_report.data[i];
                         }
@@ -580,6 +639,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         UART_UartPutString("temperature: ");
                         UART_UartPutString(temp);
                         UART_UartPutCRLF(' ');
+                        /*
                         char li[1];
                         sprintf(li, "%hi", result.light);
                         UART_UartPutString("light: ");
@@ -618,7 +678,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         UART_UartPutString(distance);
                         UART_UartPutCRLF(' ');
                         UART_UartPutCRLF(' ');
-                        
+                        */
                        // if(result.flagActive == TRUE){
                         tempData[TEMP_FIRST_INDEX] = scan_report.data[9];
                         tempData[TEMP_SECOND_INDEX] = scan_report.data[8];
@@ -629,6 +689,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         for(int i=0;i<5;i++)
                             PrintHex(tempData[i]);
 						UART_UartPutCRLF(' ');
+                                                
                         
                         #ifdef ENABLE_ADV_DATA_COUNTER
                     	/* Increment the ADV data counter so that scanning Central device knows*/
@@ -637,27 +698,33 @@ void GenericEventHandler(uint32 event, void * eventParam)
                         dataADVCounter++;
                     	#endif  
                         
+                        updateNodeTable(&cyBle_deviceAddress, dataADVCounter, scan_report.data[9],scan_report.data[8],
+                        sensorReceiveStartedTime);
+                        
                         #if (DEBUG_ENABLED == 1)
                         UART_UartPutString("timestamp: ");
                         PrintNum(sensorReceiveStartedTime);
+						UART_UartPutCRLF(' ');                                               
+                        #endif
+                        time_to_get_sensordata = FALSE;
+                        //if( WatchDog_CurrentCount()-scanDelayStartedTime > sensorReceiveStartedTime)
+                        //restartScanning = TRUE;
+				        scan_for_titan = TRUE;
+                        getSensorTime = FALSE;
+                        //reset timer to receive sensor data every 1 min
+                        sensorReceiveStartedTime = WatchDog_CurrentCount();
+                        #if (DEBUG_ENABLED == 1)
+                        UART_UartPutString("T[sensor]: ");
+                        PrintNum(sensorReceiveStartedTime - ADVstartedTime);
 						UART_UartPutCRLF(' ');
                         #endif
-                       
-                        restartScanning = TRUE;
-				        scan_for_titan = TRUE;
-        				#if (DEBUG_ENABLED == 1)
-        				UART_UartPutString("Disconnect and restart scanning ");
-        				SendBLEStatetoUART(CyBle_GetState());
-        				UART_UartPutCRLF(' ');
-                        #endif
-                        
                         //result.flagActive = FALSE;
                        // }
                         #endif
-                    }
-                    //reset timer to receive sensor data every 1 min
-                        sensorReceiveStartedTime = WatchDog_CurrentCount();
+                    }   
+                        
 					}
+                    
 				}
 				#endif
 				
@@ -685,6 +752,10 @@ void GenericEventHandler(uint32 event, void * eventParam)
 								{
 									#if (DEBUG_ENABLED == 1)
 									UART_UartPutString("*********** Titan Found ***********");
+									UART_UartPutCRLF(' ');
+                                    
+                                    UART_UartPutString("T[foundNode]: ");
+                                    PrintNum(WatchDog_CurrentCount() - sensorReceiveStartedTime);
 									UART_UartPutCRLF(' ');
 									#endif
                               
@@ -729,6 +800,10 @@ void GenericEventHandler(uint32 event, void * eventParam)
 		case CYBLE_EVT_GAP_DEVICE_CONNECTED:
 			/* This event is received whenever the device connect on GAP layer */
 			#if (DEBUG_ENABLED == 1)
+                UART_UartPutString("T[connect]: ");
+                PrintNum(WatchDog_CurrentCount()- connectingTime);
+                UART_UartPutCRLF(' ');
+                
 				UART_UartPutString("CYBLE_EVT_GAP_DEVICE_CONNECTED: ");
 				CyBle_GapGetPeerBdAddr(cyBle_connHandle.bdHandle, &gap_bdaddr);
 				PrintHex(gap_bdaddr.bdAddr[0]);
@@ -806,11 +881,25 @@ void GenericEventHandler(uint32 event, void * eventParam)
 				UART_UartPutCRLF(' ');
 
 			#endif
-			
+			if(dataADVCounter > 0){
+            UART_UartPutString("sending dataADVCounterFromAnotherNode: ");
+            PrintNum(dataADVCounterFromAnotherNode);
+            UART_UartPutCRLF(' ');
+            
+            #ifdef NODE1
+            advData[0] = dataADVCounterFromAnotherNode;
+            advData[1] = dataADVCounterFromAnotherNode;
+            #endif
+            
+            #ifdef NODE2
+            advData[0] = dataADVCounterFromAnotherNode;
+            advData[1] = dataADVCounter;
+            #endif
+            
 			/* Write the Data Counter value */
 			writeADVcounterdata.attrHandle = CYBLE_RGB_DATA_COUNT_CHAR_HANDLE;
-			writeADVcounterdata.value.val = &dataADVCounter;
-			writeADVcounterdata.value.len = 1;
+			writeADVcounterdata.value.val = advData;
+			writeADVcounterdata.value.len = 2;
 			CyBle_GattcWriteWithoutResponse(cyBle_connHandle, &writeADVcounterdata);
             
             char* tem = ftoa(Byte2Short(tempData[TEMP_FIRST_INDEX],tempData[TEMP_SECOND_INDEX])/100.0);
@@ -824,7 +913,11 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			writeRGBdata.value.val = tempData;
 			writeRGBdata.value.len = TEMP_DATA_LEN;
 			CyBle_GattcWriteCharacteristicValue(cyBle_connHandle, &writeRGBdata);
-            //CyBle_GattcWriteWithoutResponse(cyBle_connHandle, &writeRGBdata);
+            
+            writeReqTime = WatchDog_CurrentCount();
+            }else if(dataADVCounter == 0){
+                CyBle_GapDisconnect(cyBle_connHandle.bdHandle);
+            }
 			#endif
             
 		break;
@@ -832,8 +925,12 @@ void GenericEventHandler(uint32 event, void * eventParam)
 		case CYBLE_EVT_GATTC_WRITE_RSP:
 			/* This event is generated when the Client device receives a response
 			* as part of the Write request sent earlier. This indicates that
-			* the RGB LED data was written successfully */
+			* the temperature data was written successfully */
 			#if (DEBUG_ENABLED == 1)
+                UART_UartPutString("T[updateData]: ");
+				PrintNum(WatchDog_CurrentCount() - writeReqTime);
+				UART_UartPutCRLF(' ');   
+                
 				UART_UartPutString("CYBLE_EVT_GATTC_WRITE_RSP ");
 				SendBLEStatetoUART(CyBle_GetState());
 				UART_UartPutCRLF(' ');          
@@ -845,10 +942,10 @@ void GenericEventHandler(uint32 event, void * eventParam)
 			{
 				CyBle_GapDisconnect(cyBle_connHandle.bdHandle);
 				
-				restartScanning = TRUE;
+				switch_Role = TRUE;
 				
 				#if (DEBUG_ENABLED == 1)
-				UART_UartPutString("Disconnect and restart scanning ");
+				UART_UartPutString("Disconnect and switch role ");
 				SendBLEStatetoUART(CyBle_GetState());
 				UART_UartPutCRLF(' ');
 				#endif
@@ -887,6 +984,7 @@ void GenericEventHandler(uint32 event, void * eventParam)
 				if(CYBLE_STATE_DISCONNECTED == CyBle_GetState())
 				{
 					CyBle_GapcStartScan(CYBLE_SCANNING_FAST);	
+   
 					#if (DEBUG_ENABLED == 1)
 					UART_UartPutString("Restart Scanning ");
 					SendBLEStatetoUART(CyBle_GetState());
@@ -965,7 +1063,7 @@ void SwitchRole(void)
 					/* Switch BLE role by starting scan. This way, the system is set
 					* to Central role */
 					apiResult = CyBle_GapcStartScan(CYBLE_SCANNING_FAST);
-					
+	
 					if(CYBLE_ERROR_OK == apiResult)
 					{
 						#if (DEBUG_ENABLED == 1)
@@ -1020,13 +1118,29 @@ void SwitchRole(void)
 				{
 					#ifdef ENABLE_ADV_DATA_COUNTER
 					/* Increment data counter */
-					new_advData.advData[new_advData.advDataLen - 1] = dataADVCounter;
-					
+                    #ifdef NODE1
+                    new_advData.advData[new_advData.advDataLen - 1] = dataADVCounterFromAnotherNode;
+					new_advData.advData[new_advData.advDataLen - 2] = dataADVCounter;
+                    #endif
+                    
+					#ifdef NODE2
+                    new_advData.advData[new_advData.advDataLen - 1] = dataADVCounter;
+					new_advData.advData[new_advData.advDataLen - 2] = dataADVCounterFromAnotherNode;
+                    #endif
 					cyBle_discoveryModeInfo.advData = &new_advData;
 					
 					#if (DEBUG_ENABLED == 1)
-						UART_UartPutString("Updated ADV data = ");
-						PrintNum(dataADVCounter);
+						UART_UartPutString("Updated data");
+                        UART_UartPutCRLF(' ');
+						for(int i=0;i<number_of_node;i++){
+                            UART_UartPutString("Address: ");
+                            for(int j=0;j<6;j++)
+                                PrintHex(nodeTable[i].nodeAddr->bdAddr[j]);
+                            UART_UartPutCRLF(' ');
+                            UART_UartPutString("ADV: ");
+                            PrintNum(nodeTable[i].adv);
+                            UART_UartPutCRLF(' ');
+                        }
 						UART_UartPutCRLF(' ');
 					#endif
 					#endif

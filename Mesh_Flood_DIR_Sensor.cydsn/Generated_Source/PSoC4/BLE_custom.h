@@ -64,10 +64,6 @@
 #define CYBLE_NODE_ADDRESS_CHAR_HANDLE   (0x0015u) /* Handle of Address characteristic */
 #define CYBLE_NODE_ADDRESS_CUD_DESC_HANDLE   (0x0016u) /* Handle of CUD descriptor */
 
-
-
-
-
 #if(CYBLE_CUSTOMS_SERVICE_COUNT != 0u)
     #define CYBLE_CUSTOM_SERVER
 #endif /* (CYBLE_CUSTOMS_SERVICE_COUNT != 0u) */
